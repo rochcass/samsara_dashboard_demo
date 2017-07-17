@@ -1,0 +1,67 @@
+
+<script>
+
+    var donutChart;
+
+    var config = {
+        type: 'doughnut',
+        data: {
+            datasets: [{
+                data: [10, 20, 30, 15],
+                backgroundColor: [getColorFromArr2(0,'1'), getColorFromArr2(1,'1'), getColorFromArr2(2,'1'), getColorFromArr2(3,'1')]
+            }],
+
+            // These labels appear in the legend and in the tooltips when hovering different arcs
+            labels: [
+                'Volvo',
+                'BMW',
+                'Mercedes',
+                'Audi'
+            ]
+        },
+        options: {
+            responsive: true,
+            legend: {
+                display: false,
+                position: 'right',
+                labels: {
+                    boxWidth: 10
+                }
+
+            },
+
+            title: {
+                display: false,
+                text: 'All'
+            },
+            animation: {
+                animateScale: true,
+                animateRotate: true
+            }
+        }
+    };
+
+    $(function() {
+        var ctx = document.getElementById("myDonutChart").getContext("2d");
+        donutChart = new Chart(ctx, config);
+    });
+
+
+    function getColorFromArr2(index, transparency){
+        var colors = [
+            ['marine', '41, 133, 163'],
+            ['red', '255, 99, 132'],
+            ['orange', '236, 145, 72'],
+            ['yellow', '255, 205, 86'],
+            ['green', '75, 192, 192'],
+            ['purple', '153, 102, 255'],
+            ['grey', '201, 203, 207'],
+            ['blue', '54, 162, 235']
+        ];
+        console.log(colors[index][0]);
+        return 'rgba('+colors[index][1]+ (transparency !== undefined ? ',' + transparency : '') + ')';
+    }
+</script>
+
+
+<canvas id="myDonutChart" ></canvas>

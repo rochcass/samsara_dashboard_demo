@@ -1,0 +1,12 @@
+.actions-toolbar {
+  background: #f5f5f5;
+  border: 0 solid transparent !important;
+  line-height: 50px;
+  min-height: 50px;
+  width: 100%;
+  margin: 0 0 5px 0;
+  padding: 5px 15px;
+}
+.actions-toolbar .dropdown .menu {
+  top: 100%;
+}

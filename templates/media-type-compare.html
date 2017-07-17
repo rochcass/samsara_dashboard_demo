@@ -1,0 +1,165 @@
+<script>
+
+    var datasets = [
+        [10, 20, 30, 15],
+        [15, 20, 25, 15],
+        [25, 15, 30, 5],
+        [10, 15, 25, 25],
+        [5, 25, 25, 30]
+    ];
+
+    var backgrounds = [getColorFromArr2(0,'1'), getColorFromArr2(1,'1'), getColorFromArr2(2,'1'), getColorFromArr2(3,'1')];
+
+    var labels = [
+        'Volvo',
+        'BMW',
+        'Mercedes',
+        'Audi'
+    ];
+
+    var options = {
+        responsive: true,
+        legend: {
+            display: false,
+            position: 'right',
+            labels: {
+                boxWidth: 10
+            }
+
+        },
+
+        title: {
+            display: false,
+            text: 'All'
+        },
+        animation: {
+            animateScale: true,
+            animateRotate: true
+        }
+    };
+
+
+
+    $(function() {
+
+        $('.initDonut').each(function(index){
+
+            var config = {
+                type: 'doughnut',
+                data: {
+                    datasets: [{
+                        data: datasets[index],
+                        backgroundColor: backgrounds
+                    }],
+                    labels: labels
+                },
+                options: options
+            };
+            var ctx = document.getElementById("myDonutChart_" + index).getContext("2d");
+            var donutChart = new Chart(ctx, config);
+        });
+
+    });
+
+
+    function getColorFromArr2(index, transparency){
+        var colors = [
+            ['marine', '41, 133, 163'],
+            ['teal', '93, 194, 207'],
+            ['red', '255, 99, 132'],
+            ['orange', '255, 193, 49'],
+            ['green', '75, 192, 192'],
+            ['purple', '153, 102, 255'],
+            ['grey', '201, 203, 207'],
+            ['blue', '54, 162, 235']
+        ];
+        return 'rgba('+colors[index][1]+ (transparency !== undefined ? ',' + transparency : '') + ')';
+    }
+
+</script>
+
+<div class="chart-cols">
+    <div class="pull-left">
+        <h5>All</h5>
+        <div class="chart-container">
+            <div id="chart-wrapper_0" style="
+              position: relative;
+              margin: auto;
+              height: 100px;
+              width: 110px; padding:5px;">
+                <canvas id="myDonutChart_0" class="initDonut"></canvas>
+            </div>
+        </div>
+    </div>
+    <div class="chart-legend mt20 pull-left">
+        <div class="legend-list vertical">
+          <span class="legend-element" style="margin-right: 12px;">
+            <span class="chart_0" style="display: inline-block; width: 8px; height: 8px; border-radius: 50%; margin-right: 6px;"></span>
+            <span>Volvo</span>
+          </span>
+            <span class="legend-element" style="margin-right: 12px;">
+            <span class="chart_1" style="display: inline-block; width: 8px; height: 8px; border-radius: 50%; margin-right: 6px;"></span>
+            <span>BMW</span>
+          </span>
+            <span class="legend-element" style="margin-right: 12px;">
+            <span class="chart_2" style="display: inline-block; width: 8px; height: 8px; border-radius: 50%; margin-right: 6px;"></span>
+            <span>Mercedes</span>
+          </span>
+            <span class="legend-element" style="margin-right: 12px;">
+            <span class="chart_3" style="display: inline-block; width: 8px; height: 8px; border-radius: 50%; margin-right: 6px;"></span>
+            <span>Audi</span>
+          </span>
+        </div>
+    </div>
+
+    <div class="pull-right">
+        <h5>Newspaper</h5>
+        <div class="chart-container">
+            <div class="donut_wrapper" style="
+              position: relative;
+              margin: auto;
+              height: 110px;
+              width: 110px; padding:5px;">
+                <canvas id="myDonutChart_1" class="initDonut"></canvas>
+            </div>
+        </div>
+    </div>
+
+    <div class="pull-right">
+        <h5>Magazine</h5>
+        <div class="chart-container">
+            <div class="donut_wrapper" style="
+              position: relative;
+              margin: auto;
+              height: 110px;
+              width: 110px; padding:5px;">
+                <canvas id="myDonutChart_2" class="initDonut"></canvas>
+            </div>
+        </div>
+    </div>
+
+    <div class="pull-right">
+        <h5>Blog</h5>
+        <div class="chart-container">
+            <div class="donut_wrapper" style="
+              position: relative;
+              margin: auto;
+              height: 110px;
+              width: 110px; padding:5px;">
+                <canvas id="myDonutChart_3" class="initDonut"></canvas>
+            </div>
+        </div>
+    </div>
+    <div class="pull-right">
+        <h5>Website</h5>
+        <div class="chart-container">
+            <div class="donut_wrapper" style="
+              position: relative;
+              margin: auto;
+              height: 110px;
+              width: 110px; padding:5px;">
+                <canvas id="myDonutChart_4" class="initDonut"></canvas>
+            </div>
+        </div>
+    </div>
+</div>

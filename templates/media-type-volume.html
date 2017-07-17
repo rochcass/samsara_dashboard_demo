@@ -1,0 +1,126 @@
+<script>
+    var chart_i = $('#chart_i').val();
+    var chart_ii = $('#chart_ii').val();
+    var chart_i_type = 'line';
+    var chart_ii_type = 'line';
+
+    $(function() {
+
+    $('#chart-wrapper').load('./charts/bar-line-chart.html', function () {
+        getChart(chart_i, false);
+    });
+
+    $('.selectpicker').selectpicker({
+        style: 'btn-default',
+        size: 3
+    });
+
+    $('#chart_i').change(function() {
+        getChart($(this).val(), chart_ii, true);
+    })
+
+
+    $('#chart_ii').change(function() {
+
+        var new_chart_ii = $(this).val() === 'none' ? false : $(this).val();
+
+        if(!new_chart_ii || chart_ii === 'none' )
+            getChart(chart_i, new_chart_ii, chart_i_type, chart_ii_type);
+        else
+            updateChart_ii(chart_i, new_chart_ii, 1);
+
+        if(new_chart_ii)
+            $('#chart_ii_type').removeClass('disabled');
+        else
+            $('#chart_ii_type').addClass('disabled');
+
+
+        chart_ii = $(this).val();
+    })
+
+
+});
+
+function onChartTypeSelected(chart_index, chart_type, element){
+    if(chart_index === 0)
+        chart_i_type = chart_type;
+    else
+        chart_ii_type = chart_type;
+
+    getChart(chart_i, chart_ii !== 'none' ? chart_ii : null, chart_i_type, chart_ii_type);
+
+    var chart = chart_index === 0 ? 'i' : 'ii';
+    if(chart_type === 'line' && $('#chart_'+chart+'_icon').hasClass('fa-bar-chart-o'))
+        $('#chart_'+chart+'_icon').removeClass('fa-bar-chart-o').addClass('fa-area-chart');
+    if(chart_type === 'bar' && $('#chart_'+chart+'_icon').hasClass('fa-area-chart'))
+        $('#chart_'+chart+'_icon').removeClass('fa-area-chart').addClass('fa-bar-chart-o');
+
+
+    $(element).closest('.menu').toggle();
+}
+</script>
+
+<div class="toolbar actions-toolbar">
+    <div class="pull-left">
+        <div class="chart-type-picker inline nmr">
+            <div id="chart_series" class="dropdown btn btn-default btn-icon nmr">
+                <div><span class="toggle" onclick="$(this).next().toggle();"><span class="label"><span class="fa fa-cog"></span></span></span>
+                    <ul class="menu text-left">
+                        <li>
+                            <a onclick="onChartTypeSelected(1,'bar', this)"><span>Display Daily</span></a>
+                        </li>
+                        <li>
+                            <a onclick="onChartTypeSelected(1,'bar', this)"><span>Display Weekly</span></a>
+                        </li>
+                        <li>
+                            <a onclick="onChartTypeSelected(1,'bar', this)"><span>Display Monthly</span></a>
+                        </li>
+                        <li>
+                            <a onclick="onChartTypeSelected(1,'bar', this)"><span>Display Quarterly</span></a>
+                        </li>
+                        <li>
+                            <a onclick="onChartTypeSelected(1,'bar', this)"><span>Display Yearly</span></a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <select id="chart_i" class="selectpicker" disabled>
+            <option value="Mediatypes" selected>Media Types</option>
+            <option value="Impressions">Impressions</option>
+            <option value="AVE">AVE</option>
+        </select>
+        <span class="small pl10 pr10">VS</span>
+        <select id="chart_ii" class="selectpicker">
+            <option value="none" selected>None</option>
+            <option value="Impressions">Impressions</option>
+            <option value="AVE">AVE</option>
+        </select>
+        <div class="chart-type-picker inline nmr">
+            <div id="chart_ii_type" class="dropdown btn btn-default btn-icon disabled nmr">
+                <div><span class="toggle" onclick="$('#chart_ii_type').hasClass('disabled')? false : $(this).next().toggle();"><span class="label"><span id="chart_ii_icon" class="fa fa-area-chart"></span></span></span>
+                    <ul class="menu">
+                        <li>
+                            <a onclick="onChartTypeSelected(1,'bar', this)"><span class="fa fa-bar-chart-o"></span><span>Bar Chart</span></a>
+                        </li>
+                        <li>
+                            <a onclick="onChartTypeSelected(1,'line', this)"><span class="fa fa-area-chart"></span><span>Line Chart</span></a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="chart-type-picker pull-right pr25">
+        <span><a target="_blank" href="/projects/ba7c3778-c8c4-44d0-b378-22deea0fc081/charts/impressions?dateType=month&amp;mediaSubtype=blogs&amp;mediaSubtype=website&amp;query=&amp;sentiment=negative&amp;sentiment=neutral&amp;sentiment=positive&amp;tierType=1&amp;tierType=2&amp;export=1"><svg class="icon icon-export" width="19px" height="14px" viewBox="0 0 28.2 24"><path d="M21.2,17.6l2.8-2.3v5.3c0,0.7-0.6,1.4-1.4,1.4H1.4C0.6,22,0,21.3,0,20.6V5.1c0-0.8,0.6-1.4,1.4-1.4h8.1 c-2.1,1.5-3,2.8-3,2.8H2.8v12.7h18.3V17.6z M7.5,15.6c0,0,0-11.2,11.3-11.2V0l9.4,7.1l-9.4,7.3v-5C12.7,9.4,10.7,10.3,7.5,15.6z"></path></svg><span></span></a>
+            </span>
+    </div>
+    <div class="clearfix"></div>
+</div>
+<div class="chart-container">
+    <div id="chart-wrapper" style="
+  position: relative;
+  margin: auto;
+  height: 455px;
+  width: 100%; padding:10px;"></div>
+</div>
