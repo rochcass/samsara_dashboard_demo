@@ -120,7 +120,7 @@
 
 .chart-legend.chart-legend-absolute-bottom-right {
   position: absolute !important;
-  bottom: 10px !important;
+  bottom: 20px !important;
   right: 25px;
   text-align: right !important;
   max-width: 100% !important;
@@ -139,11 +139,10 @@
 @chart_1: rgba(93, 194, 207, 1); //teal
 @chart_2: rgba(255, 99, 132,1); //$pink
 @chart_3: rgba(255, 193, 49, 1); //$yellow
-@chart_4: rgba(75, 192, 192,1); //$green
-@chart_5: rgba(153, 102, 255,1); //$purple
-@chart_6: rgba(54, 162, 235,1); //$blue
-@chart_7: rgba(239, 118, 122, 1); //$red
-@chart_8: rgba(201, 203, 207,1); //$grey
+@chart_4: rgba(26,188,156,1); //$green
+@chart_5: rgba(54, 162, 235,1); //$blue
+@chart_6: rgba(239, 118, 122, 1); //$red
+@chart_7: rgba(201, 203, 207,1); //$grey
 
 .chartColor(@color) {
   color: @color;
@@ -176,13 +175,10 @@
 .chart_7 {
   .chartColor(@chart_7);
 }
-.chart_8 {
-  .chartColor(@chart_8);
-}
 
 @carma-sentiment-negative: #EF767A;
 @carma-sentiment-somewhat-negative: #e8acb4;
-@carma-sentiment-neutral: @chart_8;
+@carma-sentiment-neutral: @chart_7;
 @carma-sentiment-somewhat-positive: lighten(@chart_4, 5%));
 @carma-sentiment-positive: darken(@chart_4, 5%);
 
@@ -196,4 +192,62 @@
 }
 .chart_sentiment_2 {
   .chartColor(@carma-sentiment-positive);
+}
+
+
+#media-type-test {
+
+  .bar {
+    fill: #35978f;
+  }
+
+  .bar:hover {
+    fill: #8c510a;
+  }
+
+  .axis {
+    font: 10px sans-serif;
+  }
+
+  .axis path,
+  .axis line {
+    fill: none;
+    stroke: #000;
+    shape-rendering: crispEdges;
+  }
+
+  #test {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+  }
+
+  .d3-tip {
+    line-height: 1;
+    font: 14px sans-serif;
+    padding: 12px;
+    background: rgba(0, 0, 0, 0.8);
+    color: rgb(185, 185, 185);
+    border-radius: 2px;
+  }
+
+  /* Creates a small triangle extender for the tooltip */
+  .d3-tip:after {
+    box-sizing: border-box;
+    display: inline;
+    font-size: 10px;
+    width: 100%;
+    line-height: 1;
+    color: rgba(0, 0, 0, 0.8);
+    content: "\25BC";
+    position: absolute;
+    text-align: center;
+  }
+
+  .d3-tip.n:after {
+    margin: -1px 0 0 0;
+    top: 100%;
+    left: 0;
+  }
+
 }

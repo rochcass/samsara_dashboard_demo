@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script
+            src="https://code.jquery.com/jquery-3.2.1.min.js"
+            integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
+            crossorigin="anonymous"></script>
+
+    <script type="text/javascript" src="http://d3js.org/d3.v3.min.js"></script>
+    <script src="http://labratrevenge.com/d3-tip/javascripts/d3.tip.v0.6.3.js"></script>
+
+    <script type="text/javascript">
+        $(function () {
+           //UPDATE
+            var p = d3.select('body').selectAll('p')
+                .data([12,18,22,26])
+                .text(function(d){
+                    return "Element: " + d;
+                });
+
+            //ENTER
+            p.enter().append('p')
+                .text(function (d){
+                    return "New Elem: " + d;
+                });
+
+            //EXIT
+            p.exit().remove();
+
+            p.style("color", function(d, i) {
+                    return "hsl("+Math.random()* 360 +", 100%, 50%)";
+                })
+                .style("font-size", function(d, i){
+                    return d + "px";
+                });
+
+            //TRANSITIONS
+            d3.selectAll('p')
+                .transition()
+                .duration(750)
+                .delay(750)
+                .style('background-color', 'yellow');
+
+            d3.selectAll("section")
+                .attr("class", "special")
+                .append("div")
+                .html("Hello, world!");
+        });
+    </script>
+</head>
+<body>
+<section></section>
+    <p>Hello</p>
+    <p>There</p>
+</body>
+</html>

@@ -86,7 +86,7 @@
 }
 .chart-legend.chart-legend-absolute-bottom-right {
   position: absolute !important;
-  bottom: 10px !important;
+  bottom: 20px !important;
   right: 25px;
   text-align: right !important;
   max-width: 100% !important;
@@ -116,30 +116,24 @@
   fill: #ffc131;
 }
 .chart_4 {
-  color: #4bc0c0;
-  background-color: #4bc0c0;
-  stroke: #4bc0c0;
-  fill: #4bc0c0;
+  color: #1abc9c;
+  background-color: #1abc9c;
+  stroke: #1abc9c;
+  fill: #1abc9c;
 }
 .chart_5 {
-  color: #9966ff;
-  background-color: #9966ff;
-  stroke: #9966ff;
-  fill: #9966ff;
-}
-.chart_6 {
   color: #36a2eb;
   background-color: #36a2eb;
   stroke: #36a2eb;
   fill: #36a2eb;
 }
-.chart_7 {
+.chart_6 {
   color: #ef767a;
   background-color: #ef767a;
   stroke: #ef767a;
   fill: #ef767a;
 }
-.chart_8 {
+.chart_7 {
   color: #c9cbcf;
   background-color: #c9cbcf;
   stroke: #c9cbcf;
@@ -159,8 +153,55 @@
   fill: #c9cbcf;
 }
 .chart_sentiment_2 {
-  color: #3fb3b3;
-  background-color: #3fb3b3;
-  stroke: #3fb3b3;
-  fill: #3fb3b3;
+  color: #17a689;
+  background-color: #17a689;
+  stroke: #17a689;
+  fill: #17a689;
+}
+#media-type-test {
+  /* Creates a small triangle extender for the tooltip */
+}
+#media-type-test .bar {
+  fill: #35978f;
+}
+#media-type-test .bar:hover {
+  fill: #8c510a;
+}
+#media-type-test .axis {
+  font: 10px sans-serif;
+}
+#media-type-test .axis path,
+#media-type-test .axis line {
+  fill: none;
+  stroke: #000;
+  shape-rendering: crispEdges;
+}
+#media-type-test #test {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+}
+#media-type-test .d3-tip {
+  line-height: 1;
+  font: 14px sans-serif;
+  padding: 12px;
+  background: rgba(0, 0, 0, 0.8);
+  color: #b9b9b9;
+  border-radius: 2px;
+}
+#media-type-test .d3-tip:after {
+  box-sizing: border-box;
+  display: inline;
+  font-size: 10px;
+  width: 100%;
+  line-height: 1;
+  color: rgba(0, 0, 0, 0.8);
+  content: "\25BC";
+  position: absolute;
+  text-align: center;
+}
+#media-type-test .d3-tip.n:after {
+  margin: -1px 0 0 0;
+  top: 100%;
+  left: 0;
 }

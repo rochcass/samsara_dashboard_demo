@@ -13,6 +13,7 @@
 .dashboard {
   background: #f9f9f9;
   padding: 20px;
+  position: relative;
   min-height: calc(100vh - 98px);
 }
 .dashboard .item-title {
@@ -52,6 +53,88 @@
 .dashboard .widget .fa.stack-icon {
   display: block;
   margin: 20px 0 10px;
+}
+/************************************
+Dropdown Icons
+************************************/
+.dropdown .menu {
+  top: 100%;
+}
+.dropdown.dropdown-icon-slots .toggle {
+  padding-right: 0;
+}
+.dropdown.dropdown-icon-slots .toggle:after {
+  display: none;
+}
+.dropdown.dropdown-icon-slots.pull-right .menu {
+  right: 0;
+}
+.dropdown.dropdown-icon-slots .menu {
+  width: 600px;
+}
+@media screen and (max-width: 768px) {
+  .dropdown.dropdown-icon-slots .menu {
+    width: 480px;
+  }
+}
+@media screen and (max-width: 500px) {
+  .dropdown.dropdown-icon-slots .menu {
+    width: 240px;
+  }
+}
+.dropdown.dropdown-icon-slots .menu li {
+  float: left;
+  height: 120px;
+  width: 120px;
+  text-align: center;
+  position: relative;
+  background: #f7f7f7;
+  color: #807874;
+  font-size: 0.9rem;
+  cursor: pointer;
+}
+.dropdown.dropdown-icon-slots .menu li p:not(:last-child) {
+  margin-bottom: 5px;
+}
+.dropdown.dropdown-icon-slots .menu li:hover .fa {
+  color: #ee9f5f;
+}
+.dropdown.dropdown-icon-slots .menu li .fa {
+  font-size: 4.8rem;
+  color: #d2d2d4;
+}
+.dropdown.dropdown-icon-slots .menu li:before,
+.dropdown.dropdown-icon-slots .menu li:after {
+  content: '';
+  position: absolute;
+  background: #e7e7e8;
+}
+.dropdown.dropdown-icon-slots .menu li:before {
+  width: 100px;
+  height: 1px;
+  bottom: 0;
+  left: 10px;
+}
+.dropdown.dropdown-icon-slots .menu li:after {
+  height: 100px;
+  width: 1px;
+  top: 10px;
+  right: 0;
+}
+@media screen and (min-width: 768px) {
+  .dropdown.dropdown-icon-slots .menu li:nth-child(5n+5):after {
+    display: none;
+  }
+}
+@media screen and (max-width: 768px) {
+  .dropdown.dropdown-icon-slots .menu li:nth-child(4n+4):after {
+    display: none;
+  }
+}
+@media screen and (max-width: 500px) {
+  .dropdown.dropdown-icon-slots .menu li:nth-child(2n+2):after {
+    display: none;
+  }
 }
 /************************************
 MISC
