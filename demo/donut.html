@@ -67,23 +67,15 @@
 
             var svg = d3.select('.donut')
                 .attr('width', width)
-                .attr('height', height)
-                .append('g')
+                .attr('height', height);
+
+            var chart = svg.append('g')
                 .attr('transform', 'translate('+ (width / 2)+','+(height / 2)+')');
 
 
-            var tooltip = d3.select('.tooltip');
+            var tooltip = d3.select("div.tooltip.mouse");
 
-            var tip = d3.tip()
-                .attr('class', 'd3-tip')
-                .offset([-10, 0])
-                .html(function(d) {
-                    return '<strong>Volume:</strong><span>'+d.value+'</span>';
-                });
-
-            tooltip.call(tip);
-
-            var arces = svg.selectAll('.arc')
+            var arces = chart.selectAll('.arc')
                 .data(pie(data))
                 .enter()
                 .append('g')
@@ -93,8 +85,18 @@
                 .attr('class', function(d,i){
                     return 'chart_' + i;
                 })
-                .on('mouseover', tip.show)
-                .on('mouseout', tip.hide)
+                .on('mouseover', function (d,i) {
+                    tooltip.style('opacity', 1);
+                })
+                .on('mousemove', function (d,i) {
+                    tooltip
+                        .html('<strong class="tooltip-title">'+data[i].name+'</strong>' + d.value)
+                        .style("left", Math.max(0, d3.event.pageX + 15) + "px")
+                        .style("top", (d3.event.pageY - 15) + "px");
+                })
+                .on('mouseout', function (d,i) {
+                    tooltip.style('opacity', 0);
+                })
                 .transition()
                 .delay(function(d, i) { return i * 80; })
                 .duration(100)
@@ -131,41 +133,39 @@
             stroke: #fff;
         }
 
-        .d3-tip {
+        .tooltip {
+            font: 14px sans-serif;
             line-height: 1;
             font-weight: bold;
-            padding: 6px;
+            padding: 6px 12px;
             background: rgba(0, 0, 0, 0.8);
             color: #fff;
             border-radius: 2px;
             font-family: inherit;
-        }
-
-
-        /* Creates a small triangle extender for the tooltip */
-        .d3-tip:after {
-            box-sizing: border-box;
-            display: inline;
-            font-size: 10px;
-            width: 100%;
-            line-height: 1;
-            color: rgba(0, 0, 0, 0.8);
-            content: "\25BC";
+            pointer-events:none; /*let mouse events pass through*/
+            opacity:0;
+            transition: opacity 0.3s;
+            width: auto;
             position: absolute;
-            text-align: center;
         }
 
-        /* Style northward tooltips differently */
-        .d3-tip.n:after {
-            margin: -1px 0 0 0;
-            top: 100%;
-            left: 0;
+        .tooltip:before {
+            border-top: 5px solid transparent;
+            border-bottom: 5px solid transparent;
+            border-right:5px solid rgba(0, 0, 0, 0.8);
+            right: 100%;
+            content: '';
+            top: 10px;
+            position: absolute;
+            z-index: 99;
         }
+
+        .tooltip-title { display: block; color: orange; }
 
     </style>
 </head>
 <body>
-<svg class="donut"></svg>
-<svg class="tooltip"></svg>
+<svg id="donut_0" class="donut"></svg>
+<div id="tooltip_donut_0" class="mouse tooltip" ></div>
 </body>
 </html>
