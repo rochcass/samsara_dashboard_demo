@@ -25,40 +25,41 @@
 
         .chart .axis path, .chart .axis line { fill: none; stroke: #333; shape-rendering: crispEdges; }
 
-        .d3-tip {
+
+        .tooltip {
+            font: 14px sans-serif;
             line-height: 1;
             font-weight: bold;
-            padding: 6px;
+            padding: 6px 12px;
             background: rgba(0, 0, 0, 0.8);
             color: #fff;
             border-radius: 2px;
             font-family: inherit;
-        }
-
-        /* Creates a small triangle extender for the tooltip */
-        .d3-tip:after {
-            box-sizing: border-box;
-            display: inline;
-            font-size: 10px;
-            width: 100%;
-            line-height: 1;
-            color: rgba(0, 0, 0, 0.8);
-            content: "\25BC";
+            pointer-events:none; /*let mouse events pass through*/
+            opacity:0;
+            transition: opacity 0.3s;
+            width: auto;
             position: absolute;
-            text-align: center;
         }
 
-        /* Style northward tooltips differently */
-        .d3-tip.n:after {
-            margin: -1px 0 0 0;
-            top: 100%;
-            left: 0;
+        .tooltip:before {
+            border-top: 5px solid transparent;
+            border-bottom: 5px solid transparent;
+            border-right:5px solid rgba(0, 0, 0, 0.8);
+            right: 100%;
+            content: '';
+            top: 10px;
+            position: absolute;
+            z-index: 99;
         }
+
+        .tooltip-title { display: block; color: orange; }
 
     </style>
 </head>
 <body>
-<svg class="chart"></svg>
+<svg id="chart_0" class="chart"></svg>
+<div id="tooltip_chart_0" class="tooltip mouse"></div>
 <a onclick="updateLayout(currentData, true)">Toggle Layout</a>
 
 
@@ -157,13 +158,15 @@
 
 
     //Add Size to Chart
-    var chart = d3.select('.chart')
+    var chart = d3.select('#chart_0')
         .attr('width', width)
         .attr('height', height)
         .append('g')
         .attr('transform','translate('+margin.left+', '+margin.top+')');
 
     var x, y, xAxis, yAxis;
+
+    var tooltip = d3.select("div.tooltip.mouse");
 
     var currentData = data;
     var toggle = false;
@@ -269,9 +272,19 @@
             })
             .attr('height', function (d){
                 return horizontal ? barSize - 1 : 0;
-            }) /* Show and hide tip on mouse events */
-            .on('mouseover', tip.show)
-            .on('mouseout', tip.hide)
+            })
+            .on('mouseover', function (d,i) {
+                tooltip.style('opacity', 1);
+            })
+            .on('mousemove', function (d,i) {
+                tooltip
+                    .html('<strong class="carma-orange">'+data[i].name+': </strong>' + d.value)
+                    .style("left", Math.max(0, d3.event.pageX + 15) + "px")
+                    .style("top", (d3.event.pageY - 15) + "px");
+            })
+            .on('mouseout', function (d,i) {
+                tooltip.style('opacity', 0);
+            })
 
         bars.transition()
             .duration(750)
