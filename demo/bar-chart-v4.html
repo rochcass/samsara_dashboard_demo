@@ -210,7 +210,6 @@
         }
 
         function updateChart(data) {
-            console.log('here2');
             currentData = data;
 
             chart.selectAll(".y.axis").remove();
@@ -282,7 +281,6 @@
                 .attr('y', function (d) {
                     return horizontal ? y(d.name) : y(d.value) - 1;
                 });
-
 
             bars
                 .transition()
