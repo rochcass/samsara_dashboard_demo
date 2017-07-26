@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Area Chart SVG</title>
+
+    <script
+            src="https://code.jquery.com/jquery-3.2.1.min.js"
+            integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
+            crossorigin="anonymous"></script>
+
+    <script src="https://d3js.org/d3.v3.min.js"></script>
+    <link href="../css/charts.css" rel="stylesheet">
+
+
+    <style>
+
+        body { font: 11px sans-serif; }
+
+        .axis text {
+            font: 10px sans-serif;
+        }
+
+        .axis path, .axis line {
+            fill: none;
+            stroke: #000;
+            shape-rendering: crispEdges;
+        }
+        path.line {
+            fill: none;
+            stroke: blue;
+        }
+        path.area {
+            stroke: none;
+            fill: aliceblue;
+        }
+        #myClip {
+            fill: black;
+        }
+
+    </style>
+</head>
+<body>
+<button>Draw!</button>
+<div id="chart"></div>
+
+
+<script type="text/javascript">
+
+    var data = [
+        {
+            name: 'Bill',
+            value: 28
+        },
+        {
+            name: 'Ray',
+            value: 10
+        },
+        {
+            name: 'Ford',
+            value: 22
+        },
+        {
+            name: 'Jake',
+            value: 16
+        },
+        {
+            name: 'Steve',
+            value: 32
+        },
+        {
+            name: 'Jim',
+            value: 45
+        },
+        {
+            name: 'Ford2',
+            value: 22
+        },
+        {
+            name: 'Jake2',
+            value: 16
+        },
+        {
+            name: 'Steve2',
+            value: 32
+        },
+        {
+            name: 'Jim2',
+            value: 45
+        }
+    ];
+
+
+     var data2 = [
+        {
+            name: 3,
+            value: 28
+        },
+        {
+            name: 5,
+            value: 10
+        },
+        {
+            name: 6,
+            value: 22
+        },
+        {
+            name: 7,
+            value: 16
+        },
+        {
+            name: 8,
+            value: 32
+        },
+        {
+            name: 9,
+            value: 45
+        },
+        {
+            name: 11,
+            value: 22
+        }
+    ];
+
+    d3.select("button").on("click", draw);
+
+    var margin = {top: 10, right: 10, bottom: 30, left: 30},
+        width = 400 - margin.left - margin.right,
+        height = 200 - margin.top - margin.bottom;
+
+    var x = d3.scale.ordinal()
+        .rangeBands([0, width], 0)
+        .domain(data.map(function(d){ return d.name; })); // Create Labels
+
+    var y = d3.scale.linear()
+        .range([height, 0])
+        .domain([0, d3.max(data, function(d){ return d.value; })]);
+
+    var xAxis = d3.svg.axis()
+        .scale(x)
+        .ticks(innerWidth - 50)
+        .orient("bottom");
+
+    var yAxis = d3.svg.axis()
+        .scale(y)
+        .orient("left");
+
+    var svg = d3.select("#chart").append("svg")
+        .attr("width", width + margin.left + margin.right)
+        .attr("height", height + margin.top + margin.bottom)
+        .append("g")
+        .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+    svg.append("clipPath")
+        .attr("id", "rectClip")
+        .append("rect")
+        .attr("width", 0)
+        .attr("height", height);
+
+    var line = d3.svg.line()
+        .x(function(d) { return x(d.name); })
+        .y(function(d) { return y(d.value); })
+        .interpolate("cardinal");
+    var area = d3.svg.area()
+        .x(function(d) { return x(d.name); })
+        .y0(function() { return y(0); })
+        .y1(function(d) { return y(d.value); })
+        .interpolate("cardinal");
+
+    /*var data = [[0,.2],[.1,.3],[.2,.5],[.3,.6],[.4,.8],
+        [.5,.5],[.6,.6],[.7,.4],[.8,.5],[.9,.4],[1,.1]];*/
+
+    svg.append("path")
+        .datum(data)
+        .attr("class", "line")
+        .attr("d", line)
+        .attr("clip-path", "url(#rectClip)");
+    svg.append("path")
+        .datum(data)
+        .attr("class", "area")
+        .attr("d", area)
+        .attr("clip-path", "url(#rectClip)");
+
+    svg.append("g")
+        .attr("class", "x axis")
+        .attr("transform", "translate(0," + height + ")")
+        .call(xAxis);
+
+    svg.append("g")
+        .attr("class", "y axis")
+        .call(yAxis);
+
+    function draw() {
+        d3.select("#rectClip rect")
+            .transition().duration(3000)
+            .attr("width", width);
+    }
+
+</script>
+</body>
+</html>

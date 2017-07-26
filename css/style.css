@@ -60,10 +60,20 @@ Dropdown Icons
 .dropdown .menu {
   top: 100%;
 }
-.dropdown.dropdown-icon-slots .toggle {
+.dropdown .menu li {
+  text-align: left;
+}
+.dropdown .menu li a {
+  text-align: left;
+  color: #807874 !important;
+}
+.dropdown .menu li a .fa {
+  margin-right: 10px;
+}
+.dropdown.no-caret .toggle {
   padding-right: 0;
 }
-.dropdown.dropdown-icon-slots .toggle:after {
+.dropdown.no-caret .toggle:after {
   display: none;
 }
 .dropdown.dropdown-icon-slots.pull-right .menu {
@@ -93,15 +103,25 @@ Dropdown Icons
   font-size: 0.9rem;
   cursor: pointer;
 }
+.dropdown.dropdown-icon-slots .menu li a:hover {
+  text-decoration: none;
+}
+.dropdown.dropdown-icon-slots .menu li p {
+  line-height: 1.2em;
+}
 .dropdown.dropdown-icon-slots .menu li p:not(:last-child) {
-  margin-bottom: 5px;
+  margin-bottom: 0;
 }
 .dropdown.dropdown-icon-slots .menu li:hover .fa {
   color: #ee9f5f;
+  text-decoration: none !important;
 }
 .dropdown.dropdown-icon-slots .menu li .fa {
-  font-size: 4.8rem;
+  font-size: 4.6rem;
   color: #d2d2d4;
+  display: block;
+  text-align: center;
+  margin-bottom: 10px;
 }
 .dropdown.dropdown-icon-slots .menu li:before,
 .dropdown.dropdown-icon-slots .menu li:after {

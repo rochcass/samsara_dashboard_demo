@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Line Chart SVG</title>
+    <title>Bar Chart SVG</title>
 
     <script
             src="https://code.jquery.com/jquery-3.2.1.min.js"
@@ -24,10 +24,16 @@
 
         .chart .axis path, .chart .axis line { fill: none; stroke: #333; shape-rendering: crispEdges; }
 
-        .line {
+        .chart .line {
             fill: none;
             stroke: steelblue;
-            stroke-width: 2px;
+            stroke-width: 3;
+        }
+
+        /* Style the dots by assigning a fill and stroke */
+        .chart .dot {
+            fill: steelblue;
+            stroke: #fff;
         }
 
         .tooltip {
@@ -95,58 +101,7 @@
                 value: 45
             }
         ];
-        var data2 = [
-            {
-                name: 'Bill',
-                value: 32
-            },
-            {
-                name: 'Ray',
-                value: 45
-            },
-            {
-                name: 'Ford',
-                value: 29
-            },
-            {
-                name: 'Jake',
-                value: 24
-            },
-            {
-                name: 'Steve',
-                value: 42
-            },
-            {
-                name: 'Jim',
-                value: 25
-            }
-        ];
-        var data3 = [
-            {
-                name: 'Bill',
-                value: 12
-            },
-            {
-                name: 'Ray',
-                value: 25
-            },
-            {
-                name: 'Ford',
-                value: 42
-            },
-            {
-                name: 'Jake',
-                value: 24
-            },
-            {
-                name: 'Steve',
-                value: 42
-            },
-            {
-                name: 'Jim',
-                value: 25
-            }
-        ];
+
 
         var horizontal = false,
             margin = {
@@ -193,11 +148,13 @@
                     return d.value;
                 })]); // Create Scales
 
+            chart.selectAll(".dot").remove();
+            chart.selectAll(".line").remove();
+
             x = horizontal ? series : labels;
 
             y = horizontal ? labels : series;
 
-            chart.selectAll('.line').remove();
 
             xAxis = d3.axisBottom(x);
 
@@ -241,17 +198,35 @@
 
             // define the line
             var valueline = d3.line()
-                .curve(d3.curveCardinal)
+                .curve(horizontal ? d3.curveMonotoneY : d3.curveMonotoneX)
                 .x(function(d) { return x(horizontal ? d.value : d.name); })
                 .y(function(d) { return y(horizontal ? d.name : d.value); });
 
+            var dataset = d3.range(data).map(function(d) { return {"y": d3.randomUniform(1)() } });
+
+            var pointRadius = 6;
+            var pointPos = ((horizontal ? y.bandwidth() : x.bandwidth()) + (pointRadius / 2)) / 2;
+
+
             // Add the valueline path.
-            chart.append("path")
+           var line = chart.append("path")
                 .data([data])
                 .attr("class", "line")
                 .attr("d", valueline)
                 .attr("stroke-dasharray", function(d){ return this.getTotalLength() })
                 .attr("stroke-dashoffset", function(d){ return this.getTotalLength() })
+                .transition()
+                .duration(750)
+                .attr("stroke-dashoffset", 0);
+
+
+            var dots = chart.selectAll(".dot")
+                .data(data)
+                .enter().append("circle") // Uses the enter().append() method
+                .attr("class", "dot") // Assign a class for styling
+                .attr("cx", function(d, i) { return x(horizontal ? d.value : d.name); })
+                .attr("cy", function(d) { return y(horizontal ? d.name : d.value); })
+                .attr("r", pointRadius)
                 .on('mouseover', function (d, i) {
                     tooltip.style('opacity', 1);
                 })
@@ -266,7 +241,14 @@
                 })
                 .transition()
                 .duration(750)
-                .attr("stroke-dashoffset", 0)
+                .attr("cx", function(d, i) { return x(horizontal ? d.value : d.name); })
+                .attr("cy", function(d) { return y(horizontal ? d.name : d.value); });
+
+            dots
+                .transition()
+                .duration(750)
+                .attr("cx", function(d, i) { return x(horizontal ? d.value : d.name); })
+                .attr("cy", function(d) { return y(horizontal ? d.name : d.value); });
 
         }
 

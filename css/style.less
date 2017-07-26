@@ -99,16 +99,25 @@ Dropdown Icons
 .dropdown {
   .menu {
     top: 100%;
+
+    li { text-align: left;}
+    li a {  text-align: left; color: #807874 !important;
+    .fa { margin-right: 10px;}
+    }
   }
 }
 
-.dropdown.dropdown-icon-slots {
+
+.dropdown.no-caret {
   .toggle {
     padding-right: 0;
     &:after {
       display: none;
     }
   }
+}
+
+.dropdown.dropdown-icon-slots {
 
   &.pull-right {
     .menu {
@@ -137,15 +146,22 @@ Dropdown Icons
       font-size: 0.9rem;
       cursor: pointer;
 
-      p:not(:last-child) { margin-bottom: 5px; }
+      a:hover {
+        text-decoration: none;}
+
+      p { line-height: 1.2em;}
+      p:not(:last-child) { margin-bottom: 0; }
 
       &:hover .fa {
         color: lighten(@carma-orange,5%);
+        text-decoration: none !important;
       }
       .fa {
-        font-size: 4.8rem;
+        font-size: 4.6rem;
         color: darken(@carma-faint-gray, 8%);
-
+        display: block;
+        text-align: center;
+        margin-bottom: 10px;
       }
 
       &:before, &:after {
