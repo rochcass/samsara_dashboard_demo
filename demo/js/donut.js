@@ -21,7 +21,6 @@ function generateDonutChart(parameters){
     svg.attr('width',  Math.min(width, height))
         .attr('height',  Math.min(width, height));
     
-    
     svg.selectAll('g').remove();
     
     var chart = svg.append('g')

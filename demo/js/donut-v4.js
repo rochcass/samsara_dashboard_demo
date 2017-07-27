@@ -1,14 +1,14 @@
 function generateDonutChart(parameters){
     var element = parameters.element,
+        svg = d3.select(element),
         data = parameters.data,
-        width = parameters.width,
-        height = parameters.height,
+        width = svg.attr('width') !== undefined ? svg.attr('width') : parameters.width,
+        height = svg.attr('height') !== undefined ? svg.attr('height') : parameters.height,
         innerWidth = width - parameters.margin.left - parameters.margin.right,
         innerHeight = height - parameters.margin.top - parameters.margin.bottom,
         radius = Math.min(width, height) / 2,
         innerRadius = Math.min(innerWidth, innerHeight) / 2,
         tooltipElement = parameters.tooltipElement;
-    
     
     var arc = d3.arc()
         .outerRadius(radius)
@@ -18,13 +18,15 @@ function generateDonutChart(parameters){
         .sort(null)
         .value(function (d){ return d.value});
     
-    var svg = d3.select(element)
-        .attr('width', width)
-        .attr('height', height);
+    svg.attr('width',  Math.min(width, height))
+        .attr('height',  Math.min(width, height));
+    
+    svg.selectAll('g').remove();
     
     var chart = svg.append('g')
+        .attr('width',Math.min(innerWidth, innerHeight))
+        .attr('height',Math.min(innerWidth, innerHeight))
         .attr('transform', 'translate('+ (width / 2)+','+(height / 2)+')');
-    
     
     var tooltip = d3.select("div.tooltip.mouse");
     

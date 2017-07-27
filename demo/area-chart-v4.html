@@ -9,7 +9,7 @@
             integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
             crossorigin="anonymous"></script>
 
-    <script src="https://d3js.org/d3.v3.min.js"></script>
+    <script src="https://d3js.org/d3.v4.min.js"></script>
     <link href="../css/charts.css" rel="stylesheet">
 
 
@@ -85,32 +85,66 @@
 
 <script type="text/javascript">
 
-        var data = [
-            {
-                name: 'Bill',
-                value: 28
-            },
-            {
-                name: 'Ray',
-                value: 10
-            },
-            {
-                name: 'Ford',
-                value: 22
-            },
-            {
-                name: 'Jake',
-                value: 16
-            },
-            {
-                name: 'Steve',
-                value: 32
-            },
-            {
-                name: 'Jim',
-                value: 45
-            }
-        ];
+    var parseTime = d3.timeParse("%d-%b-%y");
+
+    var data = [
+        {
+            date: parseTime('24-Apr-07'),
+            close: 20
+        },
+        {
+            date: parseTime('25-Apr-07'),
+            close: 40
+        },
+        {
+            date: parseTime('26-Apr-07'),
+            close: 50
+        },
+        {
+            date: parseTime('27-Apr-07'),
+            close: 75
+        },
+        {
+            date: parseTime('28-Apr-07'),
+            close: 93
+        },
+        {
+            date: parseTime('29-Apr-07'),
+            close: 47
+        },
+        {
+            date: parseTime('30-Apr-07'),
+            close: 82.47
+        },
+        {
+            date: parseTime('01-May-07'),
+            close: 64
+        },
+        {
+            date: parseTime('02-May-07'),
+            close: 69
+        },
+        {
+            date: parseTime('03-May-07'),
+            close: 93.24
+        },
+        {
+            date: parseTime('04-May-07'),
+            close: 80.92
+        },
+        {
+            date: parseTime('05-May-07'),
+            close: 98.24
+        },
+        {
+            date: parseTime('06-May-07'),
+            close: 60
+        },
+        {
+            date: parseTime('07-May-07'),
+            close: 50
+        }
+    ];
 
 
         var horizontal = false,
@@ -120,12 +154,10 @@
                 right: 30,
                 bottom: 50
             },
-            width = 480,
+            width = 880,
             height = 400,
             innerWidth = width - margin.left - margin.right,
             innerHeight = height - margin.top - margin.bottom;
-
-        var formatDate = d3.time.format("%Y-%m-%d %H:%M:%S");
 
         //Add Size to Chart
         var chart = d3.select('#chart_0')
@@ -147,14 +179,14 @@
             if (toggle)
                 horizontal = !horizontal;
 
-            var labels =  d3.scale.ordinal()
-                .rangeRoundBands([horizontal ? innerHeight : 0, horizontal ? 0 : innerWidth], 1)
-                .domain(data.map(function(d){ return d.name; })); // Create Labels
-
-            var series = d3.scale.linear()
-                .range([horizontal ? 0 : innerHeight, horizontal ? innerWidth : 0])
-                .domain([0, d3.max(data, function(d){ return d.value; })]).nice(); // Create Scales
-
+            var labels = d3.scaleTime()
+                .rangeRound([horizontal ? innerHeight : 0, horizontal ? 0 : innerWidth], 0)
+                .domain(d3.extent(data, function(d) { return d.date; }));
+            var series = d3.scaleLinear()
+                .rangeRound([horizontal ? 0 : innerHeight, horizontal ? innerWidth : 0])
+                .domain([0, d3.max(data, function (d) {
+                    return d.close;
+                })]); // Create Scales
 
             chart.selectAll(".area").remove();
             chart.selectAll(".line").remove();
@@ -164,13 +196,9 @@
             y = horizontal ? labels : series;
 
 
-            xAxis = d3.svg.axis()
-                .scale(x)
-                .orient('bottom');
+            xAxis = d3.axisBottom(x);
 
-            yAxis = d3.svg.axis()
-                .scale(y)
-                .orient('left');
+            yAxis = d3.axisLeft(y);
 
 
             console.log('here');
@@ -215,33 +243,33 @@
                 };
             } );
 
-            var area = d3.svg.area()
-                .interpolate("cardinal")
-                .x(function(d) { return x(horizontal ? d.value : d.name); })
+            var area = d3.area()
+                .curve(horizontal ? d3.curveMonotoneY : d3.curveMonotoneX)
+                .x(function(d) { return x(horizontal ? d.close : d.date); })
                 .y0(innerHeight)
-                .y1(function(d) { return y(horizontal ? d.name : d.value); });
+                .y1(function(d) { return y(horizontal ? d.date : d.close); });
 
             // define the line
-            var line = d3.svg.line()
-                .interpolate("cardinal")
-                .x(function(d) { return x(horizontal ? d.value : d.name); })
-                .y(function(d) { return y(horizontal ? d.name : d.value); });
+            var line = d3.line()
+                .curve(horizontal ? d3.curveMonotoneY : d3.curveMonotoneX)
+                .x(function(d) { return x(horizontal ? d.close : d.date); })
+                .y(function(d) { return y(horizontal ? d.date : d.close); });
 
             var startData = data.map( function( datum ) {
                 return {
-                    name  : datum.name,
-                    value : 0
+                    date  : datum.date,
+                    close : 0
                 };
             } );
 
             var pointRadius = 6;
-            var pointPos = ((horizontal ? y.rangeBand() : x.rangeBand()) + (pointRadius / 2)) / 2;
+            //var pointPos = ((horizontal ? y.bandwidth() : x.bandwidth()) + (pointRadius / 2)) / 2;
 
             // Add the area path
             chart.append("path")
                 .datum( startData )
-                .attr("class", "area")
                 .attr("d", area)
+                .attr("class", "area")
                 .transition()
                 .duration(500)
                 .attrTween( 'd', function() {
@@ -255,8 +283,8 @@
             // Add the valueline path.
            chart.append("path")
                .datum( startData )
-               .attr("class", "line")
                .attr("d", line)
+               .attr("class", "line")
                .transition()
                .duration(500)
                .attrTween( 'd', function() {
@@ -272,8 +300,8 @@
                 .data(data)
                 .enter().append("circle") // Uses the enter().append() method
                 .attr("class", "dot") // Assign a class for styling
-                .attr("cx", function(d, i) { return x(horizontal ? d.value : d.name); })
-                .attr("cy", function(d) { return y(horizontal ? d.name : d.value); })
+                .attr("cx", function(d, i) { return x(horizontal ? d.close : d.date); })
+                .attr("cy", function(d) { return y(horizontal ? d.date : d.close); })
                 .attr("r", pointRadius)
                 .style('opacity', 0)
                 .on('mouseover', function (d, i) {
@@ -281,7 +309,7 @@
                 })
                 .on('mousemove', function (d, i) {
                     tooltip
-                        .html('<strong class="carma-orange">' + data[i].name + ': </strong>' + d.value)
+                        .html('<strong class="carma-orange">' + data[i].name + ': </strong>' + d.close)
                         .style("left", Math.max(0, d3.event.pageX + 15) + "px")
                         .style("top", (d3.event.pageY - 15) + "px");
                 })
@@ -296,8 +324,8 @@
             dots
                 .transition()
                 .duration(750)
-                .attr("cx", function(d, i) { return x(horizontal ? d.value : d.name); })
-                .attr("cy", function(d) { return y(horizontal ? d.name : d.value); });
+                .attr("cx", function(d, i) { return x(horizontal ? d.close : d.date); })
+                .attr("cy", function(d) { return y(horizontal ? d.date : d.close); });
 
         }
 

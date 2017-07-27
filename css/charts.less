@@ -144,11 +144,38 @@
 @chart_6: rgba(239, 118, 122, 1); //$red
 @chart_7: rgba(201, 203, 207,1); //$grey
 
+
+
+@chart_trans_0: rgba(41, 133, 163,0.5); //$marine
+@chart_trans_1: rgba(93, 194, 207, 0.5); //teal
+@chart_trans_2: rgba(255, 99, 132,0.5); //$pink
+@chart_trans_3: rgba(255, 193, 49, 0.5); //$yellow
+@chart_trans_4: rgba(26,188,156,0.5); //$green
+@chart_trans_5: rgba(54, 162, 235,0.5); //$blue
+@chart_trans_6: rgba(239, 118, 122, 0.5); //$red
+@chart_trans_7: rgba(201, 203, 207,0.5); //$grey
+
 .chartColor(@color) {
   color: @color;
   background-color: @color;
   stroke: @color;
   fill: @color;
+}
+
+.chartFillTransColor(@color) {
+  fill: @color;
+}
+
+.chartStrokeColor(@color) {
+  stroke: @color;
+  fill: none;
+  stroke-width: 3;
+}
+
+.chartDotColor(@color) {
+  stroke: #fff;
+  fill: @color;
+  stroke-width: 3;
 }
 
 .chart_0 {
@@ -174,6 +201,82 @@
 }
 .chart_7 {
   .chartColor(@chart_7);
+}
+
+
+.chart_line_0 {
+  .chartStrokeColor(@chart_0);
+}
+.chart_line_1 {
+  .chartStrokeColor(@chart_1);
+}
+.chart_line_2 {
+  .chartStrokeColor(@chart_2);
+}
+.chart_line_3 {
+  .chartStrokeColor(@chart_3);
+}
+.chart_line_4 {
+  .chartStrokeColor(@chart_4);
+}
+.chart_line_5 {
+  .chartStrokeColor(@chart_5);
+}
+.chart_line_6 {
+  .chartStrokeColor(@chart_6);
+}
+.chart_line_7 {
+  .chartStrokeColor(@chart_7);
+}
+
+.chart_fill_trans_0 {
+  .chartFillTransColor(@chart_trans_0);
+}
+.chart_fill_trans_1 {
+  .chartFillTransColor(@chart_trans_1);
+}
+.chart_fill_trans_2 {
+  .chartFillTransColor(@chart_trans_2);
+}
+.chart_fill_trans_3 {
+  .chartFillTransColor(@chart_trans_3);
+}
+.chart_fill_trans_4 {
+  .chartFillTransColor(@chart_trans_4);
+}
+.chart_fill_trans_5 {
+  .chartFillTransColor(@chart_trans_5);
+}
+.chart_fill_trans_6 {
+  .chartFillTransColor(@chart_trans_6);
+}
+.chart_fill_trans_7 {
+  .chartFillTransColor(@chart_trans_7);
+}
+
+.chart_dot_0 {
+  .chartDotColor(@chart_0);
+}
+.chart_dot_1 {
+  .chartDotColor(@chart_1);
+}
+.chart_dot_2 {
+  .chartDotColor(@chart_2);
+}
+.chart_dot_3 {
+  .chartDotColor(@chart_3);
+}
+.chart_dot_4 {
+  .chartDotColor(@chart_4);
+}
+.chart_dot_5 {
+  .chartDotColor(@chart_5);
+}
+.chart_dot_6 {
+  .chartDotColor(@chart_6);
+}
+.chart_dot_7 {
+  .chartDotColor(@chart_7);
 }
 
 @carma-sentiment-negative: #EF767A;

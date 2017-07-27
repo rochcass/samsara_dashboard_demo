@@ -139,6 +139,110 @@
   stroke: #c9cbcf;
   fill: #c9cbcf;
 }
+.chart_line_0 {
+  stroke: #2985a3;
+  fill: none;
+  stroke-width: 3;
+}
+.chart_line_1 {
+  stroke: #5dc2cf;
+  fill: none;
+  stroke-width: 3;
+}
+.chart_line_2 {
+  stroke: #ff6384;
+  fill: none;
+  stroke-width: 3;
+}
+.chart_line_3 {
+  stroke: #ffc131;
+  fill: none;
+  stroke-width: 3;
+}
+.chart_line_4 {
+  stroke: #1abc9c;
+  fill: none;
+  stroke-width: 3;
+}
+.chart_line_5 {
+  stroke: #36a2eb;
+  fill: none;
+  stroke-width: 3;
+}
+.chart_line_6 {
+  stroke: #ef767a;
+  fill: none;
+  stroke-width: 3;
+}
+.chart_line_7 {
+  stroke: #c9cbcf;
+  fill: none;
+  stroke-width: 3;
+}
+.chart_fill_trans_0 {
+  fill: rgba(41, 133, 163, 0.5);
+}
+.chart_fill_trans_1 {
+  fill: rgba(93, 194, 207, 0.5);
+}
+.chart_fill_trans_2 {
+  fill: rgba(255, 99, 132, 0.5);
+}
+.chart_fill_trans_3 {
+  fill: rgba(255, 193, 49, 0.5);
+}
+.chart_fill_trans_4 {
+  fill: rgba(26, 188, 156, 0.5);
+}
+.chart_fill_trans_5 {
+  fill: rgba(54, 162, 235, 0.5);
+}
+.chart_fill_trans_6 {
+  fill: rgba(239, 118, 122, 0.5);
+}
+.chart_fill_trans_7 {
+  fill: rgba(201, 203, 207, 0.5);
+}
+.chart_dot_0 {
+  stroke: #fff;
+  fill: #2985a3;
+  stroke-width: 3;
+}
+.chart_dot_1 {
+  stroke: #fff;
+  fill: #5dc2cf;
+  stroke-width: 3;
+}
+.chart_dot_2 {
+  stroke: #fff;
+  fill: #ff6384;
+  stroke-width: 3;
+}
+.chart_dot_3 {
+  stroke: #fff;
+  fill: #ffc131;
+  stroke-width: 3;
+}
+.chart_dot_4 {
+  stroke: #fff;
+  fill: #1abc9c;
+  stroke-width: 3;
+}
+.chart_dot_5 {
+  stroke: #fff;
+  fill: #36a2eb;
+  stroke-width: 3;
+}
+.chart_dot_6 {
+  stroke: #fff;
+  fill: #ef767a;
+  stroke-width: 3;
+}
+.chart_dot_7 {
+  stroke: #fff;
+  fill: #c9cbcf;
+  stroke-width: 3;
+}
 @carma-sentiment-somewhat-positive : lighten(@chart_4, 5%));
 .chart_sentiment_0 {
   color: #EF767A;

@@ -41,43 +41,41 @@ function generateBarChart(parameters) {
     
     function updateBarLayout(data, updateLayout)
     {
-        
-        var labels =  d3.scale.ordinal()
-            .rangeRoundBands([horizontal ? innerHeight : 0, horizontal ? 0 : innerWidth], 0.1)
-            .domain(data.map(function(d){ return d.name; })); // Create Labels
-        
-        var series = d3.scale.linear()
-            .range([horizontal ? 0 : innerHeight, horizontal ? innerWidth : 0])
-            .domain([0, d3.max(data, function(d){ return d.value; })]); // Create Scales
-        
+    
+        var labels = d3.scaleBand()
+            .rangeRound([horizontal ? innerHeight : 0, horizontal ? 0 : innerWidth], 0.1).padding(0.1)
+            .domain(data.map(function (d) {
+                return d.name;
+            })); // Create Labels
+    
+        var series = d3.scaleLinear()
+            .rangeRound([horizontal ? 0 : innerHeight, horizontal ? innerWidth : 0])
+            .domain([0, d3.max(data, function (d) {
+                return d.value;
+            })]); // Create Scales
+    
         x = horizontal ? series : labels;
-        
+    
         y = horizontal ? labels : series;
-        
-        if(updateLayout)
-            chart.selectAll('.bar').remove();
-        
-        xAxis = d3.svg.axis()
-            .scale(x)
-            .orient('bottom');
-        
-        yAxis = d3.svg.axis()
-            .scale(y)
-            .orient('left');
+    
+        chart.selectAll('.bar').remove();
+    
+        xAxis = d3.axisBottom(x);
+    
+        yAxis = d3.axisLeft(y);
         
         drawBarChart(data);
     }
     
     function drawBarChart(data){
-        
+    
         chart.selectAll(".y.axis").remove();
         chart.selectAll(".x.axis").remove();
-        
-        
+    
         var xLabel = horizontal ? 'Count' : 'Names';
         chart.append('g')
-            .attr('class','x axis')
-            .attr('transform', 'translate(0,'+innerHeight+')')
+            .attr('class', 'x axis')
+            .attr('transform', 'translate(0,' + innerHeight + ')')
             .call(xAxis)
             .append('text')
             .attr('x', (innerWidth / 2))
@@ -85,7 +83,7 @@ function generateBarChart(parameters) {
             .attr('dy', '.71em')
             .style('text-anchor', 'middle')
             .text(xLabel);
-        
+    
         var yLabel = horizontal ? 'Names' : 'Count';
         chart.append('g')
             .attr('class', 'y axis')
@@ -97,52 +95,59 @@ function generateBarChart(parameters) {
             .attr("dy", ".71em")
             .style("text-anchor", "middle")
             .text(yLabel);
-        
-        
-        var barSize = horizontal ? y.rangeBand() : x.rangeBand();
+    
+        var barSize = horizontal ? y.bandwidth() : x.bandwidth();
         var bars = chart.selectAll('.bar')
             .data(data);
-        
-        bars.exit()
-            .transition()
-            .duration(400)
-            .ease("exp")
-            .attr(horizontal ? "width" : "height", 0)
-            .remove();
-        
+    
         bars
             .enter().append('rect')
-            .attr('class', function(d,i){
-                return 'bar ' + 'chart_' + (data.length - i - 1);
-            })
-            .attr('x', function (d) { return horizontal ? 1 : x(d.name); })
-            .attr('y', function (d) { return horizontal ? y(d.name) : innerHeight - 1; })
-            
-            .attr('width', function (d){
-                return horizontal ? 0 : barSize - 1;
-            })
-            .attr('height', function (d){
-                return horizontal ? barSize - 1 : 0;
-            })
-            .on('mouseover', function (d,i) {
+            .on('mouseover', function (d, i) {
                 tooltip.style('opacity', 1);
             })
-            .on('mousemove', function (d,i) {
+            .on('mousemove', function (d, i) {
                 tooltip
-                    .html('<strong>'+data[i].name+': </strong>' + d.value)
+                    .html('<strong class="carma-orange">' + data[i].name + ': </strong>' + d.value)
                     .style("left", Math.max(0, d3.event.pageX + 15) + "px")
                     .style("top", (d3.event.pageY - 15) + "px");
             })
-            .on('mouseout', function (d,i) {
+            .on('mouseout', function (d, i) {
                 tooltip.style('opacity', 0);
             })
+            .attr('class', function (d, i) {
+                return 'bar ' + 'chart_' + (data.length - i - 1);
+            })
+            .attr('x', function (d) {
+                return horizontal ? 1 : x(d.name);
+            })
+            .attr('y', function (d) {
+                return horizontal ? y(d.name) : innerHeight - 1;
+            })
         
-        bars.transition()
+            .attr('width', function (d) {
+                return horizontal ? 0 : barSize - 1;
+            })
+            .attr('height', function (d) {
+                return horizontal ? barSize - 1 : 0;
+            })
+            .transition()
             .duration(750)
-            .attr('y', function (d) { return horizontal ? y(d.name) : y(d.value) - 1; })
-            .attr(horizontal ? 'width' : 'height', function (d){
+            .attr(horizontal ? 'width' : 'height', function (d) {
                 return horizontal ? x(d.value) : innerHeight - y(d.value);
             })
+            .attr('y', function (d) {
+                return horizontal ? y(d.name) : y(d.value) - 1;
+            });
+    
+        bars
+            .transition()
+            .duration(750)
+            .attr(horizontal ? 'width' : 'height', function (d) {
+                return horizontal ? x(d.value) : innerHeight - y(d.value);
+            })
+            .attr('y', function (d) {
+                return horizontal ? y(d.name) : y(d.value) - 1;
+            });
         
     }
     
