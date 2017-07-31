@@ -29,12 +29,20 @@
         body { font: 11px sans-serif; }
 
         .chart text {
-            font: 10px sans-serif;
+            font-family: Open Sans,Helvetica Neue,Helvetica,sans-serif;
+            font-feature-settings: "kern","liga","pnum";
+            line-height: 1.7;
+            color: #807874;
+            fill: #807874;
             text-anchor: end;
         }
 
-        .chart .axis path, .chart .axis line { fill: none; stroke: #333; shape-rendering: crispEdges; }
+        .chart .axis path, .chart .axis line { fill: none; stroke: #e7e7e8; shape-rendering: crispEdges; }
 
+        .chart .arc path {
+            stroke: #fff !important;
+            stroke-width: 3px;
+        }
 
         .tooltip {
             font: 12px sans-serif;
@@ -71,6 +79,7 @@
 <div style="width: 60%; margin: 30px auto;">
 <div class="bootstrap-ui ">
 
+
     <div class="chart-type-picker inline nmr pull-right">
         <div id="chart_i_type" class="dropdown btn btn-default btn-icon nmr">
             <div><span class="toggle" onclick="$(this).next().toggle();"><span class="label"><span id="chart_i_icon" class="fa fa-bar-chart"></span></span></span>
@@ -99,90 +108,29 @@
     </div>
     <div class="clearfix"></div>
     <div>
-        <svg id="chart_0" class="chart" width="400" height="400"></svg>
+        <svg id="chart_0" class="chart" width="400" height="300"></svg>
         <div id="tooltip_chart_0" class="tooltip mouse"></div>
     </div>
 </div>
-
 </div>
 <script type="text/javascript">
-
+//[300, 250, 1050, 50]
     var data = [
         {
-            name: 'Bill',
-            value: 28
+            name: 'Website',
+            value: 400
         },
         {
-            name: 'Ray',
-            value: 10
+            name: 'Magazine',
+            value: 350
         },
         {
-            name: 'Ford',
-            value:22
+            name: 'Newspaper',
+            value:600
         },
         {
-            name: 'Jake',
-            value: 16
-        },
-        {
-            name: 'Steve',
-            value: 32
-        },
-        {
-            name: 'Jim',
-            value: 45
-        }
-    ];
-    var data2 = [
-        {
-            name: 'Bill',
-            value: 32
-        },
-        {
-            name: 'Ray',
-            value: 45
-        },
-        {
-            name: 'Ford',
-            value:29
-        },
-        {
-            name: 'Jake',
-            value: 24
-        },
-        {
-            name: 'Steve',
-            value: 42
-        },
-        {
-            name: 'Jim',
-            value: 25
-        }
-    ];
-    var data3 = [
-        {
-            name: 'Bill',
-            value: 12
-        },
-        {
-            name: 'Ray',
-            value: 25
-        },
-        {
-            name: 'Ford',
-            value:42
-        },
-        {
-            name: 'Jake',
-            value: 24
-        },
-        {
-            name: 'Steve',
-            value: 42
-        },
-        {
-            name: 'Jim',
-            value: 25
+            name: 'Blog',
+            value: 50
         }
     ];
 
@@ -190,7 +138,6 @@
 
     var globalParameters = {
         data: data,
-        data2: data2,
         element: '.chart',
         tooltipElement: 'div.tooltip.mouse'
     };
@@ -208,10 +155,10 @@
     function setChartDimension(){
         var chart_cont = $('#chart_0');
         var width = chart_cont.parent().width(),
-            height = chart_cont.parent().height();
+            height = chart_cont.height();
         chart_cont.attr('width', width);
-        chart_cont.attr('height', height);
-        chart_cont.attr('viewBox', '0 0 '+ width + ' ' + height);
+        //chart_cont.attr('height', height);
+   //     chart_cont.attr('viewBox', '0 0 '+ width + ' ' + height);
 
     }
 
@@ -238,12 +185,13 @@
                     horizontal: true,
                     margin: {
                         top: 20,
-                        left: 50,
+                        left: 80,
                         right: 20,
                         bottom: 50
                     },
                     width: 480,
-                    height: 400,
+                    height: 300,
+                    barHeight: 10,
                     updateLayout: currentChartType === 'bar' ? true : false
             };
 
@@ -263,7 +211,8 @@
                         bottom: 80
                     },
                     width : 200,
-                    height : 200
+                    height : 200,
+                    barHeight: 10
                 };
 
                 $('#chart_' + chart + '_icon').attr('class', 'fa fa-pie-chart');
@@ -282,12 +231,12 @@
             horizontal: false,
             margin: {
                 top: 20,
-                left: 50,
+                left: 80,
                 right: 20,
                 bottom: 50
             },
             width: 480,
-            height: 400,
+            height: 300,
             updateLayout: currentChartType === 'horizontal_bar' ? true : false
         };
 

@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html class=''>
+<head>
+
+    <script
+            src="https://code.jquery.com/jquery-3.2.1.min.js"
+            integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
+            crossorigin="anonymous"></script>
+
+    <script src="https://d3js.org/d3.v4.min.js"></script>
+    <link href="../css/charts.css" rel="stylesheet">
+
+    <style class="cp-pen-styles">.d3 {
+        box-shadow: 0 0 0 1px #eee;
+        box-sizing: border-box;
+    }
+
+    path,
+    line {
+        fill: none;
+        shape-rendering: crispEdges;
+        stroke: #E8E8E8;
+    }
+
+    .path-line {
+        shape-rendering: initial;
+    }
+    .path-line.path-line1 {
+        stroke: #0baadd;
+    }
+    .path-line.path-line2 {
+        stroke: #47cf73;
+    }
+
+    .path-area {
+        stroke: none;
+    }
+    .path-area.path-area1 {
+        fill: rgba(11, 170, 221, 0.7);
+        stroke: rgba(11, 170, 221, 0.7);
+    }
+    .path-area.path-area2 {
+        fill: rgba(71, 207, 115, 0.55);
+        stroke: rgba(71, 207, 115, 0.55);
+    }
+
+    .tick text {
+        font-family: sans-serif;
+        font-size: 10px;
+        fill: #999;
+    }
+    </style>
+</head>
+<body>
+
+<div class="area-chart-container">
+    <svg class="line-graph"></svg>
+</div>
+
+<script>
+
+var graphContainer = d3.select('.area-chart-container');
+var svg = d3.select('svg');
+var margin = { top: 50, right: 50, bottom: 50, left: 50 };
+var duration = 500;
+var width = undefined,
+    height = undefined,
+    innerWidth = undefined,
+    innerHeight = undefined;
+var xScale = undefined,
+    yScale = undefined;
+var horizontal = false;
+
+
+var parseTime = d3.timeParse("%Y-%m-%d");
+var data = [
+    {
+        "date":parseTime("2017-07-07"),
+        "media":[
+            {
+                "type":"newspaper",
+                "count":70
+            },
+            {
+                "type":"magazine",
+                "count":80
+            },
+            {
+                "type":"website",
+                "count":40
+            },
+            {
+                "type":"blogs",
+                "count":20
+            }
+        ]
+    },
+    {
+        "date":parseTime("2017-07-06"),
+        "media":[
+            {
+                "type":"newspaper",
+                "count":40
+            },
+            {
+                "type":"magazine",
+                "count":85
+            },
+            {
+                "type":"website",
+                "count":70
+            },
+            {
+                "type":"blogs",
+                "count":50
+            }
+        ]
+    },
+    {
+        "date":parseTime("2017-07-05"),
+        "media":[
+            {
+                "type":"newspaper",
+                "count":20
+            },
+            {
+                "type":"magazine",
+                "count":63
+            },
+            {
+                "type":"website",
+                "count":60
+            },
+            {
+                "type":"blogs",
+                "count":70
+            }
+        ]
+    },
+    {
+        "date":parseTime("2017-07-04"),
+        "media":[
+            {
+                "type":"newspaper",
+                "count":98
+            },
+            {
+                "type":"magazine",
+                "count":59
+            },
+            {
+                "type":"website",
+                "count":78
+            },
+            {
+                "type":"blogs",
+                "count":48
+            }
+        ]
+    },
+    {
+        "date":parseTime("2017-07-03"),
+        "media":[
+            {
+                "type":"newspaper",
+                "count":40
+            },
+            {
+                "type":"magazine",
+                "count":85
+            },
+            {
+                "type":"website",
+                "count":70
+            },
+            {
+                "type":"blogs",
+                "count":50
+            }
+        ]
+    }];
+
+
+
+var datasets = [];
+var labels = [];
+var legends = [];
+
+//Set Media Type Series
+$(data[0].media).each(function(i) {
+    legends.push(data[0].media[i].type);
+    datasets.push([]);
+});
+
+//Set Values
+for(var i=data.length - 1; i >= 0; i--){
+
+    labels.push(data[i].date);
+
+    $(data[i].media).each(function(index) {
+        datasets[index].push(this.count);
+
+
+    });
+}
+
+console.log('datasets',datasets);
+console.log('labels',labels);
+console.log('legends',legends);
+
+var DATA1 = datasets[0];//[9.5, 2, 5, 7, 5, 3, 0];
+var DATA2 = datasets[1]; //[15, 7, 6, 8, 6, 2, 1];
+var LABELS = labels; //['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday'];
+
+
+
+
+
+(function init() {
+    getDimentions();
+    getScaleDomains();
+    getScaleRanges();
+    renderGraph(DATA1, DATA2);
+})();
+
+//d3.select(window).on('resize', resize);
+
+function resize() {
+    destroyGraph();
+    getDimentions();
+    getScaleRanges();
+    renderGraph(DATA1, DATA2);
+}
+
+function renderGraph(DATA1, DATA2) {
+    if (!DATA1.length || !labels.length) {
+        return false;
+    }
+
+    var line = d3.line().x(function (d, i) {
+        return xScale(labels[i]);
+    }).y(function (d) {
+        return yScale(d);
+    }).curve(d3.curveCatmullRom);
+
+    var area = d3.area().x(function (d, i) {
+        return xScale(labels[i]);
+    }).y0(innerHeight).y1(function (d) {
+        return yScale(d);
+    }).curve(d3.curveCatmullRom);
+
+    var xAxis = d3.axisBottom(xScale).tickFormat(function (d, i) {
+        return labels[i];
+    });
+
+    var yAxis = d3.axisLeft(yScale).ticks(4);
+
+    svg.attr('width', width).attr('height', height);
+
+    var inner = svg.selectAll('g.inner').data([null]);
+    inner.exit().remove();
+    inner.enter().append('g')
+        .attr('class', 'inner')
+        .attr('transform', 'translate(' + margin.top + ', ' + margin.right + ')');
+
+    var horizontalLineGroup = svg.selectAll('g.inner').selectAll('.line-group').data([null]);
+    horizontalLineGroup.exit().remove();
+    horizontalLineGroup.enter().append('g')
+        .attr('class', 'line-group');
+
+    var horizontalLine = svg.selectAll('g.line-group').selectAll('.grid-line').data(yScale.ticks(4));
+    horizontalLine.exit().remove();
+    horizontalLine.enter().append('line')
+        .attr('class', 'grid-line')
+        .attr('x1', 0)
+        .attr('x2', innerWidth)
+        .attr('y1', function (d) {
+            return yScale(d);
+        }).attr('y2', function (d) {
+            return yScale(d);
+        });
+
+
+    var xLabel = horizontal ? 'Count' : 'Names';
+
+    var yLabel = horizontal ? 'Names' : 'Count';
+
+    var xa = svg.selectAll('g.inner').selectAll('g.x.axis').data([null]);
+    xa.exit().remove();
+    xa.enter().append('g')
+        .attr('class', 'x axis')
+        .attr('transform', 'translate(0, ' + innerHeight + ')')
+        .call(xAxis)
+        .append('text')
+        .attr('x', (innerWidth / 2))
+        .attr('y', 25)
+        .attr('dy', '.71em')
+        .style('text-anchor', 'middle')
+        .text(xLabel);
+
+    var ya = svg.selectAll('g.inner').selectAll('g.y.axis').data([null]);
+    ya.exit().remove();
+    ya.enter().append('g')
+        .attr('class', 'y axis')
+        .call(yAxis)
+        .append("text")
+        .attr("transform", "rotate(-90)")
+        .attr("y", -45)
+        .attr("x", -(innerHeight / 2))
+        .attr("dy", ".71em")
+        .style("text-anchor", "middle")
+        .text(yLabel);
+
+
+    for(var i = 0; i <= datasets.length - 1; i++){
+
+        var pathLine2 = svg.selectAll('g.inner').selectAll('.path-line2').data([null]);
+        pathLine2.exit().remove();
+        pathLine2.enter().append('path').attr('class', 'path-line chart_line_' + i).attr('d', function () {
+            return line(createZeroDataArray(datasets[i]));
+        }).transition().duration(duration).ease(d3.easePoly.exponent(2)).attr('d', function () {
+            return line(datasets[i]);
+        });
+
+        var pathArea2 = svg.selectAll('g.inner').selectAll('.path-area2').data([null]);
+        pathArea2.exit().remove();
+        pathArea2.enter().append('path').attr('class', 'path-area chart_fill_trans_' + i).attr('d', function () {
+            return area(createZeroDataArray(datasets[i]));
+        }).transition().duration(duration).ease(d3.easePoly.exponent(2)).attr('d', area(datasets[i]));
+
+    }
+
+}
+
+function destroyGraph() {
+    svg.selectAll('*').remove();
+}
+
+function getDimentions() {
+    width = graphContainer.node().clientWidth;
+    height = 300;
+    innerWidth = width - margin.left - margin.right;
+    innerHeight = height - margin.top - margin.bottom;
+}
+
+function getScaleRanges() {
+    xScale.range([0, innerWidth]).paddingInner(1);
+    yScale.range([innerHeight, 0]).nice();
+}
+
+function getScaleDomains() {
+    xScale = d3.scaleBand().domain(labels);
+    yScale = d3.scaleLinear()
+        .domain([
+            0,//d3.min(datasets, function(d) { return d3.min(d); }),
+            d3.max(datasets, function(d) { return d3.max(d); })
+        ]); //.domain([0, d3.max([d3.max(DATA1), d3.max(DATA2)])]);
+}
+
+function createZeroDataArray(arr) {
+    var newArr = [];
+    arr.forEach(function (item, index) {
+        return newArr[index] = 0;
+    });
+    return newArr;
+}
+
+</script>
+</body></html>

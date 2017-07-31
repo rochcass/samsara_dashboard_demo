@@ -1,0 +1,91 @@
+<script>
+    var config = {
+        type: 'line',
+        data: {
+            labels: [],
+            datasets: []
+        },
+        options: {
+            responsive: true,
+            title:{
+                display:false,
+                text:"Chart.js Line Chart - Stacked Area"
+            },
+            tooltips: {
+                mode: 'index'
+            },
+            hover: {
+                mode: 'index'
+            },
+            scales: {
+                xAxes: [{
+                    scaleLabel: {
+                        display: true,
+                        labelString: 'Month'
+                    }
+                }],
+                yAxes: [{
+                    stacked: true,
+                    scaleLabel: {
+                        display: true,
+                        labelString: 'Value'
+                    }
+                }]
+            }
+        }
+    };
+
+    ajaxCall('./data/compare.json', 'GET', '', function (response) {
+        var sets = [];
+        var sets_ii = [];
+        var legends = [];
+
+        //Set Legends
+        $(response.data[0].media).each(function() {
+            legends.push(this.type);
+            sets.push([]);
+        });
+
+        //Set Labels
+        for(var i=response.data.length - 1; i >= 0; i--){
+            config.data.labels.push(moment(response.data[i].date).format('D MMM'));
+
+            $(response.data[i].media).each(function(index) {
+                sets[index].push(this.count !== undefined ? this.count : this.usd);
+            });
+        }
+
+        $(legends).each(function (index) {
+            config.data.datasets.push({
+                label: jsUcfirst(this),
+                borderColor: getColorFromArr(index, '1'),
+                backgroundColor: getColorFromArr(index, '1'),
+                data: sets[index]
+            });
+        });
+
+            var ctx = document.getElementById("canvas").getContext("2d");
+            window.myLine = new Chart(ctx, config);
+    });
+
+    function getColorFromArr(index, transparency){
+        var colors = [
+            ['marine', '41, 133, 163'],
+            ['pink','255, 99, 132'],
+            ['orange', '236, 145, 72'],
+            ['yellow', '255, 205, 86'],
+            ['green', '75, 192, 192'],
+            ['purple', '153, 102, 255'],
+            ['grey', '201, 203, 207'],
+            ['blue', '54, 162, 235'],
+            ['red','239, 118, 122']
+        ];
+        return 'rgba('+colors[index][1]+ (transparency !== undefined ? ',' + transparency : '') + ')';
+    }
+
+</script>
+
+<div style="height: 300px">
+
+<canvas id="canvas" height="300" width="750"></canvas>
+</div>

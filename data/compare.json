@@ -1,0 +1,783 @@
+{
+  "status": {
+    "code": 0,
+    "message": "OK"
+  },
+  "data": [
+    {
+      "date": "2017-07-27",
+      "media": [
+        {
+          "type": "Audi",
+          "count": 0
+        },
+        {
+          "type": "BMW",
+          "count": 0
+        },
+        {
+          "type": "Porsche",
+          "count": 0
+        },
+        {
+          "type": "Volkswagen ",
+          "count": 0
+        },
+        {
+          "type": "Volvo",
+          "count": 0
+        }
+      ]
+    },
+    {
+      "date": "2017-07-26",
+      "media": [
+        {
+          "type": "Audi",
+          "count": 0
+        },
+        {
+          "type": "BMW",
+          "count": 0
+        },
+        {
+          "type": "Porsche",
+          "count": 0
+        },
+        {
+          "type": "Volkswagen ",
+          "count": 0
+        },
+        {
+          "type": "Volvo",
+          "count": 0
+        }
+      ]
+    },
+    {
+      "date": "2017-07-25",
+      "media": [
+        {
+          "type": "Audi",
+          "count": 0
+        },
+        {
+          "type": "BMW",
+          "count": 0
+        },
+        {
+          "type": "Porsche",
+          "count": 0
+        },
+        {
+          "type": "Volkswagen ",
+          "count": 0
+        },
+        {
+          "type": "Volvo",
+          "count": 0
+        }
+      ]
+    },
+    {
+      "date": "2017-07-24",
+      "media": [
+        {
+          "type": "Audi",
+          "count": 87
+        },
+        {
+          "type": "BMW",
+          "count": 186
+        },
+        {
+          "type": "Porsche",
+          "count": 73
+        },
+        {
+          "type": "Volkswagen ",
+          "count": 153
+        },
+        {
+          "type": "Volvo",
+          "count": 13
+        }
+      ]
+    },
+    {
+      "date": "2017-07-23",
+      "media": [
+        {
+          "type": "Audi",
+          "count": 0
+        },
+        {
+          "type": "BMW",
+          "count": 0
+        },
+        {
+          "type": "Porsche",
+          "count": 0
+        },
+        {
+          "type": "Volkswagen ",
+          "count": 0
+        },
+        {
+          "type": "Volvo",
+          "count": 0
+        }
+      ]
+    },
+    {
+      "date": "2017-07-22",
+      "media": [
+        {
+          "type": "Audi",
+          "count": 0
+        },
+        {
+          "type": "BMW",
+          "count": 0
+        },
+        {
+          "type": "Porsche",
+          "count": 0
+        },
+        {
+          "type": "Volkswagen ",
+          "count": 0
+        },
+        {
+          "type": "Volvo",
+          "count": 0
+        }
+      ]
+    },
+    {
+      "date": "2017-07-21",
+      "media": [
+        {
+          "type": "Audi",
+          "count": 182
+        },
+        {
+          "type": "BMW",
+          "count": 100
+        },
+        {
+          "type": "Porsche",
+          "count": 99
+        },
+        {
+          "type": "Volkswagen ",
+          "count": 141
+        },
+        {
+          "type": "Volvo",
+          "count": 69
+        }
+      ]
+    },
+    {
+      "date": "2017-07-20",
+      "media": [
+        {
+          "type": "Audi",
+          "count": 186
+        },
+        {
+          "type": "BMW",
+          "count": 146
+        },
+        {
+          "type": "Porsche",
+          "count": 89
+        },
+        {
+          "type": "Volkswagen ",
+          "count": 147
+        },
+        {
+          "type": "Volvo",
+          "count": 127
+        }
+      ]
+    },
+    {
+      "date": "2017-07-19",
+      "media": [
+        {
+          "type": "Audi",
+          "count": 39
+        },
+        {
+          "type": "BMW",
+          "count": 46
+        },
+        {
+          "type": "Porsche",
+          "count": 22
+        },
+        {
+          "type": "Volkswagen ",
+          "count": 64
+        },
+        {
+          "type": "Volvo",
+          "count": 32
+        }
+      ]
+    },
+    {
+      "date": "2017-07-18",
+      "media": [
+        {
+          "type": "Audi",
+          "count": 26
+        },
+        {
+          "type": "BMW",
+          "count": 33
+        },
+        {
+          "type": "Porsche",
+          "count": 24
+        },
+        {
+          "type": "Volkswagen ",
+          "count": 29
+        },
+        {
+          "type": "Volvo",
+          "count": 27
+        }
+      ]
+    },
+    {
+      "date": "2017-07-17",
+      "media": [
+        {
+          "type": "Audi",
+          "count": 44
+        },
+        {
+          "type": "BMW",
+          "count": 35
+        },
+        {
+          "type": "Porsche",
+          "count": 36
+        },
+        {
+          "type": "Volkswagen ",
+          "count": 42
+        },
+        {
+          "type": "Volvo",
+          "count": 29
+        }
+      ]
+    },
+    {
+      "date": "2017-07-16",
+      "media": [
+        {
+          "type": "Audi",
+          "count": 10
+        },
+        {
+          "type": "BMW",
+          "count": 13
+        },
+        {
+          "type": "Porsche",
+          "count": 4
+        },
+        {
+          "type": "Volkswagen ",
+          "count": 4
+        },
+        {
+          "type": "Volvo",
+          "count": 8
+        }
+      ]
+    },
+    {
+      "date": "2017-07-15",
+      "media": [
+        {
+          "type": "Audi",
+          "count": 21
+        },
+        {
+          "type": "BMW",
+          "count": 12
+        },
+        {
+          "type": "Porsche",
+          "count": 12
+        },
+        {
+          "type": "Volkswagen ",
+          "count": 22
+        },
+        {
+          "type": "Volvo",
+          "count": 11
+        }
+      ]
+    },
+    {
+      "date": "2017-07-14",
+      "media": [
+        {
+          "type": "Audi",
+          "count": 46
+        },
+        {
+          "type": "BMW",
+          "count": 34
+        },
+        {
+          "type": "Porsche",
+          "count": 16
+        },
+        {
+          "type": "Volkswagen ",
+          "count": 59
+        },
+        {
+          "type": "Volvo",
+          "count": 19
+        }
+      ]
+    },
+    {
+      "date": "2017-07-13",
+      "media": [
+        {
+          "type": "Audi",
+          "count": 0
+        },
+        {
+          "type": "BMW",
+          "count": 0
+        },
+        {
+          "type": "Porsche",
+          "count": 0
+        },
+        {
+          "type": "Volkswagen ",
+          "count": 0
+        },
+        {
+          "type": "Volvo",
+          "count": 0
+        }
+      ]
+    },
+    {
+      "date": "2017-07-12",
+      "media": [
+        {
+          "type": "Audi",
+          "count": 232
+        },
+        {
+          "type": "BMW",
+          "count": 190
+        },
+        {
+          "type": "Porsche",
+          "count": 54
+        },
+        {
+          "type": "Volkswagen ",
+          "count": 160
+        },
+        {
+          "type": "Volvo",
+          "count": 143
+        }
+      ]
+    },
+    {
+      "date": "2017-07-11",
+      "media": [
+        {
+          "type": "Audi",
+          "count": 384
+        },
+        {
+          "type": "BMW",
+          "count": 257
+        },
+        {
+          "type": "Porsche",
+          "count": 167
+        },
+        {
+          "type": "Volkswagen ",
+          "count": 208
+        },
+        {
+          "type": "Volvo",
+          "count": 153
+        }
+      ]
+    },
+    {
+      "date": "2017-07-10",
+      "media": [
+        {
+          "type": "Audi",
+          "count": 368
+        },
+        {
+          "type": "BMW",
+          "count": 217
+        },
+        {
+          "type": "Porsche",
+          "count": 265
+        },
+        {
+          "type": "Volkswagen ",
+          "count": 456
+        },
+        {
+          "type": "Volvo",
+          "count": 188
+        }
+      ]
+    },
+    {
+      "date": "2017-07-09",
+      "media": [
+        {
+          "type": "Audi",
+          "count": 48
+        },
+        {
+          "type": "BMW",
+          "count": 42
+        },
+        {
+          "type": "Porsche",
+          "count": 36
+        },
+        {
+          "type": "Volkswagen ",
+          "count": 82
+        },
+        {
+          "type": "Volvo",
+          "count": 24
+        }
+      ]
+    },
+    {
+      "date": "2017-07-08",
+      "media": [
+        {
+          "type": "Audi",
+          "count": 56
+        },
+        {
+          "type": "BMW",
+          "count": 72
+        },
+        {
+          "type": "Porsche",
+          "count": 43
+        },
+        {
+          "type": "Volkswagen ",
+          "count": 57
+        },
+        {
+          "type": "Volvo",
+          "count": 46
+        }
+      ]
+    },
+    {
+      "date": "2017-07-07",
+      "media": [
+        {
+          "type": "Audi",
+          "count": 493
+        },
+        {
+          "type": "BMW",
+          "count": 292
+        },
+        {
+          "type": "Porsche",
+          "count": 169
+        },
+        {
+          "type": "Volkswagen ",
+          "count": 520
+        },
+        {
+          "type": "Volvo",
+          "count": 253
+        }
+      ]
+    },
+    {
+      "date": "2017-07-06",
+      "media": [
+        {
+          "type": "Audi",
+          "count": 176
+        },
+        {
+          "type": "BMW",
+          "count": 180
+        },
+        {
+          "type": "Porsche",
+          "count": 89
+        },
+        {
+          "type": "Volkswagen ",
+          "count": 203
+        },
+        {
+          "type": "Volvo",
+          "count": 329
+        }
+      ]
+    },
+    {
+      "date": "2017-07-05",
+      "media": [
+        {
+          "type": "Audi",
+          "count": 135
+        },
+        {
+          "type": "BMW",
+          "count": 180
+        },
+        {
+          "type": "Porsche",
+          "count": 80
+        },
+        {
+          "type": "Volkswagen ",
+          "count": 238
+        },
+        {
+          "type": "Volvo",
+          "count": 383
+        }
+      ]
+    },
+    {
+      "date": "2017-07-04",
+      "media": [
+        {
+          "type": "Audi",
+          "count": 126
+        },
+        {
+          "type": "BMW",
+          "count": 187
+        },
+        {
+          "type": "Porsche",
+          "count": 110
+        },
+        {
+          "type": "Volkswagen ",
+          "count": 205
+        },
+        {
+          "type": "Volvo",
+          "count": 58
+        }
+      ]
+    },
+    {
+      "date": "2017-07-03",
+      "media": [
+        {
+          "type": "Audi",
+          "count": 84
+        },
+        {
+          "type": "BMW",
+          "count": 138
+        },
+        {
+          "type": "Porsche",
+          "count": 101
+        },
+        {
+          "type": "Volkswagen ",
+          "count": 132
+        },
+        {
+          "type": "Volvo",
+          "count": 67
+        }
+      ]
+    },
+    {
+      "date": "2017-07-02",
+      "media": [
+        {
+          "type": "Audi",
+          "count": 39
+        },
+        {
+          "type": "BMW",
+          "count": 37
+        },
+        {
+          "type": "Porsche",
+          "count": 32
+        },
+        {
+          "type": "Volkswagen ",
+          "count": 20
+        },
+        {
+          "type": "Volvo",
+          "count": 17
+        }
+      ]
+    },
+    {
+      "date": "2017-07-01",
+      "media": [
+        {
+          "type": "Audi",
+          "count": 59
+        },
+        {
+          "type": "BMW",
+          "count": 72
+        },
+        {
+          "type": "Porsche",
+          "count": 69
+        },
+        {
+          "type": "Volkswagen ",
+          "count": 69
+        },
+        {
+          "type": "Volvo",
+          "count": 42
+        }
+      ]
+    },
+    {
+      "date": "2017-06-30",
+      "media": [
+        {
+          "type": "Audi",
+          "count": 180
+        },
+        {
+          "type": "BMW",
+          "count": 227
+        },
+        {
+          "type": "Porsche",
+          "count": 156
+        },
+        {
+          "type": "Volkswagen ",
+          "count": 232
+        },
+        {
+          "type": "Volvo",
+          "count": 66
+        }
+      ]
+    },
+    {
+      "date": "2017-06-29",
+      "media": [
+        {
+          "type": "Audi",
+          "count": 188
+        },
+        {
+          "type": "BMW",
+          "count": 275
+        },
+        {
+          "type": "Porsche",
+          "count": 72
+        },
+        {
+          "type": "Volkswagen ",
+          "count": 190
+        },
+        {
+          "type": "Volvo",
+          "count": 74
+        }
+      ]
+    },
+    {
+      "date": "2017-06-28",
+      "media": [
+        {
+          "type": "Audi",
+          "count": 140
+        },
+        {
+          "type": "BMW",
+          "count": 267
+        },
+        {
+          "type": "Porsche",
+          "count": 65
+        },
+        {
+          "type": "Volkswagen ",
+          "count": 160
+        },
+        {
+          "type": "Volvo",
+          "count": 91
+        }
+      ]
+    },
+    {
+      "date": "2017-06-27",
+      "media": [
+        {
+          "type": "Audi",
+          "count": 112
+        },
+        {
+          "type": "BMW",
+          "count": 198
+        },
+        {
+          "type": "Porsche",
+          "count": 83
+        },
+        {
+          "type": "Volkswagen ",
+          "count": 179
+        },
+        {
+          "type": "Volvo",
+          "count": 112
+        }
+      ]
+    }
+  ]
+}

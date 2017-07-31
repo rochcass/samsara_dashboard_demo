@@ -9,6 +9,7 @@
             integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
             crossorigin="anonymous"></script>
 
+    <script src="../js/script.js"></script>
     <script src="https://d3js.org/d3.v4.min.js"></script>
     <link href="../css/charts.css" rel="stylesheet">
 
@@ -73,164 +74,167 @@
 
     var parseTime = d3.timeParse("%Y-%m-%d");
 
-    var data2 = [
-        {
-            date: parseTime('24-Apr-07'),
-            close: 20
-        },
-        {
-            date: parseTime('25-Apr-07'),
-            close: 40
-        },
-        {
-            date: parseTime('26-Apr-07'),
-            close: 50
-        },
-        {
-            date: parseTime('27-Apr-07'),
-            close: 75
-        },
-        {
-            date: parseTime('28-Apr-07'),
-            close: 93
-        },
-        {
-            date: parseTime('29-Apr-07'),
-            close: 47
-        },
-        {
-            date: parseTime('30-Apr-07'),
-            close: 82.47
-        },
-        {
-            date: parseTime('01-May-07'),
-            close: 64
-        },
-        {
-            date: parseTime('02-May-07'),
-            close: 69
-        },
-        {
-            date: parseTime('03-May-07'),
-            close: 93.24
-        },
-        {
-            date: parseTime('04-May-07'),
-            close: 80.92
-        },
-        {
-            date: parseTime('05-May-07'),
-            close: 98.24
-        },
-        {
-            date: parseTime('06-May-07'),
-            close: 60
-        },
-        {
-            date: parseTime('07-May-07'),
-            close: 50
-        }
-    ];
+    ajaxCall('../data/compare.json', 'GET', '', function (response) {
+        var data2 = [
+            {
+                date: parseTime('24-Apr-07'),
+                close: 20
+            },
+            {
+                date: parseTime('25-Apr-07'),
+                close: 40
+            },
+            {
+                date: parseTime('26-Apr-07'),
+                close: 50
+            },
+            {
+                date: parseTime('27-Apr-07'),
+                close: 75
+            },
+            {
+                date: parseTime('28-Apr-07'),
+                close: 93
+            },
+            {
+                date: parseTime('29-Apr-07'),
+                close: 47
+            },
+            {
+                date: parseTime('30-Apr-07'),
+                close: 82.47
+            },
+            {
+                date: parseTime('01-May-07'),
+                close: 64
+            },
+            {
+                date: parseTime('02-May-07'),
+                close: 69
+            },
+            {
+                date: parseTime('03-May-07'),
+                close: 93.24
+            },
+            {
+                date: parseTime('04-May-07'),
+                close: 80.92
+            },
+            {
+                date: parseTime('05-May-07'),
+                close: 98.24
+            },
+            {
+                date: parseTime('06-May-07'),
+                close: 60
+            },
+            {
+                date: parseTime('07-May-07'),
+                close: 50
+            }
+        ];
 
-    var dataInit = [
-        {
-            "date":parseTime("2017-07-07"),
-            "media":[
-                {
-                    "type":"newspaper",
-                    "count":70
-                },
-                {
-                    "type":"magazine",
-                    "count":80
-                },
-                {
-                    "type":"website",
-                    "count":40
-                },
-                {
-                    "type":"blogs",
-                    "count":20
-                }
-            ]
-        },
-        {
-            "date":parseTime("2017-07-06"),
-            "media":[
-                {
-                    "type":"newspaper",
-                    "count":40
-                },
-                {
-                    "type":"magazine",
-                    "count":85
-                },
-                {
-                    "type":"website",
-                    "count":70
-                },
-                {
-                    "type":"blogs",
-                    "count":50
-                }
-            ]
-        },
-        {
-            "date":parseTime("2017-07-05"),
-            "media":[
-                {
-                    "type":"newspaper",
-                    "count":20
-                },
-                {
-                    "type":"magazine",
-                    "count":63
-                },
-                {
-                    "type":"website",
-                    "count":60
-                },
-                {
-                    "type":"blogs",
-                    "count":70
-                }
-            ]
-        },
-        {
-            "date":parseTime("2017-07-04"),
-            "media":[
-                {
-                    "type":"newspaper",
-                    "count":98
-                },
-                {
-                    "type":"magazine",
-                    "count":59
-                },
-                {
-                    "type":"website",
-                    "count":78
-                },
-                {
-                    "type":"blogs",
-                    "count":48
-                }
-            ]
-        }];
+        var dataInit = response;
+        var dataInit2 = [
+            {
+                "date": parseTime("2017-07-07"),
+                "media": [
+                    {
+                        "type": "newspaper",
+                        "count": 70
+                    },
+                    {
+                        "type": "magazine",
+                        "count": 80
+                    },
+                    {
+                        "type": "website",
+                        "count": 40
+                    },
+                    {
+                        "type": "blogs",
+                        "count": 20
+                    }
+                ]
+            },
+            {
+                "date": parseTime("2017-07-06"),
+                "media": [
+                    {
+                        "type": "newspaper",
+                        "count": 40
+                    },
+                    {
+                        "type": "magazine",
+                        "count": 85
+                    },
+                    {
+                        "type": "website",
+                        "count": 70
+                    },
+                    {
+                        "type": "blogs",
+                        "count": 50
+                    }
+                ]
+            },
+            {
+                "date": parseTime("2017-07-05"),
+                "media": [
+                    {
+                        "type": "newspaper",
+                        "count": 20
+                    },
+                    {
+                        "type": "magazine",
+                        "count": 63
+                    },
+                    {
+                        "type": "website",
+                        "count": 60
+                    },
+                    {
+                        "type": "blogs",
+                        "count": 70
+                    }
+                ]
+            },
+            {
+                "date": parseTime("2017-07-04"),
+                "media": [
+                    {
+                        "type": "newspaper",
+                        "count": 98
+                    },
+                    {
+                        "type": "magazine",
+                        "count": 59
+                    },
+                    {
+                        "type": "website",
+                        "count": 78
+                    },
+                    {
+                        "type": "blogs",
+                        "count": 48
+                    }
+                ]
+            }];
 
-    var data = [];
+        var data = [];
 
-    //Set Media Type Series
-    $(dataInit[0].media).each(function(i) {
-        data.push({ id: dataInit[0].media[i].type, values : []});
-    });
-
-    //Set Values
-    for(var i=dataInit.length - 1; i >= 0; i--){
-        $(dataInit[i].media).each(function(index) {
-            data[index].values.push({close: this.count, date: dataInit[i].date});
+        //Set Media Type Series
+        $(dataInit[0].media).each(function (i) {
+            data.push({id: dataInit[0].media[i].type, values: []});
         });
-    }
+
+        //Set Values
+        for (var i = dataInit.length - 1; i >= 0; i--) {
+            dataInit[i].date = parseTime(dataInit[i].date);
+            $(dataInit[i].media).each(function (index) {
+                data[index].values.push({close: this.count, date: dataInit[i].date});
+            });
+        }
 
         var horizontal = false,
             margin = {
@@ -266,12 +270,22 @@
 
             var labels = d3.scaleTime()
                 .rangeRound([horizontal ? innerHeight : 0, horizontal ? 0 : innerWidth], 0)
-                .domain(d3.extent(dataInit, function(d) { return d.date; }));
+                .domain(d3.extent(dataInit, function (d) {
+                    return d.date;
+                }));
             var series = d3.scaleLinear()
                 .rangeRound([horizontal ? 0 : innerHeight, horizontal ? innerWidth : 0])
                 .domain([
-                    d3.min(data, function(c) { return d3.min(c.values, function(d) { return d.close; }); }),
-                    d3.max(data, function(c) { return d3.max(c.values, function(d) { return d.close; }); })
+                    d3.min(data, function (c) {
+                        return d3.min(c.values, function (d) {
+                            return d.close;
+                        });
+                    }),
+                    d3.max(data, function (c) {
+                        return d3.max(c.values, function (d) {
+                            return d.close;
+                        });
+                    })
                 ]);
 
             chart.selectAll(".area").remove();
@@ -323,57 +337,65 @@
 
             var area = d3.area()
                 .curve(horizontal ? d3.curveMonotoneY : d3.curveMonotoneX)
-                .x(function(d) { return x(horizontal ? d.close : d.date); })
+                .x(function (d) {
+                    return x(horizontal ? d.close : d.date);
+                })
                 .y0(innerHeight)
-                .y1(function(d) { return y(horizontal ? d.date : d.close); });
+                .y1(function (d) {
+                    return y(horizontal ? d.date : d.close);
+                });
 
             // define the line
             var line = d3.line()
                 .curve(horizontal ? d3.curveMonotoneY : d3.curveMonotoneX)
-                .x(function(d) { return x(horizontal ? d.close : d.date); })
-                .y(function(d) { return y(horizontal ? d.date : d.close); });
+                .x(function (d) {
+                    return x(horizontal ? d.close : d.date);
+                })
+                .y(function (d) {
+                    return y(horizontal ? d.date : d.close);
+                });
 
-            var startData = data[0].values.map( function( datum ) {
+            var startData = data[0].values.map(function (datum) {
                 return {
-                    date  : datum.date,
-                    close : 0
+                    date: datum.date,
+                    close: 0
                 };
-            } );
+            });
 
             console.log('ok');
             var pointRadius = 6;
             //var pointPos = ((horizontal ? y.bandwidth() : x.bandwidth()) + (pointRadius / 2)) / 2;
 
-            for(var row=0; row <=data.length - 1; row++) {
+            for (var row = 0; row <= data.length - 1; row++) {
                 var dt = data[row].values;
 
-                console.log('start',startData);
-                console.log('dt',dt);
-                console.log('area dt',area(dt));
+                console.log('start', startData);
+                console.log('dt', dt);
+                console.log('area dt', area(dt));
                 // Add the area path
                 chart.append("path")
                     .attr("d", area(dt))
-                    .attr("class", function (d, i){
-                        return 'area chart_fill_trans_'+row;
+                    .attr("class", function (d, i) {
+                        return 'area chart_fill_trans_' + row;
                     });
 
                 // Add the valueline path.
                 chart.append("path")
                     .attr("d", line(dt))
-                    .attr("class", function (d, i){
-                        return 'line chart_line_'+row;
+                    .attr("class", function (d, i) {
+                        return 'line chart_line_' + row;
                     });
             }
 
 
-            for(var row=0; row <=data.length - 1; row++) {
+            for (var row = 0; row <= data.length - 1; row++) {
                 var dt = data[row].values;
 
-                var dots = chart.selectAll(".dot_"+row)
+              /*  var dots = chart.selectAll(".dot_" + row)
                     .data(dt)
                     .enter().append("circle") // Uses the enter().append() method
-                    .attr("class", function (d, i){
-                        return 'dot dot_'+i+' chart_dot_'+row;
+                    .attr("class", function (d, i) {
+                        return 'dot dot_' + i + ' chart_dot_' + row;
                     })
                     .attr("cx", function (d, i) {
                         return x(horizontal ? d.close : d.date);
@@ -408,10 +430,10 @@
                     })
                     .attr("cy", function (d) {
                         return y(horizontal ? d.date : d.close);
-                    });
+                    });*/
             }
         }
-
+    });
 </script>
 </body>
 </html>

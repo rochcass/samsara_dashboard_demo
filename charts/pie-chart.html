@@ -7,8 +7,8 @@
         type: 'doughnut',
         data: {
             datasets: [{
-                data: [10, 20, 30, 15],
-                backgroundColor: [getColorFromArr2(0,'1'), getColorFromArr2(1,'1'), getColorFromArr2(2,'1'), getColorFromArr2(3,'1')]
+                data: [124, 64, 60, 55, 51],
+                backgroundColor: [getColorFromArr2(0,'1'), getColorFromArr2(1,'1'), getColorFromArr2(2,'1'), getColorFromArr2(3,'1'), getColorFromArr2(4,'1')]
             }],
 
             // These labels appear in the legend and in the tooltips when hovering different arcs
@@ -46,17 +46,28 @@
         donutChart = new Chart(ctx, config);
     });
 
+/*
 
+ @chart_0: rgba(41, 133, 163,1); //$marine
+ @chart_1: rgba(93, 194, 207, 1); //teal
+ @chart_2: rgba(255, 99, 132,1); //$pink
+ @chart_3: rgba(255, 193, 49, 1); //$yellow
+ @chart_4: rgba(26,188,156,1); //$green
+ @chart_5: rgba(54, 162, 235,1); //$blue
+ @chart_6: rgba(239, 118, 122, 1); //$red
+ @chart_7: rgba(201, 203, 207,1); //$grey
+
+ */
     function getColorFromArr2(index, transparency){
         var colors = [
             ['marine', '41, 133, 163'],
-            ['red', '255, 99, 132'],
-            ['orange', '236, 145, 72'],
-            ['yellow', '255, 205, 86'],
-            ['green', '75, 192, 192'],
+            ['teal', '93, 194, 207'],
+            ['pink', '255, 99, 132'],
+            ['yellow', '255, 193, 49'],
+            ['green', '26,188,156'],
             ['purple', '153, 102, 255'],
-            ['grey', '201, 203, 207'],
-            ['blue', '54, 162, 235']
+            ['red', '239, 118, 122'],
+            ['grey', '201, 203, 207']
         ];
         console.log(colors[index][0]);
         return 'rgba('+colors[index][1]+ (transparency !== undefined ? ',' + transparency : '') + ')';

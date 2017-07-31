@@ -63,6 +63,8 @@ $(function() {
     
     $('#media-type-aggregated-volume').load('./templates/media-type-aggregated-volume.html');
     
+    $('#media-type-test').load('./charts/stacked-area-chart.html');
+    /*
     initResponsiveHorizontalBarChart('#test', [
             {
                 "metric": "Sales",
@@ -145,7 +147,7 @@ $(function() {
                 "Type": "Customer"
             }
         ])
-});
+*/});
 
 function loadTagCloud() {
     $('#chart-wrapper').load('./charts/tag-cloud.html');
@@ -158,16 +160,16 @@ return html;
 
 
 function getColorFromArr(index, transparency){
+    
     var colors = [
         ['marine', '41, 133, 163'],
-        ['pink','255, 99, 132'],
-        ['orange', '236, 145, 72'],
-        ['yellow', '255, 205, 86'],
-        ['green', '75, 192, 192'],
+        ['teal', '93, 194, 207'],
+        ['pink', '255, 99, 132'],
+        ['yellow', '255, 193, 49'],
+        ['green', '26,188,156'],
         ['purple', '153, 102, 255'],
-        ['grey', '201, 203, 207'],
-        ['blue', '54, 162, 235'],
-        ['red','239, 118, 122']
+        ['red', '239, 118, 122'],
+        ['grey', '201, 203, 207']
     ];
     return 'rgba('+colors[index][1]+ (transparency !== undefined ? ',' + transparency : '') + ')';
 }
@@ -176,14 +178,12 @@ function getColorFromArrPlus(index,transparency){
     var colors = [
         ['marine', '41, 133, 163'],
         ['teal', '93, 194, 207'],
-        ['pink','255, 99, 132'],
-        ['orange', '236, 145, 72'],
-        ['yellow', '255, 205, 86'],
-        ['green', '75, 192, 192'],
+        ['pink', '255, 99, 132'],
+        ['yellow', '255, 193, 49'],
+        ['green', '26,188,156'],
         ['purple', '153, 102, 255'],
-        ['grey', '201, 203, 207'],
-        ['blue', '54, 162, 235'],
-        ['red','239, 118, 122']
+        ['red', '239, 118, 122'],
+        ['grey', '201, 203, 207']
         ];
     return 'rgba('+colors[index][1]+ (transparency !== undefined ? ',' + transparency : '') + ')';
 }

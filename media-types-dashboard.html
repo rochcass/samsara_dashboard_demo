@@ -216,54 +216,50 @@
                 </div>
                 <div class="detail  bootstrap-ui">
                     <div class="card">
-                        <div class="dropdown dropdown-icon-slots pl20 pr20 btn btn-link" style="display: inline-block;">
-                            <div><span class="toggle" onclick="$(this).next().toggle(); "><span class="label">Media Types</span></span>
-                                <ul class="menu text-left">
-                                    <li>
-                                        <a onclick="loadMediaTypes()">
-                                            <span class="fa fa-newspaper-o"></span> <p>Media Types</p></a>
-                                    </li>
-                                    <li>
-                                        <a onclick="loadMediaTypes()">
-                                            <span class="fa fa-comments-o"></span> <p>Sentiment</p></a>
-                                    </li>
-                                    <li>
-                                        <a onclick="loadMediaTypes()">
-                                            <span class="fa fa-bullhorn"></span> 
-                                            <p>Reach</p></a>
-                                    </li>
-                                    <li>
-                                        <a onclick="loadTagCloud()">
-                                            <span class="fa fa-tags"></span> <p>Tags</p></a>
-                                    </li>
-                                    <li>
-                                        <a onclick="loadTagCloud()">
-                                            <span class="fa fa-building"></span> <p>Outlets</p></a>
-                                    </li>
-                                    <li>
-                                        <a onclick="loadTagCloud()">
-                                            <span class="fa fa-globe"></span> <p>Regional</p></a>
-                                    </li>
-                                    <li>
-                                        <a onclick="loadTagCloud()">
-                                            <span class="fa fa-language"></span> <p>Languages</p></a>
-                                    </li>
-                                    <li>
-                                        <a onclick="loadTagCloud()">
-                                            <span class="fa fa-usd"></span> <span>AVE/ASE</span></a>
-                                    </li>
-                                    <li>
-                                        <a onclick="loadTagCloud()">
-                                            <span class="fa fa-sitemap"></span> <p>Tiers</p></a>
-                                    </li>
-                                    <li>
-                                        <a onclick="loadTagCloud()">
-                                            <span class="fa fa-th"></span> <p>Segments</p></a>
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>
 
+                        <ul class="inline-icons-container menu text-left">
+                            <li class="active">
+                                <a onclick="loadMediaTypes()">
+                                    <span class="fa fa-newspaper-o"></span> <p>Media Types</p></a>
+                            </li>
+                            <li>
+                                <a onclick="loadMediaTypes()">
+                                    <span class="fa fa-comments-o"></span> <p>Sentiment</p></a>
+                            </li>
+                            <li>
+                                <a onclick="loadMediaTypes()">
+                                    <span class="fa fa-bullhorn"></span>
+                                    <p>Reach</p></a>
+                            </li>
+                            <li>
+                                <a onclick="loadTagCloud()">
+                                    <span class="fa fa-tags"></span> <p>Tags</p></a>
+                            </li>
+                            <li>
+                                <a onclick="loadTagCloud()">
+                                    <span class="fa fa-building"></span> <p>Outlets</p></a>
+                            </li>
+                            <li>
+                                <a onclick="loadTagCloud()">
+                                    <span class="fa fa-globe"></span> <p>Regional</p></a>
+                            </li>
+                            <li>
+                                <a onclick="loadTagCloud()">
+                                    <span class="fa fa-language"></span> <p>Languages</p></a>
+                            </li>
+                            <li>
+                                <a onclick="loadTagCloud()">
+                                    <span class="fa fa-usd"></span> <p>AVE/ASE</p></a>
+                            </li>
+                            <li>
+                                <a onclick="loadTagCloud()">
+                                    <span class="fa fa-sitemap"></span> <p>Tiers</p></a>
+                            </li>
+                            <li>
+                                <a onclick="loadTagCloud()">
+                                    <span class="fa fa-th"></span> <p>Segments</p></a>
+                            </li>
+                        </ul>
                         <div class="dropdown dropdown-icon-slots no-caret btn btn-link pl20 pr20 pull-right" style="display: inline-block;">
                             <div><span class="toggle" onclick="$(this).next().toggle(); "><span class="fa fa-plus"></span> <span class="label"> &nbsp;Add Widget</span></span>
                                 <ul class="menu">
@@ -280,6 +276,7 @@
                                 </ul>
                             </div>
                         </div>
+                        <div class="clearfix"></div>
                     </div>
                     <div class="dashboard">
                     <div class="grid-stack" data-gs-width="12" data-gs-animate="yes">

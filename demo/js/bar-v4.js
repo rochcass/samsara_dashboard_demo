@@ -14,6 +14,7 @@ function generateBarChart(parameters) {
         height = svg.attr('height') !== undefined ? svg.attr('height') : parameters.height,
         innerWidth = width - parameters.margin.left - parameters.margin.right,
         innerHeight = height - parameters.margin.top - parameters.margin.bottom,
+        barHeight = 0,
         tooltipElement = parameters.tooltipElement,
         updateLayout = parameters.updateLayout;
     
@@ -96,7 +97,7 @@ function generateBarChart(parameters) {
             .style("text-anchor", "middle")
             .text(yLabel);
     
-        var barSize = horizontal ? y.bandwidth() : x.bandwidth();
+        var barSize = barHeight > 0 ? barHeight : (horizontal ? y.bandwidth() : x.bandwidth());
         var bars = chart.selectAll('.bar')
             .data(data);
     
@@ -107,7 +108,7 @@ function generateBarChart(parameters) {
             })
             .on('mousemove', function (d, i) {
                 tooltip
-                    .html('<strong class="carma-orange">' + data[i].name + ': </strong>' + d.value)
+                    .html('<strong>' + data[i].name + ': </strong>' + d.value)
                     .style("left", Math.max(0, d3.event.pageX + 15) + "px")
                     .style("top", (d3.event.pageY - 15) + "px");
             })
@@ -115,7 +116,7 @@ function generateBarChart(parameters) {
                 tooltip.style('opacity', 0);
             })
             .attr('class', function (d, i) {
-                return 'bar ' + 'chart_' + (data.length - i - 1);
+                return 'bar ' + 'chart_' + i;
             })
             .attr('x', function (d) {
                 return horizontal ? 1 : x(d.name);

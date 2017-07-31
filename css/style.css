@@ -76,6 +76,37 @@ Dropdown Icons
 .dropdown.no-caret .toggle:after {
   display: none;
 }
+.inline-icons-container li {
+  float: left;
+  text-align: left;
+}
+.inline-icons-container li a {
+  text-decoration: none !important;
+  padding-right: 10px;
+  padding-left: 10px;
+  display: block;
+  text-align: left;
+  color: #807874 !important;
+}
+.inline-icons-container li a:first-child {
+  padding-left: 15px;
+}
+.inline-icons-container li:hover .fa,
+.inline-icons-container li.active .fa {
+  color: #ee9f5f;
+  text-decoration: none !important;
+}
+.inline-icons-container li .fa {
+  font-size: 2.2rem;
+  color: #d2d2d4;
+  display: block;
+  text-align: center;
+  line-height: 1.2em;
+}
+.inline-icons-container li p {
+  font-size: 11px;
+  text-align: center;
+}
 .dropdown.dropdown-icon-slots.pull-right .menu {
   right: 0;
 }

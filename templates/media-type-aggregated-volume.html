@@ -3,16 +3,17 @@
     var mediaTypeAggregatedVolumeChart;
 
     var datasets = [
-        [300, 250, 1050, 50]
+        [124, 64, 60, 55, 51]
     ];
 
-    var backgrounds = [getColorFromArrPlus(0,'1'), getColorFromArrPlus(1,'1'), getColorFromArrPlus(2,'1'), getColorFromArrPlus(3,'1')];
+    var backgrounds = [getColorFromArrPlus(0,'1'), getColorFromArrPlus(1,'1'), getColorFromArrPlus(2,'1'), getColorFromArrPlus(3,'1'), getColorFromArrPlus(4,'1')];
 
     var labels = [
-        'Website',
-        'Magazine',
-        'Newspaper',
-        'Blog'
+        'MSN Peru',
+        'nasdaq',
+        '4-trader',
+        'BGE',
+        'NewsDog'
     ];
 
     var options = {
@@ -84,21 +85,35 @@
         <div class="legend-list vertical">
           <span class="legend-element" style="margin-right: 12px;">
             <span class="chart_0" style="display: inline-block; width: 8px; height: 8px; border-radius: 50%; margin-right: 6px;"></span>
-            <span>Website</span>
+            <span>MSN Peru</span>
           </span>
             <span class="legend-element" style="margin-right: 12px;">
             <span class="chart_1" style="display: inline-block; width: 8px; height: 8px; border-radius: 50%; margin-right: 6px;"></span>
-            <span>Magazine</span>
+            <span>nasdaq</span>
           </span>
             <span class="legend-element" style="margin-right: 12px;">
             <span class="chart_2" style="display: inline-block; width: 8px; height: 8px; border-radius: 50%; margin-right: 6px;"></span>
-            <span>Newspaper</span>
+            <span>trader</span>
           </span>
             <span class="legend-element" style="margin-right: 12px;">
             <span class="chart_3" style="display: inline-block; width: 8px; height: 8px; border-radius: 50%; margin-right: 6px;"></span>
-            <span>Blog</span>
+            <span>BGE</span>
           </span>
         </div>
+            <span class="legend-element" style="margin-right: 12px;">
+            <span class="chart_4" style="display: inline-block; width: 8px; height: 8px; border-radius: 50%; margin-right: 6px;"></span>
+            <span>Newsdog</span>
+          </span>
+        </div>
+
+        <!--
+
+        'MSN Peru',
+        'nasdaq',
+        '4-trader',
+        'BGE',
+        'NewsDog'
+        -->
     </div>
     <div class="chart-type-picker pull-right nmr">
         <div class="dropdown btn btn-default btn-icon nmr">
