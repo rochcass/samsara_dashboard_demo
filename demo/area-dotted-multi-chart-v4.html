@@ -8,7 +8,12 @@
             crossorigin="anonymous"></script>
 
     <script src="https://d3js.org/d3.v4.min.js"></script>
+    <link href="../css/carma.css" rel="stylesheet">
+    <link href="../css/style.css" rel="stylesheet">
     <link href="../css/charts.css" rel="stylesheet">
+
+    <!-- moment.js -->
+    <script src="../js/moment.min.js"></script>
 
     <style class="cp-pen-styles">.d3 {
         box-shadow: 0 0 0 1px #eee;
@@ -49,12 +54,46 @@
         font-size: 10px;
         fill: #999;
     }
+
+
+
+    .tooltip {
+        font: 14px sans-serif;
+        line-height: 1;
+        font-weight: bold;
+        padding: 6px 12px;
+        background: rgba(0, 0, 0, 0.8);
+        color: #fff;
+        border-radius: 2px;
+        font-family: inherit;
+        pointer-events:none; /*let mouse events pass through*/
+        opacity:0;
+        transition: opacity 0.3s;
+        width: auto;
+        position: absolute;
+    }
+
+    .tooltip:before {
+        border-top: 5px solid transparent;
+        border-bottom: 5px solid transparent;
+        border-right:5px solid rgba(0, 0, 0, 0.8);
+        right: 100%;
+        content: '';
+        top: 10px;
+        position: absolute;
+        z-index: 99;
+    }
+
+    .tooltip-title { display: block; color: orange; }
+
     </style>
 </head>
 <body>
 
 <div class="area-chart-container">
     <svg class="line-graph"></svg>
+    <div class="tooltips"> <div class="tooltip"></div></div>
+
 </div>
 
 <script>
@@ -63,13 +102,13 @@ var graphContainer = d3.select('.area-chart-container');
 var svg = d3.select('svg');
 var margin = { top: 50, right: 50, bottom: 50, left: 50 };
 var duration = 500;
+var durationIncrease = 100;
 var width = undefined,
     height = undefined,
     innerWidth = undefined,
     innerHeight = undefined;
 var xScale = undefined,
     yScale = undefined;
-var horizontal = false;
 
 
 var parseTime = d3.timeParse("%Y-%m-%d");
@@ -91,7 +130,7 @@ var data = [
             },
             {
                 "type":"blogs",
-                "count":20
+                "count":0
             }
         ]
     },
@@ -112,7 +151,7 @@ var data = [
             },
             {
                 "type":"blogs",
-                "count":50
+                "count":20
             }
         ]
     },
@@ -129,11 +168,11 @@ var data = [
             },
             {
                 "type":"website",
-                "count":60
+                "count":40
             },
             {
                 "type":"blogs",
-                "count":70
+                "count":15
             }
         ]
     },
@@ -154,7 +193,7 @@ var data = [
             },
             {
                 "type":"blogs",
-                "count":48
+                "count":0
             }
         ]
     },
@@ -175,7 +214,7 @@ var data = [
             },
             {
                 "type":"blogs",
-                "count":50
+                "count":20
             }
         ]
     }];
@@ -186,10 +225,16 @@ var datasets = [];
 var labels = [];
 var legends = [];
 
+
+var datas = [];
+
 //Set Media Type Series
 $(data[0].media).each(function(i) {
     legends.push(data[0].media[i].type);
     datasets.push([]);
+
+
+    datas.push({ id: data[0].media[i].type, values : []});
 });
 
 //Set Values
@@ -201,59 +246,44 @@ for(var i=data.length - 1; i >= 0; i--){
         datasets[index].push(this.count);
 
 
+        datas[index].values.push({close: this.count, date: data[i].date});
     });
 }
-
-console.log('datasets',datasets);
-console.log('labels',labels);
-console.log('legends',legends);
 
 var DATA1 = datasets[0];//[9.5, 2, 5, 7, 5, 3, 0];
 var DATA2 = datasets[1]; //[15, 7, 6, 8, 6, 2, 1];
 var LABELS = labels; //['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday'];
 
-
-
-
+var xAxisLabels = undefined;
 
 (function init() {
     getDimentions();
     getScaleDomains();
     getScaleRanges();
-    renderGraph(DATA1, DATA2);
+    renderPlot();
+    drawGraph();
 })();
 
-//d3.select(window).on('resize', resize);
+d3.select(window).on('resize', resize);
 
 function resize() {
     destroyGraph();
     getDimentions();
     getScaleRanges();
-    renderGraph(DATA1, DATA2);
+    renderPlot();
+    drawGraph();
 }
 
-function renderGraph(DATA1, DATA2) {
-    if (!DATA1.length || !labels.length) {
-        return false;
-    }
+function renderPlot() {
 
-    var line = d3.line().x(function (d, i) {
-        return xScale(labels[i]);
-    }).y(function (d) {
-        return yScale(d);
-    }).curve(d3.curveCatmullRom);
 
-    var area = d3.area().x(function (d, i) {
-        return xScale(labels[i]);
-    }).y0(innerHeight).y1(function (d) {
-        return yScale(d);
-    }).curve(d3.curveCatmullRom);
+    xAxisLabels = d3.scaleTime()
+        .rangeRound([0, innerWidth], 0)
+        .domain(d3.extent(data, function(d) { return d.date; }));
 
-    var xAxis = d3.axisBottom(xScale).tickFormat(function (d, i) {
-        return labels[i];
-    });
+    x = d3.axisBottom(xAxisLabels).ticks(data.length);
 
-    var yAxis = d3.axisLeft(yScale).ticks(4);
+    y = d3.axisLeft(yScale).ticks(4);
 
     svg.attr('width', width).attr('height', height);
 
@@ -281,16 +311,16 @@ function renderGraph(DATA1, DATA2) {
         });
 
 
-    var xLabel = horizontal ? 'Count' : 'Names';
+    var xLabel = 'Names';
 
-    var yLabel = horizontal ? 'Names' : 'Count';
+    var yLabel = 'Count';
 
-    var xa = svg.selectAll('g.inner').selectAll('g.x.axis').data([null]);
-    xa.exit().remove();
-    xa.enter().append('g')
+    var xAxis = svg.selectAll('g.inner').selectAll('g.x.axis').data([null]);
+    xAxis.exit().remove();
+    xAxis.enter().append('g')
         .attr('class', 'x axis')
         .attr('transform', 'translate(0, ' + innerHeight + ')')
-        .call(xAxis)
+        .call(x)
         .append('text')
         .attr('x', (innerWidth / 2))
         .attr('y', 25)
@@ -298,11 +328,11 @@ function renderGraph(DATA1, DATA2) {
         .style('text-anchor', 'middle')
         .text(xLabel);
 
-    var ya = svg.selectAll('g.inner').selectAll('g.y.axis').data([null]);
-    ya.exit().remove();
-    ya.enter().append('g')
+    var yAxis = svg.selectAll('g.inner').selectAll('g.y.axis').data([null]);
+    yAxis.exit().remove();
+    yAxis.enter().append('g')
         .attr('class', 'y axis')
-        .call(yAxis)
+        .call(y)
         .append("text")
         .attr("transform", "rotate(-90)")
         .attr("y", -45)
@@ -312,24 +342,123 @@ function renderGraph(DATA1, DATA2) {
         .text(yLabel);
 
 
-    for(var i = 0; i <= datasets.length - 1; i++){
+}
 
-        var pathLine2 = svg.selectAll('g.inner').selectAll('.path-line2').data([null]);
+function drawGraph(){
+
+    // define the line
+    var line = d3.line()
+        .curve(d3.curveCatmullRom)
+        .x(function(d) { return xScale(d.date); })
+        .y(function(d) { return yScale(d.close); });
+
+    var area = d3.area()
+        .curve(d3.curveCatmullRom)
+        .x(function(d) { return xScale(d.date); })
+        .y0(innerHeight)
+        .y1(function(d) { return yScale(d.close); });
+
+    var line2 = d3.line().x(function (d, i) {
+        return xScale(labels[i]);
+    }).y(function (d) {
+        return yScale(d);
+    }).curve(d3.curveCatmullRom);
+
+    var area2 = d3.area().x(function (d, i) {
+        return xScale(labels[i]);
+    }).y0(innerHeight).y1(function (d) {
+        return yScale(d);
+    }).curve(d3.curveCatmullRom);
+
+    for(var i = 0; i <= datas.length - 1; i++){
+        var pathLine2 = svg.selectAll('g.inner').selectAll('.chart_line_' + i).data([null]);
         pathLine2.exit().remove();
-        pathLine2.enter().append('path').attr('class', 'path-line chart_line_' + i).attr('d', function () {
-            return line(createZeroDataArray(datasets[i]));
-        }).transition().duration(duration).ease(d3.easePoly.exponent(2)).attr('d', function () {
-            return line(datasets[i]);
-        });
+        pathLine2.enter().append('path')
+            .attr('class', 'path-line chart_line_' + i)
+            .attr('d', function () {
+                return line(createZeroDataArray(datas[i].values));
+            })
+            .transition()
+            .duration(duration)
+            .delay(durationIncrease * i)
+            .ease(d3.easePoly.exponent(2)).attr('d', function () {
+                return line(datas[i].values);
+            });
 
-        var pathArea2 = svg.selectAll('g.inner').selectAll('.path-area2').data([null]);
+        var pathArea2 = svg.selectAll('g.inner').selectAll('chart_fill_trans_' + i).data([null]);
         pathArea2.exit().remove();
-        pathArea2.enter().append('path').attr('class', 'path-area chart_fill_trans_' + i).attr('d', function () {
-            return area(createZeroDataArray(datasets[i]));
-        }).transition().duration(duration).ease(d3.easePoly.exponent(2)).attr('d', area(datasets[i]));
+        pathArea2.enter().append('path')
+            .attr('class', 'path-area chart_fill_trans_' + i)
+            .attr('d', function () {
+                return area(createZeroDataArray(datas[i].values));
+            })
+            .transition()
+            .duration(duration)
+            .delay(durationIncrease * i)
+            .ease(d3.easePoly.exponent(2))
+            .attr('d', area(datas[i].values));
 
+
+        var dots = svg.selectAll('g.inner').selectAll(".chart_dot_" +i)
+            .data(datas[i].values)
+            .enter().append("circle") // Uses the enter().append() method
+            .attr("class", "dot chart_dot_" +i) // Assign a class for styling
+            .attr("cx", function(d, i) { return xScale(d.date); })
+            .attr("cy", innerHeight)
+            .attr("r", 3)
+            .transition()
+            .duration(duration)
+            .delay(durationIncrease * i)
+            .ease(d3.easePoly.exponent(2))
+            .attr("cy", function(d) { return yScale(d.close); });
     }
 
+    var tooltip = d3.select('.tooltip');
+    var barSize = Math.round(innerWidth / (datas[0].values.length - 1));
+
+svg.selectAll('g.inner').selectAll('grid-tooltip')
+    .data(data)
+    .enter()
+    .append('rect')
+
+    .attr('class', 'grid-tooltip chartTransparentFill')
+    .attr('tooltip-index', i)
+    .on('mouseover', function (d, i) {
+        tooltip.style('opacity', 1);
+    })
+    .on('mousemove', function (d, i) {
+        tooltip
+            .html(getTooltip(d))
+            .style('opacity', 1)
+            .style("left", Math.max(0, d3.event.pageX + 15) + "px")
+            .style("top", (d3.event.pageY - 15) + "px");
+    })
+    .on('mouseout', function (d, i) {
+        tooltip.style('opacity', 0);
+    })
+    .attr('x', function (d,i) {
+        return (barSize * i) - (barSize / 2);
+    })
+    .attr('y', function (d) {
+        return 0;
+    })
+
+    .attr('width', function (d, i) {
+        return i === 0 ? (barSize / 2) - 1 : barSize - 1;
+    })
+    .attr('height', function (d) {
+        return innerHeight - 1;
+    });
+}
+
+function getTooltip(d){
+    var html = '<div class="tooltip-line"><span class="tooltip-title">' + moment(d.date).format('ddd DD MMM YYYY') + ': </span></div>';
+
+    $(d.media).each(function(index) {
+        html += '<div class="tooltip-line"><div class="tooltip-item"><div class="tooltip-bullet"></div><div class="item-name light-gray"><span>'+this.type+'</span></div></div><div class="value light-gray">'+this.count+'</div></div>';
+    });
+//China0
+    return html;
 }
 
 function destroyGraph() {
@@ -349,18 +478,21 @@ function getScaleRanges() {
 }
 
 function getScaleDomains() {
+
+    var min = d3.min(datas, function(c) { return d3.min(c.values, function(d) { return d.close; }); });
+    var max = d3.max(datas, function(c) { return d3.max(c.values, function(d) { return d.close; }); });
     xScale = d3.scaleBand().domain(labels);
     yScale = d3.scaleLinear()
-        .domain([
-            20,//d3.min(datasets, function(d) { return d3.min(d); }),
-            d3.max(datasets, function(d) { return d3.max(d); })
-        ]); //.domain([0, d3.max([d3.max(DATA1), d3.max(DATA2)])]);
+        .domain([min, max]);
 }
 
 function createZeroDataArray(arr) {
     var newArr = [];
     arr.forEach(function (item, index) {
-        return newArr[index] = 0;
+        return newArr[index] = {
+            date  : item.date,
+            close : 0
+        };
     });
     return newArr;
 }

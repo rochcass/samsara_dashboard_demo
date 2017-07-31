@@ -331,18 +331,18 @@
             })
             .attr("d", function(d) { return area(d.values); });
 
-        /*
+
         var area = d3.area()
             .curve(horizontal ? d3.curveMonotoneY : d3.curveMonotoneX)
             .x(function(d) { return x(horizontal ? d.close : d.date); })
             .y0(innerHeight)
-            .y1(function(d) { return y(horizontal ? d.date : d.close); });
-
+            .y1(function(d) { return y(horizontal ? d.date : d.close); }
         // define the line
         var line = d3.line()
             .curve(horizontal ? d3.curveMonotoneY : d3.curveMonotoneX)
             .x(function(d) { return x(horizontal ? d.close : d.date); })
-            .y(function(d) { return y(horizontal ? d.date : d.close); });
+            .y(function(d) { return y(horizontal ? d.date : d.close); }););
+
 
         var startData = data.map( function( datum ) {
             return {
@@ -414,7 +414,7 @@
             .transition()
             .duration(750)
             .attr("cx", function(d, i) { return x(horizontal ? d.close : d.date); })
-            .attr("cy", function(d) { return y(horizontal ? d.date : d.close); });*/
+            .attr("cy", function(d) { return y(horizontal ? d.date : d.close); });
 
     }
 
