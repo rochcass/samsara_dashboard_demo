@@ -6,19 +6,18 @@
 
     $(function() {
 
-    $('#chart-wrapper').load('./charts/bar-line-chart.html', function () {
-        getChart(chart_i, false);
-    });
-
     $('.selectpicker').selectpicker({
         style: 'btn-default',
         size: 3
     });
 
     $('#chart_i').change(function() {
-        getChart($(this).val(), chart_ii, true);
+      //  getChart($(this).val(), chart_ii, true);
     })
 
+
+    $("#media-type-volume-area-chart").css('height', $("#media-type-volume-area-chart").parent().height() -
+            $("#media-type-volume-area-chart").prev().height() + 'px');
 
     $('#chart_ii').change(function() {
 
@@ -40,6 +39,11 @@
 
 
 });
+
+
+    function jsUcfirst(string) {
+        return string.charAt(0).toUpperCase() + string.slice(1);
+    }
 
 function onChartTypeSelected(chart_index, chart_type, element){
     if(chart_index === 0)
@@ -117,10 +121,21 @@ function onChartTypeSelected(chart_index, chart_type, element){
     </div>
     <div class="clearfix"></div>
 </div>
-<div class="chart-container">
-    <div id="chart-wrapper" style="
-  position: relative;
-  margin: auto;
-  height: 455px;
-  width: 100%; padding:10px;"></div>
+<div id="media-type-volume-area-chart" class="chart-container area-chart">
+        <svg class="line-graph"></svg>
+        <div class="tooltips"> <div class="tooltip"></div></div>
 </div>
+
+<script type="text/javascript" src="./demo/js/area-chart.js"></script>
+<script>
+    ajaxCall('./data/mediatypes.json', 'GET', '', function (response) {
+        setAreaChartSettings({
+            container: '#media-type-volume-area-chart',
+            element: '#media-type-volume-area-chart svg',
+            tooltipElement: 'tooltip',
+            data: response.data,
+            showTitle: true,
+            title: 'Media Type'
+        });
+    });
+</script>

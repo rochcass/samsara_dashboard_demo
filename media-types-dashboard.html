@@ -70,7 +70,15 @@
                     var widget = [this.x, this.y, this.width, this.height];
                     serializedWidgetMap.push(widget);
                     console.log(widget);
+
+
                 })
+            });
+
+            $('.grid-stack').on('resizestop', function (event, ui) {
+                console.debug(ui.element[0].attributes.getNamedItem("data-gs-width"));
+                console.debug(ui.element[0].attributes.getNamedItem("data-gs-width").value);
+
             });
         });
 

@@ -1,85 +1,7 @@
-<script>
-
-    var mediaTypeAggregatedVolumeChart;
-
-    var datasets = [
-        [124, 64, 60, 55, 51]
-    ];
-
-    var backgrounds = [getColorFromArrPlus(0,'1'), getColorFromArrPlus(1,'1'), getColorFromArrPlus(2,'1'), getColorFromArrPlus(3,'1'), getColorFromArrPlus(4,'1')];
-
-    var labels = [
-        'MSN Peru',
-        'nasdaq',
-        '4-trader',
-        'BGE',
-        'NewsDog'
-    ];
-
-    var options = {
-        responsive: true,
-        legend: {
-            display: false,
-            position: 'right',
-            labels: {
-                boxWidth: 10
-            }
-
-        },
-
-        title: {
-            display: false,
-            text: 'All'
-        },
-        animation: {
-            animateScale: true,
-            animateRotate: true
-        }
-    };
-
-    var ctx = document.getElementById("media-type-aggregated-volume-chart").getContext("2d");
-
-
-    function onMediaTypeVolumeChartTypeSelected(chart_type, element){
-        if(chart_type === 'doughnut' && $('#media_type_volume_chart_icon').hasClass('fa-bar-chart-o')) {
-            $('#media_type_volume_chart_icon').removeClass('fa-bar-chart-o').addClass('fa-pie-chart');
-            $('#media-type-aggregated-volume-container').removeClass('bar-chart').addClass('pie-chart');
-        }
-        if(chart_type === 'horizontalBar' && $('#media_type_volume_chart_icon').hasClass('fa-pie-chart')) {
-            $('#media_type_volume_chart_icon').removeClass('fa-pie-chart').addClass('fa-bar-chart-o');
-            $('#media-type-aggregated-volume-container').removeClass('pie-chart').addClass('bar-chart');
-        }
-
-        drawMediaTypeVolumeChart(chart_type, false);
-    }
-
-
-    $(function() {
-        drawMediaTypeVolumeChart('doughnut', true);
-    });
-
-    function drawMediaTypeVolumeChart(chart_type, chart_new){
-        mediaTypeAggregatedVolumeChart = new Chart(ctx,
-        {
-            type: chart_type,
-            data: {
-                datasets: [{
-                    data: datasets[0],
-                    backgroundColor: backgrounds
-                }],
-                labels: labels
-            },
-            options: options
-        });
-
-    }
-
-
-
-</script>
 
     <div id="media-type-aggregated-volume-container" class="pie-chart">
-        <canvas id="media-type-aggregated-volume-chart" width="500"></canvas>
+        <svg id="chart_0" class="chart sm" width="800" height="200"></svg>
+        <div id="tooltip_chart_0" class="tooltip mouse"></div>
     </div>
     <div class="chart-legend mt20 pull-left">
         <div class="legend-list vertical">
@@ -106,14 +28,6 @@
           </span>
         </div>
 
-        <!--
-
-        'MSN Peru',
-        'nasdaq',
-        '4-trader',
-        'BGE',
-        'NewsDog'
-        -->
     </div>
     <div class="chart-type-picker pull-right nmr">
         <div class="dropdown btn btn-default btn-icon nmr">
@@ -121,12 +35,145 @@
                 <ul class="menu">
 
                     <li>
-                        <a onclick="onMediaTypeVolumeChartTypeSelected('doughnut', this)"><span class="fa fa-pie-chart"></span><span>Donut Chart</span></a>
+                        <a onclick="onChartTypeSelected('donut', this)"><span class="fa fa-pie-chart"></span><span>Donut Chart</span></a>
                     </li>
                     <li>
-                        <a onclick="onMediaTypeVolumeChartTypeSelected('horizontalBar', this)"><span class="fa fa-bar-chart-o"></span><span>Bar Chart</span></a>
+                        <a onclick="onChartTypeSelected('horizontal_bar', this)"><span class="fa fa-bar-chart-o"></span><span>Bar Chart</span></a>
                     </li>
                 </ul>
             </div>
         </div>
     </div>
+
+<script type="text/javascript">
+    //[300, 250, 1050, 50]
+    var data = [
+        {
+            name: 'Website',
+            value: 400
+        },
+        {
+            name: 'Magazine',
+            value: 350
+        },
+        {
+            name: 'Newspaper',
+            value:600
+        },
+        {
+            name: 'Blog',
+            value: 50
+        }
+    ];
+
+    var currentChartType = 'bar'
+
+    var globalParameters = {
+        data: data,
+        element: '.chart',
+        tooltipElement: 'div.tooltip.mouse'
+    };
+
+    $(function () {
+        setChartDimension();
+        loadBar();
+
+        $(window).resize(function(){
+            //  setChartDimension();
+        });
+
+    });
+
+    function setChartDimension(){
+        var chart_cont = $('#chart_0');
+        var width = chart_cont.parent().width(),
+            height = chart_cont.height();
+        chart_cont.attr('width', width);
+        chart_cont.attr('height', height);
+        //     chart_cont.attr('viewBox', '0 0 '+ width + ' ' + height);
+
+    }
+
+    function onChartTypeSelected(chart_type, element){
+        setChartDimension();
+
+        if(currentChartType !== chart_type) {
+            var chart = 'i';
+            if (chart_type === 'line') {
+                $('#chart_' + chart + '_icon').attr('class', 'fa fa-line-chart');
+            }
+            else if (chart_type === 'area') {
+                $('#chart_' + chart + '_icon').attr('class', 'fa fa-area-chart');
+            }
+            else if (chart_type === 'bar') {
+
+                $('#chart_' + chart + '_icon').attr('class', 'fa fa-bar-chart-o');
+
+                loadBar();
+            }
+            else if (chart_type === 'horizontal_bar') {
+
+                var parameters = {
+                    horizontal: true,
+                    margin: {
+                        top: 20,
+                        left: 80,
+                        right: 20,
+                        bottom: 50
+                    },
+                    width: 680,
+                    height: 200,
+                    barHeight: 10,
+                    updateLayout: currentChartType === 'bar' ? true : false
+                };
+
+                $('#chart_' + chart + '_icon').attr('class', 'fa fa-bars');
+                generateBarChart(Object.assign(globalParameters, parameters));
+            }
+            else if (chart_type === 'area') {
+                $('#chart_' + chart + '_icon').attr('class', 'fa fa-area-chart');
+            }
+            else if (chart_type === 'donut') {
+
+                var parameters = {
+                    margin : {
+                        top: 80,
+                        left: 80,
+                        right: 80,
+                        bottom: 80
+                    },
+                    width : 200,
+                    height : 200,
+                    barHeight: 10
+                };
+
+                $('#chart_' + chart + '_icon').attr('class', 'fa fa-pie-chart');
+                generateDonutChart(Object.assign(globalParameters, parameters));
+            }
+
+            if(element !== undefined)
+                $(element).closest('.menu').toggle();
+        }
+
+        currentChartType = chart_type;
+    }
+
+    function loadBar(){
+        var parameters = {
+            horizontal: true,
+            margin: {
+                top: 20,
+                left: 80,
+                right: 20,
+                bottom: 50
+            },
+            width: 680,
+            height: 200,
+            updateLayout: currentChartType === 'horizontal_bar' ? true : false
+        };
+
+        generateBarChart(Object.assign(globalParameters, parameters));
+    }
+
+
+</script>

@@ -1,46 +1,346 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Dashboard</title>
 
     <script
-            src="https://code.jquery.com/jquery-3.2.1.min.js"
-            integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
+            src="https://code.jquery.com/jquery-1.12.4.min.js"
+            integrity="sha256-ZosEbRLbNQzLpnKIkEdrPv7lOy9C27hHQ+Xp8a4MxAQ="
+            crossorigin="anonymous"></script>
+    <script
+            src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"
+            integrity="sha256-VazP97ZCwtekAsvgPBSUwPFKdrwD3unUfSGVYrahUqU="
             crossorigin="anonymous"></script>
 
-    <script type="text/javascript" src="http://d3js.org/d3.v3.min.js"></script>
-    <script src="http://labratrevenge.com/d3-tip/javascripts/d3.tip.v0.6.3.js"></script>
+    <!-- font awesome -->
+    <link href="http://netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css" rel="stylesheet">
+    <link href="http://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet">
+
+    <!-- moment.js -->
+    <script src="./js/moment.min.js"></script>
+
+    <!-- lodash.js -->
+    <script src="https://cdn.jsdelivr.net/lodash/4.17.4/lodash.min.js"></script>
+
+    <!-- bootstrap -->
+    <script src="./js/bootstrap.min.js"></script>
+
+    <!-- Bootstrap Select from https://silviomoreto.github.io/bootstrap-select -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.2/css/bootstrap-select.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.2/js/bootstrap-select.min.js"></script>
+
+    <!-- Local -->
+    <link href="./css/bootstrap-ui.css" rel="stylesheet">
+    <link href="./css/carma.css" rel="stylesheet">
+    <link href="./css/style.css" rel="stylesheet">
+    <link href="./css/charts.css" rel="stylesheet">
+    <link href="./css/actions-toolbar.css" rel="stylesheet">
+    <script type="text/javascript" src="./js/script.js"></script>
+
+    <!-- Charts -->
+    <script src="https://d3js.org/d3.v4.min.js"></script>
+    <script type="text/javascript" src="./demo/js/area-chart.js"></script>
+    <script type="text/javascript" src="./demo/js/bar-v4.js"></script>
+    <script type="text/javascript" src="./demo/js/donut-v4.js"></script>
+
+    <!-- Layout Grids -->
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.4/lodash.min.js"></script>
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/gridstack.js/0.2.6/gridstack.min.css" />
+    <script type="text/javascript" src='./js/gridstack.js'></script>
+    <script type="text/javascript" src='./js/gridstack.all.js'></script>
 
     <script type="text/javascript">
         $(function () {
-            var data = [30,80, 760, 285, 300, 365];
+            $('.grid-stack').gridstack({
+                width: 12,
+                alwaysShowResizeHandle: false,
+            });
 
-            var chart = d3.select('.chart')
-                .selectAll('div')
-                .data(data)
-                .enter().append('div')
-                .style('width', function (d,i){
-                    return d + 'px';
+
+            var serializedWidgetMap = [];
+            $('.grid-stack').on('change', function(event, widgets) {
+                $(widgets).each(function () {
+                    var widget = [this.x, this.y, this.width, this.height];
+                    serializedWidgetMap.push(widget);
+                    console.log(widget);
                 })
-                .text(function (d,i){
-                    return d;
-                })
+            });
+
+
+            $('#media-type-over-time').load('./templates/media-type-volume.html');
+            $('#media-type-aggregated-volume').load('./templates/media-type-aggregated-volume.html');
+
+
+            $('#media-type-website-top-outlets').html(getTopOutlets('chart_0'));
+            $('#media-type-magazine-top-outlets').html(getTopOutlets('chart_1'));
+            $('#media-type-newspaper-top-outlets').html(getTopOutlets('chart_2'));
+            $('#media-type-blog-top-outlets').html(getTopOutlets('chart_3'));
         });
-    </script>
 
-    <style>
-        .chart div {
-            font: 10px sans-serif;
-            background: steelblue;
-            text-align: right;
-            padding: 3px;
-            margin: 1px;
-            color: #fff;
+        function getTopOutlets(cssClass) {
+            var html = '<div class="list-view"><div class="list-item-container"><a class="list-item with-bar" href="/projects/9d591e68-289b-4e45-87a6-ff6cfc64a7f5/articles?dateType=month&amp;outlet=msn+peru"><span class="item-index"><!-- react-text: 1278 -->1<!-- /react-text --><!-- react-text: 1279 -->.<!-- /react-text --></span><div class="item-content"><strong class="item-title">msn peru</strong></div><div class="item-value">124</div></a><div class="item-bar"><div class="bar '+cssClass+'" style="width: 100%;"></div></div></div><div class="list-item-container"><a class="list-item with-bar" href="/projects/9d591e68-289b-4e45-87a6-ff6cfc64a7f5/articles?dateType=month&amp;outlet=nasdaq.com"><span class="item-index"><!-- react-text: 1288 -->2<!-- /react-text --><!-- react-text: 1289 -->.<!-- /react-text --></span><div class="item-content"><strong class="item-title">nasdaq.com</strong></div><div class="item-value">64</div></a><div class="item-bar"><div class="bar '+cssClass+'" style="width: 51.6129%;"></div></div></div><div class="list-item-container"><a class="list-item with-bar" href="/projects/9d591e68-289b-4e45-87a6-ff6cfc64a7f5/articles?dateType=month&amp;outlet=4-traders"><span class="item-index"><!-- react-text: 1298 -->3<!-- /react-text --><!-- react-text: 1299 -->.<!-- /react-text --></span><div class="item-content"><strong class="item-title">4-traders</strong></div><div class="item-value">60</div></a><div class="item-bar"><div class="bar '+cssClass+'" style="width: 48.3871%;"></div></div></div><div class="list-item-container"><a class="list-item with-bar" href="/projects/9d591e68-289b-4e45-87a6-ff6cfc64a7f5/articles?dateType=month&amp;outlet=finance.yahoo.com"><span class="item-index"><!-- react-text: 1308 -->4<!-- /react-text --><!-- react-text: 1309 -->.<!-- /react-text --></span><div class="item-content"><strong class="item-title">finance.yahoo.com</strong></div><div class="item-value">55</div></a><div class="item-bar"><div class="bar '+cssClass+'" style="width: 44.3548%;"></div></div></div><div class="list-item-container"><a class="list-item with-bar" href="/projects/9d591e68-289b-4e45-87a6-ff6cfc64a7f5/articles?dateType=month&amp;outlet=NewsDog"><span class="item-index"><!-- react-text: 1318 -->5<!-- /react-text --><!-- react-text: 1319 -->.<!-- /react-text --></span><div class="item-content"><strong class="item-title">NewsDog</strong></div><div class="item-value">51</div></a><div class="item-bar"><div class="bar '+cssClass+'" style="width: 41.129%;"></div></div></div></div>';
+            return html;
         }
-    </style>
+
+    </script>
 </head>
 <body>
-    <div class="chart"></div>
+
+<div id="mount">
+    <div class="w-collapsible-sidebar" data-reactroot="">
+        <nav class="navbar">
+            <div class="organization-nav">
+                <div class="navbar__toggle burger">
+                    <div class="burger-line"></div>
+                </div>
+                <div class="logo">
+                    <a href="/"><svg class="carma-logo" viewbox="0 0 356 404.7">
+                        <circle cx="201.3" cy="93.9" r="16.6"></circle>
+                        <circle cx="201.5" cy="55.1" r="16.6"></circle>
+                        <circle cx="201.3" cy="16.6" r="16.6"></circle>
+                        <circle cx="162.7" cy="20.7" r="16.6"></circle>
+                        <circle cx="125.9" cy="32.7" r="16.6"></circle>
+                        <circle cx="92.2" cy="52.2" r="16.6"></circle>
+                        <circle cx="63.3" cy="78.1" r="16.6"></circle>
+                        <circle cx="40.5" cy="109.5" r="16.6"></circle>
+                        <circle cx="24.7" cy="145" r="16.6"></circle>
+                        <circle cx="16.6" cy="183" r="16.6"></circle>
+                        <circle cx="16.6" cy="221.9" r="16.6"></circle>
+                        <circle cx="24.7" cy="259.7" r="16.6"></circle>
+                        <circle cx="40.5" cy="295.2" r="16.6"></circle>
+                        <circle cx="63.3" cy="326.6" r="16.6"></circle>
+                        <circle cx="92" cy="352.7" r="16.6"></circle>
+                        <circle cx="125.7" cy="372" r="16.6"></circle>
+                        <circle cx="162.7" cy="384.2" r="16.6"></circle>
+                        <circle cx="201.3" cy="388.1" r="16.6"></circle>
+                        <circle cx="240" cy="384.2" r="16.6"></circle>
+                        <circle cx="276.7" cy="372" r="16.6"></circle>
+                        <circle cx="310.4" cy="352.7" r="16.6"></circle>
+                        <circle cx="339.4" cy="326.9" r="16.6"></circle>
+                        <circle cx="339.4" cy="78.3" r="16.6"></circle>
+                        <circle cx="310.6" cy="52.2" r="16.6"></circle>
+                        <circle cx="276.9" cy="32.9" r="16.6"></circle>
+                        <circle cx="240" cy="20.7" r="16.6"></circle>
+                        <circle cx="163.5" cy="60" r="16.6"></circle>
+                        <circle cx="128.2" cy="74.6" r="16.6"></circle>
+                        <circle cx="97.8" cy="98" r="16.6"></circle>
+                        <circle cx="74.4" cy="128.4" r="16.6"></circle>
+                        <circle cx="59.6" cy="163.7" r="16.6"></circle>
+                        <circle cx="54.6" cy="201.7" r="16.6"></circle>
+                        <circle cx="59.6" cy="239.7" r="16.6"></circle>
+                        <circle cx="74.2" cy="275.1" r="16.6"></circle>
+                        <circle cx="97.6" cy="305.5" r="16.6"></circle>
+                        <circle cx="128" cy="328.9" r="16.6"></circle>
+                        <circle cx="163.3" cy="343.5" r="16.6"></circle>
+                        <circle cx="201.3" cy="348.6" r="16.6"></circle>
+                        <circle cx="239.3" cy="343.7" r="16.6"></circle>
+                        <circle cx="274.7" cy="329.1" r="16.6"></circle>
+                        <circle cx="305.1" cy="305.7" r="16.6"></circle>
+                        <circle cx="305.3" cy="98" r="16.6"></circle>
+                        <circle cx="274.9" cy="74.8" r="16.6"></circle>
+                        <circle cx="239.5" cy="60" r="16.6"></circle>
+                        <circle cx="164.1" cy="100.5" r="16.6"></circle>
+                        <circle cx="131.5" cy="119.2" r="16.6"></circle>
+                        <circle cx="107.2" cy="148.1" r="16.6"></circle>
+                        <circle cx="94.5" cy="183.5" r="16.6"></circle>
+                        <circle cx="94.3" cy="221.3" r="16.6"></circle>
+                        <circle cx="107.2" cy="256.6" r="16.6"></circle>
+                        <circle cx="131.5" cy="285.6" r="16.6"></circle>
+                        <circle cx="164.1" cy="304.5" r="16.6"></circle>
+                        <circle cx="201.3" cy="311" r="16.6"></circle>
+                        <circle cx="238.3" cy="304.5" r="16.6"></circle>
+                        <circle cx="271" cy="285.6" r="16.6"></circle>
+                        <circle cx="271.2" cy="119.4" r="16.6"></circle>
+                        <circle cx="238.5" cy="100.5" r="16.6"></circle></svg></a>
+                </div>
+                <div class="dropdown">
+                    <div>
+                        <span class="toggle"><span class="label">Boeing</span></span>
+                        <ul class="menu">
+                            <li class="heading">Carma</li>
+                            <li>
+                                <a href="/projects"><span>Your Projects</span></a>
+                            </li>
+                            <li>
+                                <a class="break" href="/organizations"><span>All Organizations</span></a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <ul class="project-nav">
+                <li>
+                    <a href="/projects/b903ca19-e2d3-4f89-b281-384735914380/overview"><span>Overview</span></a>
+                </li>
+                <li>
+                    <a class="active" href="/projects/b903ca19-e2d3-4f89-b281-384735914380/articles"><span>Articles</span></a>
+                </li>
+                <li>
+                    <a href="/projects/b903ca19-e2d3-4f89-b281-384735914380/collections"><span>Collections</span></a>
+                </li>
+                <li>
+                    <div class="dropdown">
+                        <div>
+                            <span class="toggle"><span class="label">Analytics</span></span>
+                            <ul class="menu">
+                                <li>
+                                    <a href="/projects/b903ca19-e2d3-4f89-b281-384735914380/charts/media_types"><span>Automated&nbsp;Charts</span></a>
+                                </li>
+                                <li>
+                                    <a href="/projects/b903ca19-e2d3-4f89-b281-384735914380/mycarma"><span>myCARMA</span></a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </li>
+                <li>
+                    <a href="/projects/b903ca19-e2d3-4f89-b281-384735914380/command-center"><span>Command Center</span></a>
+                </li>
+            </ul>
+            <div class="user-nav">
+                <div class="dropdown">
+                    <div>
+                        <span class="toggle"><span class="label">Sergio Monteiro</span></span>
+                        <ul class="menu">
+                            <li>
+                                <a href="/profile"><span>Preferences</span></a>
+                            </li>
+                            <li>
+                                <a href="/logout"><span>Logout</span></a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </nav>
+        <div id="main">
+            <div class="command-center charts-app">
+                <div class="collapsible-sidebar">
+                    <div class="sidebar-toggler"><span class="close">×</span><span class="open"><svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 12 12"><style>.st0{fill:#837E7F;}</style><path class="st0" d="M6 0C2.7 0 0 1 0 2.2c0 .2-.1.4.1.7.8 1 3.8 4.7 3.8 5.7v2.3c0 .6 1 1.1 2 1.1s2-.5 2-1.1V8.6c0-1 3-4.6 3.9-5.8.2-.3.2-.5.2-.7C12 .9 9.3 0 6 0zm0 3.4c-2.5 0-4.7-.5-4.7-1.3S3.5.8 6 .8s4.7.6 4.7 1.3S8.5 3.4 6 3.4z"></path></svg></span></div>
+                    <div class="filters article-filters secondary-content"><form><div class="form-group search-query"><div class="form-control"><div class="form-control-row"><label for="filter_location">search filters</label><span class="quick-action"><a href="#">Reset filters</a></span></div><input type="text" class="search-field" placeholder="Search Articles" value=""><label class="icon"><svg width="12px" height="12px" viewBox="0 0 12 12"><path d="M11.8,11.1l-0.7,0.7c-0.3,0.3-0.8,0.3-1,0L7.2,8.9C6.5,9.3,5.7,9.5,4.8,9.5C2.3,9.5,0,7.3,0,4.7 C0,2.1,2.1,0,4.7,0c2.6,0,4.9,2.2,4.9,4.8c0,0.9-0.2,1.7-0.7,2.5l2.9,2.9C12,10.5,12.1,10.8,11.8,11.1z M4.8,8.1 c1.8,0,3.3-1.5,3.3-3.3c0-1.8-1.6-3.4-3.4-3.4c-1.8,0-3.3,1.5-3.3,3.3C1.4,6.5,3,8.1,4.8,8.1z"></path></svg></label></div></div><div class="form-group"><div class="form-control"><label for="date_type"><span>Date</span></label><div class="input select grouped_select article_filter_date_type"><div class="Select Select--single has-value"><input type="hidden" name="date_type" value="month"><div class="Select-control"><span class="Select-multi-value-wrapper" id="react-select-64--value"><div class="Select-value"><span class="Select-value-label" role="option" aria-selected="true" id="react-select-64--value-item">Past Month</span></div><div role="combobox" aria-expanded="false" aria-owns="react-select-64--value" aria-activedescendant="react-select-64--value" class="Select-input" tabindex="0" aria-readonly="false" style="border: 0px; width: 1px; display: inline-block;"></div></span><span class="Select-arrow-zone"><span class="Select-arrow"></span></span></div></div></div><div class="hidden"><div class="date-range-select"><button class="date-range-filter"><svg class="icon-calendar" viewBox="0 0 13 13"><path d="M11,1.5 L11,3 L8,3 L8,1.5 L5,1.5 L5,3 L2,3 L2,1.5 L1.5,1.5 C0.65,1.44444444 0,2.09444444 0,3 L0,11.5555556 C0,12.35 0.65,13 1.44444444,13 L11.5555556,13 C12.35,13 13,12.35 13,11.5555556 L13,3 C13,2.09444444 12.35,1.44444444 11.5,1.5 L11,1.5 Z M11.5,11 L1.5,11 L1.5,5 L11.5,5 L11.5,11 Z M4,0 L3,0 L3,2 L4,2 L4,2.61228947e-16 L4,0 Z M10,0 L9,0 L9,2 L10,2 L10,2.61228947e-16 L10,0 Z"></path></svg><span class="value">Jun 3 - Jul 3, 2017</span></button><div class="date-range-picker" style="display: none;"><div class="rdr-DateRange" style="display: block; box-sizing: border-box; background: rgb(255, 255, 255); border-radius: 2px;"><div class="rdr-PredefinedRanges" style="width: 140px; display: none; vertical-align: top;"><a href="#" class="rdr-PredefinedRangesItem" style="display: block; font-size: 12px; color: rgb(44, 62, 80); padding: 10px 14px; border-radius: 2px; background: rgb(236, 240, 241); text-decoration: none; margin-bottom: 6px;">Today</a><a href="#" class="rdr-PredefinedRangesItem" style="display: block; font-size: 12px; color: rgb(44, 62, 80); padding: 10px 14px; border-radius: 2px; background: rgb(236, 240, 241); text-decoration: none; margin-bottom: 6px;">Yesterday</a><a href="#" class="rdr-PredefinedRangesItem" style="display: block; font-size: 12px; color: rgb(44, 62, 80); padding: 10px 14px; border-radius: 2px; background: rgb(236, 240, 241); text-decoration: none; margin-bottom: 6px;">Last 7 Days</a><a href="#" class="rdr-PredefinedRangesItem" style="display: block; font-size: 12px; color: rgb(44, 62, 80); padding: 10px 14px; border-radius: 2px; background: rgb(236, 240, 241); text-decoration: none; margin-bottom: 6px;">Last 30 Days</a></div><div class="rdr-Calendar" style="width: 200px; padding: 10px; background: rgb(255, 255, 255); border-radius: 2px; display: inline-block; box-sizing: border-box; letter-spacing: 0px; color: rgb(0, 0, 0);"><div class="rdr-MonthAndYear"><div class="rdr-MonthAndYear-innerWrapper" style="text-align: center; box-sizing: border-box; font-size: 12px; padding: 10px 0px; height: 38px; line-height: 18px;"><button class="rdr-MonthAndYear-button prev" style="display: block; box-sizing: border-box; height: 18px; width: 18px; padding: 0px; margin: 0px 10px; border: none; background: rgb(189, 195, 199); box-shadow: none; outline: none; border-radius: 50%; float: left;"><i style="display: block; width: 0px; height: 0px; padding: 0px; margin: 0px 0px 0px 1px; border-width: 4px 6px 4px 4px; border-style: solid; border-color: transparent rgb(52, 73, 94) transparent transparent; border-image: initial; text-align: center;"></i></button><span><span class="rdr-MonthAndYear-month">June</span><span class="rdr-MonthAndYear-divider"> - </span><span class="rdr-MonthAndYear-year">2017</span></span><button class="rdr-MonthAndYear-button next" style="display: block; box-sizing: border-box; height: 18px; width: 18px; padding: 0px; margin: 0px 10px; border: none; background: rgb(189, 195, 199); box-shadow: none; outline: none; border-radius: 50%; float: right; visibility: hidden;"><i style="display: block; width: 0px; height: 0px; padding: 0px; margin: 0px 0px 0px 7px; border-width: 4px 4px 4px 6px; border-style: solid; border-color: transparent transparent transparent rgb(52, 73, 94); border-image: initial; text-align: center;"></i></button></div></div><div class="rdr-WeekDays"><span class="rdr-WeekDay" style="width: 25.7143px; height: 12.8571px; line-height: 12.8571px; box-sizing: border-box; display: inline-block; letter-spacing: initial; text-align: center; font-size: 12px; font-weight: 600; margin-bottom: 1px;">Su</span><span class="rdr-WeekDay" style="width: 25.7143px; height: 12.8571px; line-height: 12.8571px; box-sizing: border-box; display: inline-block; letter-spacing: initial; text-align: center; font-size: 12px; font-weight: 600; margin-bottom: 1px;">Mo</span><span class="rdr-WeekDay" style="width: 25.7143px; height: 12.8571px; line-height: 12.8571px; box-sizing: border-box; display: inline-block; letter-spacing: initial; text-align: center; font-size: 12px; font-weight: 600; margin-bottom: 1px;">Tu</span><span class="rdr-WeekDay" style="width: 25.7143px; height: 12.8571px; line-height: 12.8571px; box-sizing: border-box; display: inline-block; letter-spacing: initial; text-align: center; font-size: 12px; font-weight: 600; margin-bottom: 1px;">We</span><span class="rdr-WeekDay" style="width: 25.7143px; height: 12.8571px; line-height: 12.8571px; box-sizing: border-box; display: inline-block; letter-spacing: initial; text-align: center; font-size: 12px; font-weight: 600; margin-bottom: 1px;">Th</span><span class="rdr-WeekDay" style="width: 25.7143px; height: 12.8571px; line-height: 12.8571px; box-sizing: border-box; display: inline-block; letter-spacing: initial; text-align: center; font-size: 12px; font-weight: 600; margin-bottom: 1px;">Fr</span><span class="rdr-WeekDay" style="width: 25.7143px; height: 12.8571px; line-height: 12.8571px; box-sizing: border-box; display: inline-block; letter-spacing: initial; text-align: center; font-size: 12px; font-weight: 600; margin-bottom: 1px;">Sa</span></div><div class="rdr-Days"><span class="rdr-Day is-passive" style="width: 25.7143px; height: 25.7143px; line-height: 25.7143px; box-sizing: border-box; display: inline-block; letter-spacing: initial; text-align: center; font-size: 12px; transition: transform 0.1s ease; opacity: 0.4;">28</span><span class="rdr-Day is-passive" style="width: 25.7143px; height: 25.7143px; line-height: 25.7143px; box-sizing: border-box; display: inline-block; letter-spacing: initial; text-align: center; font-size: 12px; transition: transform 0.1s ease; opacity: 0.4;">29</span><span class="rdr-Day is-passive" style="width: 25.7143px; height: 25.7143px; line-height: 25.7143px; box-sizing: border-box; display: inline-block; letter-spacing: initial; text-align: center; font-size: 12px; transition: transform 0.1s ease; opacity: 0.4;">30</span><span class="rdr-Day is-passive" style="width: 25.7143px; height: 25.7143px; line-height: 25.7143px; box-sizing: border-box; display: inline-block; letter-spacing: initial; text-align: center; font-size: 12px; transition: transform 0.1s ease; opacity: 0.4;">31</span><span class="rdr-Day" style="width: 25.7143px; height: 25.7143px; line-height: 25.7143px; box-sizing: border-box; display: inline-block; letter-spacing: initial; text-align: center; font-size: 12px; cursor: pointer; transition: transform 0.1s ease;">1</span><span class="rdr-Day" style="width: 25.7143px; height: 25.7143px; line-height: 25.7143px; box-sizing: border-box; display: inline-block; letter-spacing: initial; text-align: center; font-size: 12px; cursor: pointer; transition: transform 0.1s ease;">2</span><span class="rdr-Day is-selected" style="width: 25.7143px; height: 25.7143px; line-height: 25.7143px; box-sizing: border-box; display: inline-block; letter-spacing: initial; text-align: center; font-size: 12px; cursor: pointer; transition: transform 0.1s ease; background: rgb(231, 76, 60); color: rgb(255, 255, 255);">3</span><span class="rdr-Day is-inRange" style="width: 25.7143px; height: 25.7143px; line-height: 25.7143px; box-sizing: border-box; display: inline-block; letter-spacing: initial; text-align: center; font-size: 12px; cursor: pointer; transition: transform 0.1s ease; background: rgb(52, 73, 94); color: rgb(149, 165, 166);">4</span><span class="rdr-Day is-inRange" style="width: 25.7143px; height: 25.7143px; line-height: 25.7143px; box-sizing: border-box; display: inline-block; letter-spacing: initial; text-align: center; font-size: 12px; cursor: pointer; transition: transform 0.1s ease; background: rgb(52, 73, 94); color: rgb(149, 165, 166);">5</span><span class="rdr-Day is-inRange" style="width: 25.7143px; height: 25.7143px; line-height: 25.7143px; box-sizing: border-box; display: inline-block; letter-spacing: initial; text-align: center; font-size: 12px; cursor: pointer; transition: transform 0.1s ease; background: rgb(52, 73, 94); color: rgb(149, 165, 166);">6</span><span class="rdr-Day is-inRange" style="width: 25.7143px; height: 25.7143px; line-height: 25.7143px; box-sizing: border-box; display: inline-block; letter-spacing: initial; text-align: center; font-size: 12px; cursor: pointer; transition: transform 0.1s ease; background: rgb(52, 73, 94); color: rgb(149, 165, 166);">7</span><span class="rdr-Day is-inRange" style="width: 25.7143px; height: 25.7143px; line-height: 25.7143px; box-sizing: border-box; display: inline-block; letter-spacing: initial; text-align: center; font-size: 12px; cursor: pointer; transition: transform 0.1s ease; background: rgb(52, 73, 94); color: rgb(149, 165, 166);">8</span><span class="rdr-Day is-inRange" style="width: 25.7143px; height: 25.7143px; line-height: 25.7143px; box-sizing: border-box; display: inline-block; letter-spacing: initial; text-align: center; font-size: 12px; cursor: pointer; transition: transform 0.1s ease; background: rgb(52, 73, 94); color: rgb(149, 165, 166);">9</span><span class="rdr-Day is-inRange" style="width: 25.7143px; height: 25.7143px; line-height: 25.7143px; box-sizing: border-box; display: inline-block; letter-spacing: initial; text-align: center; font-size: 12px; cursor: pointer; transition: transform 0.1s ease; background: rgb(52, 73, 94); color: rgb(149, 165, 166);">10</span><span class="rdr-Day is-inRange" style="width: 25.7143px; height: 25.7143px; line-height: 25.7143px; box-sizing: border-box; display: inline-block; letter-spacing: initial; text-align: center; font-size: 12px; cursor: pointer; transition: transform 0.1s ease; background: rgb(52, 73, 94); color: rgb(149, 165, 166);">11</span><span class="rdr-Day is-inRange" style="width: 25.7143px; height: 25.7143px; line-height: 25.7143px; box-sizing: border-box; display: inline-block; letter-spacing: initial; text-align: center; font-size: 12px; cursor: pointer; transition: transform 0.1s ease; background: rgb(52, 73, 94); color: rgb(149, 165, 166);">12</span><span class="rdr-Day is-inRange" style="width: 25.7143px; height: 25.7143px; line-height: 25.7143px; box-sizing: border-box; display: inline-block; letter-spacing: initial; text-align: center; font-size: 12px; cursor: pointer; transition: transform 0.1s ease; background: rgb(52, 73, 94); color: rgb(149, 165, 166);">13</span><span class="rdr-Day is-inRange" style="width: 25.7143px; height: 25.7143px; line-height: 25.7143px; box-sizing: border-box; display: inline-block; letter-spacing: initial; text-align: center; font-size: 12px; cursor: pointer; transition: transform 0.1s ease; background: rgb(52, 73, 94); color: rgb(149, 165, 166);">14</span><span class="rdr-Day is-inRange" style="width: 25.7143px; height: 25.7143px; line-height: 25.7143px; box-sizing: border-box; display: inline-block; letter-spacing: initial; text-align: center; font-size: 12px; cursor: pointer; transition: transform 0.1s ease; background: rgb(52, 73, 94); color: rgb(149, 165, 166);">15</span><span class="rdr-Day is-inRange" style="width: 25.7143px; height: 25.7143px; line-height: 25.7143px; box-sizing: border-box; display: inline-block; letter-spacing: initial; text-align: center; font-size: 12px; cursor: pointer; transition: transform 0.1s ease; background: rgb(52, 73, 94); color: rgb(149, 165, 166);">16</span><span class="rdr-Day is-inRange" style="width: 25.7143px; height: 25.7143px; line-height: 25.7143px; box-sizing: border-box; display: inline-block; letter-spacing: initial; text-align: center; font-size: 12px; cursor: pointer; transition: transform 0.1s ease; background: rgb(52, 73, 94); color: rgb(149, 165, 166);">17</span><span class="rdr-Day is-inRange" style="width: 25.7143px; height: 25.7143px; line-height: 25.7143px; box-sizing: border-box; display: inline-block; letter-spacing: initial; text-align: center; font-size: 12px; cursor: pointer; transition: transform 0.1s ease; background: rgb(52, 73, 94); color: rgb(149, 165, 166);">18</span><span class="rdr-Day is-inRange" style="width: 25.7143px; height: 25.7143px; line-height: 25.7143px; box-sizing: border-box; display: inline-block; letter-spacing: initial; text-align: center; font-size: 12px; cursor: pointer; transition: transform 0.1s ease; background: rgb(52, 73, 94); color: rgb(149, 165, 166);">19</span><span class="rdr-Day is-inRange" style="width: 25.7143px; height: 25.7143px; line-height: 25.7143px; box-sizing: border-box; display: inline-block; letter-spacing: initial; text-align: center; font-size: 12px; cursor: pointer; transition: transform 0.1s ease; background: rgb(52, 73, 94); color: rgb(149, 165, 166);">20</span><span class="rdr-Day is-inRange" style="width: 25.7143px; height: 25.7143px; line-height: 25.7143px; box-sizing: border-box; display: inline-block; letter-spacing: initial; text-align: center; font-size: 12px; cursor: pointer; transition: transform 0.1s ease; background: rgb(52, 73, 94); color: rgb(149, 165, 166);">21</span><span class="rdr-Day is-inRange" style="width: 25.7143px; height: 25.7143px; line-height: 25.7143px; box-sizing: border-box; display: inline-block; letter-spacing: initial; text-align: center; font-size: 12px; cursor: pointer; transition: transform 0.1s ease; background: rgb(52, 73, 94); color: rgb(149, 165, 166);">22</span><span class="rdr-Day is-inRange" style="width: 25.7143px; height: 25.7143px; line-height: 25.7143px; box-sizing: border-box; display: inline-block; letter-spacing: initial; text-align: center; font-size: 12px; cursor: pointer; transition: transform 0.1s ease; background: rgb(52, 73, 94); color: rgb(149, 165, 166);">23</span><span class="rdr-Day is-inRange" style="width: 25.7143px; height: 25.7143px; line-height: 25.7143px; box-sizing: border-box; display: inline-block; letter-spacing: initial; text-align: center; font-size: 12px; cursor: pointer; transition: transform 0.1s ease; background: rgb(52, 73, 94); color: rgb(149, 165, 166);">24</span><span class="rdr-Day is-inRange" style="width: 25.7143px; height: 25.7143px; line-height: 25.7143px; box-sizing: border-box; display: inline-block; letter-spacing: initial; text-align: center; font-size: 12px; cursor: pointer; transition: transform 0.1s ease; background: rgb(52, 73, 94); color: rgb(149, 165, 166);">25</span><span class="rdr-Day is-inRange" style="width: 25.7143px; height: 25.7143px; line-height: 25.7143px; box-sizing: border-box; display: inline-block; letter-spacing: initial; text-align: center; font-size: 12px; cursor: pointer; transition: transform 0.1s ease; background: rgb(52, 73, 94); color: rgb(149, 165, 166);">26</span><span class="rdr-Day is-inRange" style="width: 25.7143px; height: 25.7143px; line-height: 25.7143px; box-sizing: border-box; display: inline-block; letter-spacing: initial; text-align: center; font-size: 12px; cursor: pointer; transition: transform 0.1s ease; background: rgb(52, 73, 94); color: rgb(149, 165, 166);">27</span><span class="rdr-Day is-inRange" style="width: 25.7143px; height: 25.7143px; line-height: 25.7143px; box-sizing: border-box; display: inline-block; letter-spacing: initial; text-align: center; font-size: 12px; cursor: pointer; transition: transform 0.1s ease; background: rgb(52, 73, 94); color: rgb(149, 165, 166);">28</span><span class="rdr-Day is-inRange" style="width: 25.7143px; height: 25.7143px; line-height: 25.7143px; box-sizing: border-box; display: inline-block; letter-spacing: initial; text-align: center; font-size: 12px; cursor: pointer; transition: transform 0.1s ease; background: rgb(52, 73, 94); color: rgb(149, 165, 166);">29</span><span class="rdr-Day is-inRange" style="width: 25.7143px; height: 25.7143px; line-height: 25.7143px; box-sizing: border-box; display: inline-block; letter-spacing: initial; text-align: center; font-size: 12px; cursor: pointer; transition: transform 0.1s ease; background: rgb(52, 73, 94); color: rgb(149, 165, 166);">30</span><span class="rdr-Day is-passive is-inRange" style="width: 25.7143px; height: 25.7143px; line-height: 25.7143px; box-sizing: border-box; display: inline-block; letter-spacing: initial; text-align: center; font-size: 12px; transition: transform 0.1s ease; background: rgb(52, 73, 94); color: rgb(149, 165, 166); opacity: 0.4;">1</span><span class="rdr-Day is-passive is-inRange" style="width: 25.7143px; height: 25.7143px; line-height: 25.7143px; box-sizing: border-box; display: inline-block; letter-spacing: initial; text-align: center; font-size: 12px; transition: transform 0.1s ease; background: rgb(52, 73, 94); color: rgb(149, 165, 166); opacity: 0.4;">2</span><span class="rdr-Day is-selected is-passive" style="width: 25.7143px; height: 25.7143px; line-height: 25.7143px; box-sizing: border-box; display: inline-block; letter-spacing: initial; text-align: center; font-size: 12px; transition: transform 0.1s ease; opacity: 0.4; background: rgb(231, 76, 60); color: rgb(255, 255, 255);">3</span><span class="rdr-Day is-passive" style="width: 25.7143px; height: 25.7143px; line-height: 25.7143px; box-sizing: border-box; display: inline-block; letter-spacing: initial; text-align: center; font-size: 12px; transition: transform 0.1s ease; opacity: 0.4;">4</span><span class="rdr-Day is-passive" style="width: 25.7143px; height: 25.7143px; line-height: 25.7143px; box-sizing: border-box; display: inline-block; letter-spacing: initial; text-align: center; font-size: 12px; transition: transform 0.1s ease; opacity: 0.4;">5</span><span class="rdr-Day is-passive" style="width: 25.7143px; height: 25.7143px; line-height: 25.7143px; box-sizing: border-box; display: inline-block; letter-spacing: initial; text-align: center; font-size: 12px; transition: transform 0.1s ease; opacity: 0.4;">6</span><span class="rdr-Day is-passive" style="width: 25.7143px; height: 25.7143px; line-height: 25.7143px; box-sizing: border-box; display: inline-block; letter-spacing: initial; text-align: center; font-size: 12px; transition: transform 0.1s ease; opacity: 0.4;">7</span><span class="rdr-Day is-passive" style="width: 25.7143px; height: 25.7143px; line-height: 25.7143px; box-sizing: border-box; display: inline-block; letter-spacing: initial; text-align: center; font-size: 12px; transition: transform 0.1s ease; opacity: 0.4;">8</span></div></div><div class="rdr-Calendar" style="width: 200px; padding: 10px; background: rgb(255, 255, 255); border-radius: 2px; display: inline-block; box-sizing: border-box; letter-spacing: 0px; color: rgb(0, 0, 0);"><div class="rdr-MonthAndYear"><div class="rdr-MonthAndYear-innerWrapper" style="text-align: center; box-sizing: border-box; font-size: 12px; padding: 10px 0px; height: 38px; line-height: 18px;"><button class="rdr-MonthAndYear-button prev" style="display: block; box-sizing: border-box; height: 18px; width: 18px; padding: 0px; margin: 0px 10px; border: none; background: rgb(189, 195, 199); box-shadow: none; outline: none; border-radius: 50%; float: left; visibility: hidden;"><i style="display: block; width: 0px; height: 0px; padding: 0px; margin: 0px 0px 0px 1px; border-width: 4px 6px 4px 4px; border-style: solid; border-color: transparent rgb(52, 73, 94) transparent transparent; border-image: initial; text-align: center;"></i></button><span><span class="rdr-MonthAndYear-month">July</span><span class="rdr-MonthAndYear-divider"> - </span><span class="rdr-MonthAndYear-year">2017</span></span><button class="rdr-MonthAndYear-button next" style="display: block; box-sizing: border-box; height: 18px; width: 18px; padding: 0px; margin: 0px 10px; border: none; background: rgb(189, 195, 199); box-shadow: none; outline: none; border-radius: 50%; float: right;"><i style="display: block; width: 0px; height: 0px; padding: 0px; margin: 0px 0px 0px 7px; border-width: 4px 4px 4px 6px; border-style: solid; border-color: transparent transparent transparent rgb(52, 73, 94); border-image: initial; text-align: center;"></i></button></div></div><div class="rdr-WeekDays"><span class="rdr-WeekDay" style="width: 25.7143px; height: 12.8571px; line-height: 12.8571px; box-sizing: border-box; display: inline-block; letter-spacing: initial; text-align: center; font-size: 12px; font-weight: 600; margin-bottom: 1px;">Su</span><span class="rdr-WeekDay" style="width: 25.7143px; height: 12.8571px; line-height: 12.8571px; box-sizing: border-box; display: inline-block; letter-spacing: initial; text-align: center; font-size: 12px; font-weight: 600; margin-bottom: 1px;">Mo</span><span class="rdr-WeekDay" style="width: 25.7143px; height: 12.8571px; line-height: 12.8571px; box-sizing: border-box; display: inline-block; letter-spacing: initial; text-align: center; font-size: 12px; font-weight: 600; margin-bottom: 1px;">Tu</span><span class="rdr-WeekDay" style="width: 25.7143px; height: 12.8571px; line-height: 12.8571px; box-sizing: border-box; display: inline-block; letter-spacing: initial; text-align: center; font-size: 12px; font-weight: 600; margin-bottom: 1px;">We</span><span class="rdr-WeekDay" style="width: 25.7143px; height: 12.8571px; line-height: 12.8571px; box-sizing: border-box; display: inline-block; letter-spacing: initial; text-align: center; font-size: 12px; font-weight: 600; margin-bottom: 1px;">Th</span><span class="rdr-WeekDay" style="width: 25.7143px; height: 12.8571px; line-height: 12.8571px; box-sizing: border-box; display: inline-block; letter-spacing: initial; text-align: center; font-size: 12px; font-weight: 600; margin-bottom: 1px;">Fr</span><span class="rdr-WeekDay" style="width: 25.7143px; height: 12.8571px; line-height: 12.8571px; box-sizing: border-box; display: inline-block; letter-spacing: initial; text-align: center; font-size: 12px; font-weight: 600; margin-bottom: 1px;">Sa</span></div><div class="rdr-Days"><span class="rdr-Day is-passive is-inRange" style="width: 25.7143px; height: 25.7143px; line-height: 25.7143px; box-sizing: border-box; display: inline-block; letter-spacing: initial; text-align: center; font-size: 12px; transition: transform 0.1s ease; background: rgb(52, 73, 94); color: rgb(149, 165, 166); opacity: 0.4;">25</span><span class="rdr-Day is-passive is-inRange" style="width: 25.7143px; height: 25.7143px; line-height: 25.7143px; box-sizing: border-box; display: inline-block; letter-spacing: initial; text-align: center; font-size: 12px; transition: transform 0.1s ease; background: rgb(52, 73, 94); color: rgb(149, 165, 166); opacity: 0.4;">26</span><span class="rdr-Day is-passive is-inRange" style="width: 25.7143px; height: 25.7143px; line-height: 25.7143px; box-sizing: border-box; display: inline-block; letter-spacing: initial; text-align: center; font-size: 12px; transition: transform 0.1s ease; background: rgb(52, 73, 94); color: rgb(149, 165, 166); opacity: 0.4;">27</span><span class="rdr-Day is-passive is-inRange" style="width: 25.7143px; height: 25.7143px; line-height: 25.7143px; box-sizing: border-box; display: inline-block; letter-spacing: initial; text-align: center; font-size: 12px; transition: transform 0.1s ease; background: rgb(52, 73, 94); color: rgb(149, 165, 166); opacity: 0.4;">28</span><span class="rdr-Day is-passive is-inRange" style="width: 25.7143px; height: 25.7143px; line-height: 25.7143px; box-sizing: border-box; display: inline-block; letter-spacing: initial; text-align: center; font-size: 12px; transition: transform 0.1s ease; background: rgb(52, 73, 94); color: rgb(149, 165, 166); opacity: 0.4;">29</span><span class="rdr-Day is-passive is-inRange" style="width: 25.7143px; height: 25.7143px; line-height: 25.7143px; box-sizing: border-box; display: inline-block; letter-spacing: initial; text-align: center; font-size: 12px; transition: transform 0.1s ease; background: rgb(52, 73, 94); color: rgb(149, 165, 166); opacity: 0.4;">30</span><span class="rdr-Day is-inRange" style="width: 25.7143px; height: 25.7143px; line-height: 25.7143px; box-sizing: border-box; display: inline-block; letter-spacing: initial; text-align: center; font-size: 12px; cursor: pointer; transition: transform 0.1s ease; background: rgb(52, 73, 94); color: rgb(149, 165, 166);">1</span><span class="rdr-Day is-inRange" style="width: 25.7143px; height: 25.7143px; line-height: 25.7143px; box-sizing: border-box; display: inline-block; letter-spacing: initial; text-align: center; font-size: 12px; cursor: pointer; transition: transform 0.1s ease; background: rgb(52, 73, 94); color: rgb(149, 165, 166);">2</span><span class="rdr-Day is-selected" style="width: 25.7143px; height: 25.7143px; line-height: 25.7143px; box-sizing: border-box; display: inline-block; letter-spacing: initial; text-align: center; font-size: 12px; cursor: pointer; transition: transform 0.1s ease; background: rgb(231, 76, 60); color: rgb(255, 255, 255);">3</span><span class="rdr-Day" style="width: 25.7143px; height: 25.7143px; line-height: 25.7143px; box-sizing: border-box; display: inline-block; letter-spacing: initial; text-align: center; font-size: 12px; cursor: pointer; transition: transform 0.1s ease;">4</span><span class="rdr-Day" style="width: 25.7143px; height: 25.7143px; line-height: 25.7143px; box-sizing: border-box; display: inline-block; letter-spacing: initial; text-align: center; font-size: 12px; transition: transform 0.1s ease; cursor: pointer;">5</span><span class="rdr-Day is-passive" style="width: 25.7143px; height: 25.7143px; line-height: 25.7143px; box-sizing: border-box; display: inline-block; letter-spacing: initial; text-align: center; font-size: 12px; transition: transform 0.1s ease; opacity: 0.4;">6</span><span class="rdr-Day is-passive" style="width: 25.7143px; height: 25.7143px; line-height: 25.7143px; box-sizing: border-box; display: inline-block; letter-spacing: initial; text-align: center; font-size: 12px; transition: transform 0.1s ease; opacity: 0.4;">7</span><span class="rdr-Day is-passive" style="width: 25.7143px; height: 25.7143px; line-height: 25.7143px; box-sizing: border-box; display: inline-block; letter-spacing: initial; text-align: center; font-size: 12px; transition: transform 0.1s ease; opacity: 0.4;">8</span><span class="rdr-Day is-passive" style="width: 25.7143px; height: 25.7143px; line-height: 25.7143px; box-sizing: border-box; display: inline-block; letter-spacing: initial; text-align: center; font-size: 12px; transition: transform 0.1s ease; opacity: 0.4;">9</span><span class="rdr-Day is-passive" style="width: 25.7143px; height: 25.7143px; line-height: 25.7143px; box-sizing: border-box; display: inline-block; letter-spacing: initial; text-align: center; font-size: 12px; transition: transform 0.1s ease; opacity: 0.4;">10</span><span class="rdr-Day is-passive" style="width: 25.7143px; height: 25.7143px; line-height: 25.7143px; box-sizing: border-box; display: inline-block; letter-spacing: initial; text-align: center; font-size: 12px; transition: transform 0.1s ease; opacity: 0.4;">11</span><span class="rdr-Day is-passive" style="width: 25.7143px; height: 25.7143px; line-height: 25.7143px; box-sizing: border-box; display: inline-block; letter-spacing: initial; text-align: center; font-size: 12px; transition: transform 0.1s ease; opacity: 0.4;">12</span><span class="rdr-Day is-passive" style="width: 25.7143px; height: 25.7143px; line-height: 25.7143px; box-sizing: border-box; display: inline-block; letter-spacing: initial; text-align: center; font-size: 12px; transition: transform 0.1s ease; opacity: 0.4;">13</span><span class="rdr-Day is-passive" style="width: 25.7143px; height: 25.7143px; line-height: 25.7143px; box-sizing: border-box; display: inline-block; letter-spacing: initial; text-align: center; font-size: 12px; transition: transform 0.1s ease; opacity: 0.4;">14</span><span class="rdr-Day is-passive" style="width: 25.7143px; height: 25.7143px; line-height: 25.7143px; box-sizing: border-box; display: inline-block; letter-spacing: initial; text-align: center; font-size: 12px; transition: transform 0.1s ease; opacity: 0.4;">15</span><span class="rdr-Day is-passive" style="width: 25.7143px; height: 25.7143px; line-height: 25.7143px; box-sizing: border-box; display: inline-block; letter-spacing: initial; text-align: center; font-size: 12px; transition: transform 0.1s ease; opacity: 0.4;">16</span><span class="rdr-Day is-passive" style="width: 25.7143px; height: 25.7143px; line-height: 25.7143px; box-sizing: border-box; display: inline-block; letter-spacing: initial; text-align: center; font-size: 12px; transition: transform 0.1s ease; opacity: 0.4;">17</span><span class="rdr-Day is-passive" style="width: 25.7143px; height: 25.7143px; line-height: 25.7143px; box-sizing: border-box; display: inline-block; letter-spacing: initial; text-align: center; font-size: 12px; transition: transform 0.1s ease; opacity: 0.4;">18</span><span class="rdr-Day is-passive" style="width: 25.7143px; height: 25.7143px; line-height: 25.7143px; box-sizing: border-box; display: inline-block; letter-spacing: initial; text-align: center; font-size: 12px; transition: transform 0.1s ease; opacity: 0.4;">19</span><span class="rdr-Day is-passive" style="width: 25.7143px; height: 25.7143px; line-height: 25.7143px; box-sizing: border-box; display: inline-block; letter-spacing: initial; text-align: center; font-size: 12px; transition: transform 0.1s ease; opacity: 0.4;">20</span><span class="rdr-Day is-passive" style="width: 25.7143px; height: 25.7143px; line-height: 25.7143px; box-sizing: border-box; display: inline-block; letter-spacing: initial; text-align: center; font-size: 12px; transition: transform 0.1s ease; opacity: 0.4;">21</span><span class="rdr-Day is-passive" style="width: 25.7143px; height: 25.7143px; line-height: 25.7143px; box-sizing: border-box; display: inline-block; letter-spacing: initial; text-align: center; font-size: 12px; transition: transform 0.1s ease; opacity: 0.4;">22</span><span class="rdr-Day is-passive" style="width: 25.7143px; height: 25.7143px; line-height: 25.7143px; box-sizing: border-box; display: inline-block; letter-spacing: initial; text-align: center; font-size: 12px; transition: transform 0.1s ease; opacity: 0.4;">23</span><span class="rdr-Day is-passive" style="width: 25.7143px; height: 25.7143px; line-height: 25.7143px; box-sizing: border-box; display: inline-block; letter-spacing: initial; text-align: center; font-size: 12px; transition: transform 0.1s ease; opacity: 0.4;">24</span><span class="rdr-Day is-passive" style="width: 25.7143px; height: 25.7143px; line-height: 25.7143px; box-sizing: border-box; display: inline-block; letter-spacing: initial; text-align: center; font-size: 12px; transition: transform 0.1s ease; opacity: 0.4;">25</span><span class="rdr-Day is-passive" style="width: 25.7143px; height: 25.7143px; line-height: 25.7143px; box-sizing: border-box; display: inline-block; letter-spacing: initial; text-align: center; font-size: 12px; transition: transform 0.1s ease; opacity: 0.4;">26</span><span class="rdr-Day is-passive" style="width: 25.7143px; height: 25.7143px; line-height: 25.7143px; box-sizing: border-box; display: inline-block; letter-spacing: initial; text-align: center; font-size: 12px; transition: transform 0.1s ease; opacity: 0.4;">27</span><span class="rdr-Day is-passive" style="width: 25.7143px; height: 25.7143px; line-height: 25.7143px; box-sizing: border-box; display: inline-block; letter-spacing: initial; text-align: center; font-size: 12px; transition: transform 0.1s ease; opacity: 0.4;">28</span><span class="rdr-Day is-passive" style="width: 25.7143px; height: 25.7143px; line-height: 25.7143px; box-sizing: border-box; display: inline-block; letter-spacing: initial; text-align: center; font-size: 12px; transition: transform 0.1s ease; opacity: 0.4;">29</span><span class="rdr-Day is-passive" style="width: 25.7143px; height: 25.7143px; line-height: 25.7143px; box-sizing: border-box; display: inline-block; letter-spacing: initial; text-align: center; font-size: 12px; transition: transform 0.1s ease; opacity: 0.4;">30</span><span class="rdr-Day is-passive" style="width: 25.7143px; height: 25.7143px; line-height: 25.7143px; box-sizing: border-box; display: inline-block; letter-spacing: initial; text-align: center; font-size: 12px; transition: transform 0.1s ease; opacity: 0.4;">31</span><span class="rdr-Day is-passive" style="width: 25.7143px; height: 25.7143px; line-height: 25.7143px; box-sizing: border-box; display: inline-block; letter-spacing: initial; text-align: center; font-size: 12px; transition: transform 0.1s ease; opacity: 0.4;">1</span><span class="rdr-Day is-passive" style="width: 25.7143px; height: 25.7143px; line-height: 25.7143px; box-sizing: border-box; display: inline-block; letter-spacing: initial; text-align: center; font-size: 12px; transition: transform 0.1s ease; opacity: 0.4;">2</span><span class="rdr-Day is-passive" style="width: 25.7143px; height: 25.7143px; line-height: 25.7143px; box-sizing: border-box; display: inline-block; letter-spacing: initial; text-align: center; font-size: 12px; transition: transform 0.1s ease; opacity: 0.4;">3</span><span class="rdr-Day is-passive" style="width: 25.7143px; height: 25.7143px; line-height: 25.7143px; box-sizing: border-box; display: inline-block; letter-spacing: initial; text-align: center; font-size: 12px; transition: transform 0.1s ease; opacity: 0.4;">4</span><span class="rdr-Day is-passive" style="width: 25.7143px; height: 25.7143px; line-height: 25.7143px; box-sizing: border-box; display: inline-block; letter-spacing: initial; text-align: center; font-size: 12px; transition: transform 0.1s ease; opacity: 0.4;">5</span></div></div></div></div></div></div></div></div><div class="form-group"><div class="form-control"><label for="filter_tag"><span>Tags</span></label><div class="input select  optionalgrouped_select article_filter_tag"><div class="Select Select--multi is-searchable"><div class="Select-control"><span class="Select-multi-value-wrapper" id="react-select-65--value"><div class="Select-placeholder">Select...</div><div class="Select-input" style="display: inline-block;"><input role="combobox" aria-expanded="false" aria-owns="" aria-haspopup="false" aria-activedescendant="react-select-65--value" value="" style="box-sizing: content-box; width: 2px;"><div style="position: absolute; top: 0px; left: 0px; visibility: hidden; height: 0px; overflow: scroll; white-space: pre; font-size: 14px; font-family: &quot;Open Sans&quot;, &quot;Helvetica Neue&quot;, Helvetica, sans-serif; font-weight: normal; font-style: normal; letter-spacing: normal;"></div></div></span><span class="Select-arrow-zone"><span class="Select-arrow"></span></span></div></div></div></div></div><div class="form-group compare"><div class="form-control"><label class="label_compare"><span>Comparison</span></label><div><label for="filter_compare" class="compare-tab active"><span>Tags</span></label><label for="filter_compare_region" class="compare-tab"><span>Outlet Region</span></label></div><div class="input select  optionalgrouped_select article_filter_compare compare-tab-content"><div class="Select Select--multi is-searchable"><div class="Select-control"><span class="Select-multi-value-wrapper" id="react-select-79--value"><div class="Select-placeholder">Select...</div><div class="Select-input" style="display: inline-block;"><input role="combobox" aria-expanded="false" aria-owns="" aria-haspopup="false" aria-activedescendant="react-select-79--value" value="" style="box-sizing: content-box; width: 2px;"><div style="position: absolute; top: 0px; left: 0px; visibility: hidden; height: 0px; overflow: scroll; white-space: pre; font-size: 14px; font-family: &quot;Open Sans&quot;, &quot;Helvetica Neue&quot;, Helvetica, sans-serif; font-weight: normal; font-style: normal; letter-spacing: normal;"></div></div></span><span class="Select-arrow-zone"><span class="Select-arrow"></span></span></div></div></div><div class="input select  optionalgrouped_select article_filter_compare_region compare-tab-content hidden"><div class="Select Select--multi is-searchable"><div class="Select-control"><span class="Select-multi-value-wrapper" id="react-select-80--value"><div class="Select-placeholder">Select...</div><div class="Select-input" style="display: inline-block;"><input role="combobox" aria-expanded="false" aria-owns="" aria-haspopup="false" aria-activedescendant="react-select-80--value" value="" style="box-sizing: content-box; width: 2px;"><div style="position: absolute; top: 0px; left: 0px; visibility: hidden; height: 0px; overflow: scroll; white-space: pre; font-size: 14px; font-family: &quot;Open Sans&quot;, &quot;Helvetica Neue&quot;, Helvetica, sans-serif; font-weight: normal; font-style: normal; letter-spacing: normal;"></div></div></span><span class="Select-arrow-zone"><span class="Select-arrow"></span></span></div></div></div></div></div><div class="form-group"><div class="form-control"><label for="filter_sentiment"><span>Sentiment</span></label><div class="sentiment-select cell-select "><span class="cell negative checked"><span>Negative</span><span class="cell-toggle"></span></span><span class="cell neutral checked"><span>Neutral</span><span class="cell-toggle"></span></span><span class="cell positive checked"><span>Positive</span><span class="cell-toggle"></span></span></div></div></div><div class="form-group"><div class="form-control"><label for="filter_mediaSubtype"><span>Media Types</span></label><div class="media-subtype-select cell-select "><span class="cell "><span>Magazine</span><span class="cell-toggle"></span></span><span class="cell "><span>Newspaper</span><span class="cell-toggle"></span></span><span class="cell "><span>Tv</span><span class="cell-toggle"></span></span><span class="cell "><span>Radio</span><span class="cell-toggle"></span></span><span class="cell  checked"><span>Website</span><span class="cell-toggle"></span></span><span class="cell "><span>Social Networks</span><span class="cell-toggle"></span></span></div></div></div><div class="form-group"><div class="form-control"><label for="filter_outlet"><span>Outlets</span></label><div class="input select  optionalgrouped_select article_filter_outlet"><div class="Select Select--multi is-searchable"><div class="Select-control"><span class="Select-multi-value-wrapper" id="react-select-66--value"><div class="Select-placeholder">Select...</div><div class="Select-input" style="display: inline-block;"><input role="combobox" aria-expanded="false" aria-owns="" aria-haspopup="false" aria-activedescendant="react-select-66--value" value="" style="box-sizing: content-box; width: 2px;"><div style="position: absolute; top: 0px; left: 0px; visibility: hidden; height: 0px; overflow: scroll; white-space: pre; font-size: 14px; font-family: &quot;Open Sans&quot;, &quot;Helvetica Neue&quot;, Helvetica, sans-serif; font-weight: normal; font-style: normal; letter-spacing: normal;"></div></div></span><span class="Select-arrow-zone"><span class="Select-arrow"></span></span></div></div></div></div></div><div class="form-group"><div class="form-control"><label for="filter_regions"><span>Outlets Region</span></label><div class="input select  optionalarticle_filter_regions"><div class="Select Select--multi is-searchable"><div class="Select-control"><span class="Select-multi-value-wrapper" id="react-select-67--value"><div class="Select-placeholder">Select...</div><div class="Select-input" style="display: inline-block;"><input role="combobox" aria-expanded="false" aria-owns="" aria-haspopup="false" aria-activedescendant="react-select-67--value" value="" style="box-sizing: content-box; width: 2px;"><div style="position: absolute; top: 0px; left: 0px; visibility: hidden; height: 0px; overflow: scroll; white-space: pre; font-size: 14px; font-family: &quot;Open Sans&quot;, &quot;Helvetica Neue&quot;, Helvetica, sans-serif; font-weight: normal; font-style: normal; letter-spacing: normal;"></div></div></span><span class="Select-arrow-zone"><span class="Select-arrow"></span></span></div></div></div></div></div><div class="form-group"><div class="form-control"><label for="filter_location"><span>Outlets Country</span></label><div class="input select  optionalarticle_filter_location"><div class="Select Select--multi is-searchable"><div class="Select-control"><span class="Select-multi-value-wrapper" id="react-select-68--value"><div class="Select-placeholder">Select...</div><div class="Select-input" style="display: inline-block;"><input role="combobox" aria-expanded="false" aria-owns="" aria-haspopup="false" aria-activedescendant="react-select-68--value" value="" style="box-sizing: content-box; width: 2px;"><div style="position: absolute; top: 0px; left: 0px; visibility: hidden; height: 0px; overflow: scroll; white-space: pre; font-size: 14px; font-family: &quot;Open Sans&quot;, &quot;Helvetica Neue&quot;, Helvetica, sans-serif; font-weight: normal; font-style: normal; letter-spacing: normal;"></div></div></span><span class="Select-arrow-zone"><span class="Select-arrow"></span></span></div></div></div></div></div><div class="form-group"><div class="form-control"><label for="filter_outlet_tiers"><span>Outlets Tiers</span></label><div class="sentiment-select cell-select "><span class="cell negative checked"><span>Tier 1</span><span class="cell-toggle"></span></span><span class="cell neutral checked"><span>Tier 2</span><span class="cell-toggle"></span></span><span class="cell positive"><span>Tier 3</span><span class="cell-toggle"></span></span></div></div></div><div><div class="form-group"><div class="form-control"><label for="filter_outletCategory"><span>Outlets Segments</span></label><div class="input select  optionalarticle_filter_outlet_category"><div class="Select Select--multi is-searchable"><div class="Select-control"><span class="Select-multi-value-wrapper" id="react-select-69--value"><div class="Select-placeholder">Select...</div><div class="Select-input" style="display: inline-block;"><input role="combobox" aria-expanded="false" aria-owns="" aria-haspopup="false" aria-activedescendant="react-select-69--value" value="" style="box-sizing: content-box; width: 2px;"><div style="position: absolute; top: 0px; left: 0px; visibility: hidden; height: 0px; overflow: scroll; white-space: pre; font-size: 14px; font-family: &quot;Open Sans&quot;, &quot;Helvetica Neue&quot;, Helvetica, sans-serif; font-weight: normal; font-style: normal; letter-spacing: normal;"></div></div></span><span class="Select-arrow-zone"><span class="Select-arrow"></span></span></div></div></div></div></div><div class="form-group"><div class="form-control"><label for="filter_outletSubCategory"><span>Outlets Sub Segments</span></label><div class="input select  optionalarticle_filter_outlet_sub_category"><div class="Select Select--multi is-searchable"><div class="Select-control"><span class="Select-multi-value-wrapper" id="react-select-70--value"><div class="Select-placeholder">Select...</div><div class="Select-input" style="display: inline-block;"><input role="combobox" aria-expanded="false" aria-owns="" aria-haspopup="false" aria-activedescendant="react-select-70--value" value="" style="box-sizing: content-box; width: 2px;"><div style="position: absolute; top: 0px; left: 0px; visibility: hidden; height: 0px; overflow: scroll; white-space: pre; font-size: 14px; font-family: &quot;Open Sans&quot;, &quot;Helvetica Neue&quot;, Helvetica, sans-serif; font-weight: normal; font-style: normal; letter-spacing: normal;"></div></div></span><span class="Select-arrow-zone"><span class="Select-arrow"></span></span></div></div></div></div></div></div><div class="form-group"><div class="form-control"><label for="filter_outletLanguage"><span>Outlets Language</span></label><div class="input select  optionalarticle_filter_language"><div class="Select Select--multi is-searchable"><div class="Select-control"><span class="Select-multi-value-wrapper" id="react-select-71--value"><div class="Select-placeholder">Select...</div><div class="Select-input" style="display: inline-block;"><input role="combobox" aria-expanded="false" aria-owns="" aria-haspopup="false" aria-activedescendant="react-select-71--value" value="" style="box-sizing: content-box; width: 2px;"><div style="position: absolute; top: 0px; left: 0px; visibility: hidden; height: 0px; overflow: scroll; white-space: pre; font-size: 14px; font-family: &quot;Open Sans&quot;, &quot;Helvetica Neue&quot;, Helvetica, sans-serif; font-weight: normal; font-style: normal; letter-spacing: normal;"></div></div></span><span class="Select-arrow-zone"><span class="Select-arrow"></span></span></div></div></div></div></div><div class="form-group"><div class="form-control"><label for="filter_primaryLanguage"><span>Primary Language</span></label><div class="input select  optionalarticle_filter_primaryLanguage"><div class="Select Select--multi is-searchable"><div class="Select-control"><span class="Select-multi-value-wrapper" id="react-select-72--value"><div class="Select-placeholder">Select...</div><div class="Select-input" style="display: inline-block;"><input role="combobox" aria-expanded="false" aria-owns="" aria-haspopup="false" aria-activedescendant="react-select-72--value" value="" style="box-sizing: content-box; width: 2px;"><div style="position: absolute; top: 0px; left: 0px; visibility: hidden; height: 0px; overflow: scroll; white-space: pre; font-size: 14px; font-family: &quot;Open Sans&quot;, &quot;Helvetica Neue&quot;, Helvetica, sans-serif; font-weight: normal; font-style: normal; letter-spacing: normal;"></div></div></span><span class="Select-arrow-zone"><span class="Select-arrow"></span></span></div></div></div></div></div><div class="form-group"><button class="btn btn-primary"><span>Update Results</span></button><button class="btn"><span>Reset Filters</span></button></div></form></div>
+                </div>
+                <div class="detail  bootstrap-ui">
+                    <div class="card">
+
+                        <ul class="inline-icons-container menu text-left">
+                            <li class="active">
+                                <a onclick="loadMediaTypes()">
+                                    <span class="fa fa-newspaper-o"></span> <p>Media Types</p></a>
+                            </li>
+                            <li>
+                                <a onclick="loadMediaTypes()">
+                                    <span class="fa fa-comments-o"></span> <p>Sentiment</p></a>
+                            </li>
+                            <li>
+                                <a onclick="loadMediaTypes()">
+                                    <span class="fa fa-bullhorn"></span>
+                                    <p>Reach</p></a>
+                            </li>
+                            <li>
+                                <a onclick="loadTagCloud()">
+                                    <span class="fa fa-tags"></span> <p>Tags</p></a>
+                            </li>
+                            <li>
+                                <a onclick="loadTagCloud()">
+                                    <span class="fa fa-building"></span> <p>Outlets</p></a>
+                            </li>
+                            <li>
+                                <a onclick="loadTagCloud()">
+                                    <span class="fa fa-globe"></span> <p>Regional</p></a>
+                            </li>
+                            <li>
+                                <a onclick="loadTagCloud()">
+                                    <span class="fa fa-language"></span> <p>Languages</p></a>
+                            </li>
+                            <li>
+                                <a onclick="loadTagCloud()">
+                                    <span class="fa fa-usd"></span> <p>AVE/ASE</p></a>
+                            </li>
+                            <li>
+                                <a onclick="loadTagCloud()">
+                                    <span class="fa fa-sitemap"></span> <p>Tiers</p></a>
+                            </li>
+                            <li>
+                                <a onclick="loadTagCloud()">
+                                    <span class="fa fa-th"></span> <p>Segments</p></a>
+                            </li>
+                        </ul>
+                        <div class="dropdown dropdown-icon-slots no-caret btn btn-link pl20 pr20 pull-right" style="display: inline-block;">
+                            <div><span class="toggle" onclick="$(this).next().toggle(); "><span class="fa fa-plus"></span> <span class="label"> &nbsp;Add Widget</span></span>
+                                <ul class="menu">
+                                    <li><span class="fa fa-pie-chart"></span><p>Aggregated</p></li>
+                                    <li><span class="fa fa-area-chart"></span> <p> Volume over </p><p>Time</p></li>
+                                    <li><span class="fa fa-bar-chart-o"></span><p>Sentiment</p></li>
+                                    <li><span class="fa fa-cloud"></span><p>Top Outlets</p></li>
+                                    <li><span class="fa fa-list"></span><p>Top 5 Outlets</p><p>Website</p></li>
+                                    <li><span class="fa fa-list"></span><p>Top 5 Outlets</p><p>Blog</p></li>
+                                    <li><span class="fa fa-list"></span><p>Top 5 Outlets</p><p>Magazine</p></li>
+                                    <li><span class="fa fa-list"></span><p>Top 5 Outlets</p><p>Newspaper</p></li>
+                                    <li><span class="fa fa-cloud"></span><p>Top Tags</p></li>
+                                    <li><span class="fa fa-list"></span><p>Top 5 Tags</p><p>By Media Type</p></li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="clearfix"></div>
+                    </div>
+                    <div class="dashboard">
+                        <div class="grid-stack" data-gs-width="12" data-gs-animate="yes">
+                            <!--<div class="grid-stack-item" data-gs-x="0" data-gs-y="0" data-gs-width="12" data-gs-height="2">
+                                <div class="grid-stack-item-content">
+                                    <div class="widget np" id="media-type-compare"> 0 </div>
+                                </div>
+                            </div>-->
+                            <div class="grid-stack-item grid-stack-title" data-title="Volume over Time" data-gs-x="0" data-gs-y="0" data-gs-width="12" data-gs-height="7">
+                                <div class="grid-stack-item-content">
+                                    <div class="widget widget-title np" id="media-type-over-time" data-title="Media Type Volume over Time" >
+
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="grid-stack-item grid-stack-title" data-title="Media Type Sentiment" data-gs-x="6" data-gs-y="8" data-gs-width="6" data-gs-height="4">
+                                <div class="grid-stack-item-content">
+                                    <div class="widget widget-title" id="media-type-sentiment" data-title="Media Type Sentiment"> 2 </div>
+                                </div>
+                            </div>
+                            <div class="grid-stack-item grid-stack-title" data-gs-x="0" data-gs-y="8" data-gs-width="6" data-gs-height="4">
+                                <div class="grid-stack-item-content">
+                                    <div class="widget widget-title" id="media-type-aggregated-volume" data-title="Aggregated Volume" > 3 </div>
+                                </div>
+                            </div>
+                            <div class="grid-stack-item grid-stack-title" data-gs-x="0" data-gs-y="12" data-gs-width="3" data-gs-height="4">
+                                <div class="grid-stack-item-content" >
+                                    <div class="widget widget-title" id="media-type-website-top-outlets" data-title="Website - Top Outlets" > 4 </div>
+                                </div>
+                            </div>
+                            <div class="grid-stack-item grid-stack-title" data-gs-x="3" data-gs-y="12" data-gs-width="3" data-gs-height="4">
+                                <div class="grid-stack-item-content">
+                                    <div class="widget widget-title" id="media-type-magazine-top-outlets" data-title="Magazine - Top Outlets"> 5 </div>
+                                </div>
+                            </div>
+                            <div class="grid-stack-item grid-stack-title"  data-gs-x="6" data-gs-y="12" data-gs-width="3" data-gs-height="4">
+                                <div class="grid-stack-item-content">
+                                    <div class="widget widget-title" id="media-type-newspaper-top-outlets" data-title="Newspaper - Top Outlets"> 6 </div>
+                                </div>
+                            </div>
+                            <div class="grid-stack-item grid-stack-title"  data-gs-x="9" data-gs-y="12" data-gs-width="3" data-gs-height="4">
+                                <div class="grid-stack-item-content">
+                                    <div class="widget widget-title" id="media-type-blog-top-outlets" data-title="Blog - Top Outlets"> 7 </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <footer>
+            <p class="copyright"><!-- react-text: 73 -->© <!-- /react-text --><!-- react-text: 74 -->2016-2017<!-- /react-text --><!-- react-text: 75 --> CARMA&nbsp;&nbsp;•&nbsp;&nbsp;<!-- /react-text --><a href="https://www.carma.com/privacy-policy/" target="_blank"><span>Privacy Policy</span></a></p>
+        </footer>
+        <div class="notification-list"></div>
+    </div>
+</div>
+
+
 </body>
 </html>

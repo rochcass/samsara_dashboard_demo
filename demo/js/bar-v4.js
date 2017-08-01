@@ -10,8 +10,8 @@ function generateBarChart(parameters) {
             right: parameters.margin.right,
             bottom: parameters.margin.bottom
         },
-        width = svg.attr('width') !== undefined ? svg.attr('width') : parameters.width,
-        height = svg.attr('height') !== undefined ? svg.attr('height') : parameters.height,
+        width =  parameters.width,
+        height = parameters.height,
         innerWidth = width - parameters.margin.left - parameters.margin.right,
         innerHeight = height - parameters.margin.top - parameters.margin.bottom,
         barHeight = 0,
