@@ -15,82 +15,10 @@
     <!-- moment.js -->
     <script src="../js/moment.min.js"></script>
 
-    <style class="cp-pen-styles">.d3 {
-        box-shadow: 0 0 0 1px #eee;
-        box-sizing: border-box;
-    }
-
-    path,
-    line {
-        fill: none;
-        shape-rendering: crispEdges;
-        stroke: #E8E8E8;
-    }
-
-    .path-line {
-        shape-rendering: initial;
-    }
-    .path-line.path-line1 {
-        stroke: #0baadd;
-    }
-    .path-line.path-line2 {
-        stroke: #47cf73;
-    }
-
-    .path-area {
-        stroke: none;
-    }
-    .path-area.path-area1 {
-        fill: rgba(11, 170, 221, 0.7);
-        stroke: rgba(11, 170, 221, 0.7);
-    }
-    .path-area.path-area2 {
-        fill: rgba(71, 207, 115, 0.55);
-        stroke: rgba(71, 207, 115, 0.55);
-    }
-
-    .tick text {
-        font-family: sans-serif;
-        font-size: 10px;
-        fill: #999;
-    }
-
-
-
-    .tooltip {
-        font: 14px sans-serif;
-        line-height: 1;
-        font-weight: bold;
-        padding: 6px 12px;
-        background: rgba(0, 0, 0, 0.8);
-        color: #fff;
-        border-radius: 2px;
-        font-family: inherit;
-        pointer-events:none; /*let mouse events pass through*/
-        opacity:0;
-        transition: opacity 0.3s;
-        width: auto;
-        position: absolute;
-    }
-
-    .tooltip:before {
-        border-top: 5px solid transparent;
-        border-bottom: 5px solid transparent;
-        border-right:5px solid rgba(0, 0, 0, 0.8);
-        right: 100%;
-        content: '';
-        top: 10px;
-        position: absolute;
-        z-index: 99;
-    }
-
-    .tooltip-title { display: block; color: orange; }
-
-    </style>
 </head>
 <body>
 
-<div class="area-chart-container">
+<div class="area-chart-container area-chart">
     <svg class="line-graph"></svg>
     <div class="tooltips"> <div class="tooltip"></div></div>
 
@@ -249,10 +177,6 @@ for(var i=data.length - 1; i >= 0; i--){
         datas[index].values.push({close: this.count, date: data[i].date});
     });
 }
-
-var DATA1 = datasets[0];//[9.5, 2, 5, 7, 5, 3, 0];
-var DATA2 = datasets[1]; //[15, 7, 6, 8, 6, 2, 1];
-var LABELS = labels; //['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday'];
 
 var xAxisLabels = undefined;
 
@@ -415,40 +339,62 @@ function drawGraph(){
 
     var tooltip = d3.select('.tooltip');
     var barSize = Math.round(innerWidth / (datas[0].values.length - 1));
+    var windowWidth = window.innerWidth;
 
-svg.selectAll('g.inner').selectAll('grid-tooltip')
-    .data(data)
-    .enter()
-    .append('rect')
 
-    .attr('class', 'grid-tooltip chartTransparentFill')
-    .attr('tooltip-index', i)
-    .on('mouseover', function (d, i) {
-        tooltip.style('opacity', 1);
-    })
-    .on('mousemove', function (d, i) {
-        tooltip
-            .html(getTooltip(d))
-            .style('opacity', 1)
-            .style("left", Math.max(0, d3.event.pageX + 15) + "px")
-            .style("top", (d3.event.pageY - 15) + "px");
-    })
-    .on('mouseout', function (d, i) {
-        tooltip.style('opacity', 0);
-    })
-    .attr('x', function (d,i) {
-        return (barSize * i) - (barSize / 2);
-    })
-    .attr('y', function (d) {
-        return 0;
-    })
+    var tooltipLine = svg.selectAll('g.inner')
+        .append('rect')
+        .attr('class', 'tooltip-line line')
+        .attr('x', 1)
+        .attr('y', 0)
+        .attr('width', 1)
+        .attr('height', innerHeight)
+        .style('opacity', 0);
 
-    .attr('width', function (d, i) {
-        return i === 0 ? (barSize / 2) - 1 : barSize - 1;
-    })
-    .attr('height', function (d) {
-        return innerHeight - 1;
-    });
+    svg.selectAll('g.inner').selectAll('grid-tooltip')
+        .data(data)
+        .enter()
+        .append('rect')
+        .attr('class', 'grid-tooltip chartTransparentFill')
+        .attr('tooltip-index', i)
+        .on('mouseover', function (d, i) {
+            tooltip.style('opacity', 1);
+            tooltipLine.style('opacity', 1);
+        })
+        .on('mousemove', function (d, i) {
+
+            var tooltipLeft = Math.max(0, d3.event.pageX + 15) + tooltip.node().clientWidth > windowWidth;
+            var left =  tooltipLeft ?
+                Math.max(0, d3.event.pageX - tooltip.node().clientWidth - 15) : Math.max(0, d3.event.pageX + 15);
+
+
+            tooltipLine.attr('x', Math.max(0, d3.event.pageX - margin.left));
+            tooltip
+                .html(getTooltip(d))
+                .attr('class', 'tooltip ' + (tooltipLeft ? 'left' : 'right'))
+                .style('opacity', 1)
+                .style("left", left + "px")
+                .style("top", (d3.event.pageY - 15) + "px");
+        })
+        .on('mouseout', function (d, i) {
+            tooltip.style('opacity', 0);
+            tooltipLine.style('opacity', 0);
+        })
+        .attr('x', function (d,i) {
+            return i === 0 ? 0 : (barSize * i) - (barSize / 2);
+        })
+        .attr('y', function (d) {
+            return 0;
+        })
+
+        .attr('width', function (d, i) {
+            return i === 0 ||  i === datas[0].values.length - 1 ? (barSize / 2) - 1 : barSize - 1;
+        })
+        .attr('height', function (d) {
+            return innerHeight - 1;
+        });
+
+
 }
 
 function getTooltip(d){
@@ -457,7 +403,6 @@ function getTooltip(d){
     $(d.media).each(function(index) {
         html += '<div class="tooltip-line"><div class="tooltip-item"><div class="tooltip-bullet"></div><div class="item-name light-gray"><span>'+this.type+'</span></div></div><div class="value light-gray">'+this.count+'</div></div>';
     });
-//China0
     return html;
 }
 
