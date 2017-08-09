@@ -2,6 +2,7 @@
 $(function() {
     $('#chart-type-select').load('./templates/chart-type-picker.html');
     
+    $('#media-type-test').load('./charts/stacked-area-chart.html');
     $('#media-type-over-time').load('./templates/media-type-volume.html');
     
     $('#media-type-compare').load('./templates/media-type-compare.html');
@@ -63,7 +64,9 @@ $(function() {
     
     $('#media-type-aggregated-volume').load('./templates/media-type-aggregated-volume.html');
     
-    $('#media-type-test').load('./charts/stacked-area-chart.html');
+    
+    
+    $('#media-type-cloud').load('./charts/tag-cloud.html');
     /*
     initResponsiveHorizontalBarChart('#test', [
             {
@@ -150,7 +153,7 @@ $(function() {
 */});
 
 function loadTagCloud() {
-    $('#chart-wrapper').load('./charts/tag-cloud.html');
+    $('#media-type-cloud').load('./charts/tag-cloud.html');
 }
 
 function getTopOutlets(cssClass) {

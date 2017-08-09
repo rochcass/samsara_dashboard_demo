@@ -12,7 +12,8 @@
                 text:"Chart.js Line Chart - Stacked Area"
             },
             tooltips: {
-                mode: 'index'
+                mode: 'index',
+                display:false
             },
             hover: {
                 mode: 'index'
@@ -25,7 +26,6 @@
                     }
                 }],
                 yAxes: [{
-                    stacked: true,
                     scaleLabel: {
                         display: true,
                         labelString: 'Value'
@@ -59,7 +59,7 @@
             config.data.datasets.push({
                 label: jsUcfirst(this),
                 borderColor: getColorFromArr(index, '1'),
-                backgroundColor: getColorFromArr(index, '1'),
+                backgroundColor: 'transparent',
                 data: sets[index]
             });
         });
@@ -81,6 +81,11 @@
             ['red','239, 118, 122']
         ];
         return 'rgba('+colors[index][1]+ (transparency !== undefined ? ',' + transparency : '') + ')';
+    }
+
+
+    function jsUcfirst(string) {
+        return string.charAt(0).toUpperCase() + string.slice(1);
     }
 
 </script>
