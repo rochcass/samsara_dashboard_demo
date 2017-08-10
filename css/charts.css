@@ -81,12 +81,15 @@
 #horizontal-stacked-bar #tooltip p {
   margin: 0;
   font-family: sans-serif;
-  font-size: 14px;
+  font-size: 12px;
   line-height: 20px;
+}
+.chart-legend {
+  font-size: 11px;
 }
 .chart-legend.chart-legend-absolute-bottom-right {
   position: absolute !important;
-  bottom: 20px !important;
+  bottom: 0px !important;
   right: 25px;
   text-align: right !important;
   max-width: 100% !important;
@@ -386,7 +389,7 @@
   position: absolute;
   z-index: 99;
 }
-.tooltip .87tip-title {
+.tooltip .tip-title {
   display: block;
   color: orange;
 }
