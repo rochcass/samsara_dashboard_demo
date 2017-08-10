@@ -314,6 +314,10 @@
   top: 100%;
   left: 0;
 }
+.tooltips * {
+  font-size: 13px;
+  font-size: .8rem!important;
+}
 .area-chart path,
 .area-chart line {
   shape-rendering: crispEdges;

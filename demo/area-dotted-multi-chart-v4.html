@@ -20,7 +20,7 @@
 </head>
 <body>
 
-<div id="media-type-volume-area-chart" class="area-chart">
+<div id="media-type-volume-area-chart" class="area-chart" style="height: 300px;">
     <svg class="line-graph"></svg>
     <div class="tooltips"> <div class="tooltip"></div></div>
 </div>
@@ -36,8 +36,9 @@
             element: 'svg',
             tooltipElement: 'tooltip',
             data: response.data,
-            showTitle: true,
-            title: 'Media Type'
+            showTitle: false,
+            title: 'Media Type',
+            labelTitles: false
         });
     });
 </script>

@@ -12,7 +12,8 @@ var area_chart_settings = {
     innerHeight : undefined,
     xScale : undefined,
     yScale : undefined,
-    xAxisLabelsxAxisLabels: undefined,
+    labelTitles: false,
+    xAxisLabels: undefined,
     showLegend: false,
     showTitle: false,
     title: 'Area Graph',
@@ -29,7 +30,7 @@ function setAreaChartSettings(args){
     area_chart_settings.graphContainer = d3.select(args.container);
     area_chart_settings.svg = d3.select(args.element);
     area_chart_settings.tooltip = d3.select(args.tooltipElement);
-    
+    area_chart_settings.labelTitles = args.labelTitles;
     
     var parseTime = d3.timeParse("%Y-%m-%d");
     
@@ -49,12 +50,14 @@ function setAreaChartSettings(args){
     });
 
     //Set Values
+    var formatTime = d3.timeFormat("%b %d");
     for(var i=area_chart_settings.data.length - 1; i >= 0; i--){
     
-        area_chart_settings.labels.push(area_chart_settings.data[i].date);
+        var dt = formatTime(new Date(area_chart_settings.data[i].date));
+        area_chart_settings.labels.push(dt);
         
         $(area_chart_settings.data[i].media).each(function(index) {
-            area_chart_settings.datasets[index].values.push({close: this.count, date: area_chart_settings.data[i].date});
+            area_chart_settings.datasets[index].values.push({close: this.count, date: dt});
         });
     }
     
@@ -80,19 +83,23 @@ function renderPlot() {
     
     area_chart_settings.xAxisLabels = d3.scaleTime()
         .rangeRound([0, area_chart_settings.innerWidth], 0)
-        .domain(d3.extent(area_chart_settings.data, function(d) { return d.date; }));
+        .domain(d3.extent(area_chart_settings.data, function (d) {
+            return d.date;
+        }));
     
-    x = d3.axisBottom(area_chart_settings.xAxisLabels).ticks(area_chart_settings.data.length);
+    x = d3.axisBottom(area_chart_settings.xScale).ticks(4); //area_chart_settings.data.length);
     
     y = d3.axisLeft(area_chart_settings.yScale).ticks(4);
     
     area_chart_settings.svg.attr('width', area_chart_settings.width).attr('height', area_chart_settings.height);
     
-    area_chart_settings.svg.append("text")
-        .attr("x", (area_chart_settings.width / 2))
-        .attr("y", (area_chart_settings.margin.top / 2))
-        .attr("text-anchor", "middle")
-        .text(area_chart_settings.title);
+    if(area_chart_settings.showTitle) {
+        area_chart_settings.svg.append("text")
+            .attr("x", (area_chart_settings.width / 2))
+            .attr("y", (area_chart_settings.margin.top / 2))
+            .attr("text-anchor", "middle")
+            .text(area_chart_settings.title);
+    }
     
     var inner = area_chart_settings.svg.selectAll('g.inner').data([null]);
     inner.exit().remove();
@@ -124,31 +131,34 @@ function renderPlot() {
     
     var xAxis = area_chart_settings.svg.selectAll('g.inner').selectAll('g.x.axis').data([null]);
     xAxis.exit().remove();
-    xAxis.enter().append('g')
+    var xAxisLabels = xAxis.enter().append('g')
         .attr('class', 'x axis')
         .attr('transform', 'translate(0, ' + area_chart_settings.innerHeight + ')')
-        .call(x)
-        .append('text')
-        .attr('x', (area_chart_settings.innerWidth / 2))
-        .attr('y', 25)
-        .attr('dy', '.71em')
-        .style('text-anchor', 'middle');
-     //   .text(xLabel);
+        .call(x);
     
     var yAxis = area_chart_settings.svg.selectAll('g.inner').selectAll('g.y.axis').data([null]);
     yAxis.exit().remove();
-    yAxis.enter().append('g')
+    var yAxisLabels = yAxis.enter().append('g')
         .attr('class', 'y axis')
-        .call(y)
-        .append("text")
+        .call(y);
+    
+    
+    if (area_chart_settings.labelTitles) {
+        xAxisLabels.append('text')
+            .attr('x', (area_chart_settings.innerWidth / 2))
+            .attr('y', 35)
+            .attr('dy', '.71em')
+            .style('text-anchor', 'middle')
+            .text(xLabel);
+    
+        yAxisLabels.append("text")
         .attr("transform", "rotate(-90)")
-        .attr("y", -45)
+        .attr("y", -40)
         .attr("x", -(area_chart_settings.innerHeight / 2))
         .attr("dy", ".71em")
-        .style("text-anchor", "middle");
-      //  .text(yLabel);
-    
-    
+        .style("text-anchor", "middle")
+        .text(yLabel);
+    }
 }
 
 function drawGraph(){
@@ -284,7 +294,7 @@ function getTooltip(d){
     var html = '<div class="tooltip-line"><span class="tooltip-title">' + moment(d.date).format('ddd DD MMM YYYY') + ': </span></div>';
     
     $(d.media).each(function(index) {
-        html += '<div class="tooltip-line"><div class="tooltip-item"><div class="tooltip-bullet"></div><div class="item-name light-gray"><span>'+this.type+'</span></div></div><div class="value light-gray">'+this.count+'</div></div>';
+        html += '<div class="tooltip-line"><div class="tooltip-item"><div class="tooltip-bullet blogs"></div><div class="item-name light-gray"><span>'+this.type+'</span></div></div><div class="value light-gray">'+this.count+'</div></div>';
     });
     return html;
 }

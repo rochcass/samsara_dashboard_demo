@@ -352,7 +352,7 @@ function getScaleDomains() {
     xScale = d3.scaleBand().domain(labels);
     yScale = d3.scaleLinear()
         .domain([
-            20,//d3.min(datasets, function(d) { return d3.min(d); }),
+            0,//d3.min(datasets, function(d) { return d3.min(d); }),
             d3.max(datasets, function(d) { return d3.max(d); })
         ]); //.domain([0, d3.max([d3.max(DATA1), d3.max(DATA2)])]);
 }
