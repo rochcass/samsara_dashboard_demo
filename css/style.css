@@ -208,7 +208,7 @@ MISC
   padding: 0 !important;
 }
 .btn-icon.dropdown .toggle {
-  padding: 6px 9px !important;
+  padding: 3px 6px !important;
 }
 .btn-icon.dropdown .toggle:after {
   display: none !important;

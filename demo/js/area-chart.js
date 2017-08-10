@@ -294,7 +294,7 @@ function getTooltip(d){
     var html = '<div class="tooltip-line"><span class="tooltip-title">' + moment(d.date).format('ddd DD MMM YYYY') + ': </span></div>';
     
     $(d.media).each(function(index) {
-        html += '<div class="tooltip-line"><div class="tooltip-item"><div class="tooltip-bullet blogs"></div><div class="item-name light-gray"><span>'+this.type+'</span></div></div><div class="value light-gray">'+this.count+'</div></div>';
+        html += '<div class="tooltip-line"><div class="tooltip-item"><div class="tooltip-bullet chart_'+index+'"></div><div class="item-name light-gray"><span>'+this.type+'</span></div></div><div class="value light-gray">'+this.count+'</div></div>';
     });
     return html;
 }
