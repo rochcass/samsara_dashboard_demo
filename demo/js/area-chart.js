@@ -3,7 +3,7 @@ var area_chart_settings = {
     graphContainer: undefined,
     svg: undefined,
     tooltip : undefined,
-    margin : { top: 50, right: 50, bottom: 50, left: 50 },
+    margin : { top: 30, right: 50, bottom: 50, left: 50 },
     duration : 500,
     durationIncrease : 100,
     width : undefined,
@@ -105,7 +105,7 @@ function renderPlot() {
     inner.exit().remove();
     inner.enter().append('g')
         .attr('class', 'inner')
-        .attr('transform', 'translate(' + area_chart_settings.margin.top + ', ' + area_chart_settings.margin.right + ')');
+        .attr('transform', 'translate(' + area_chart_settings.margin.left + ', ' + area_chart_settings.margin.top + ')');
     
     var horizontalLineGroup = area_chart_settings.svg.selectAll('g.inner').selectAll('.line-group').data([null]);
     horizontalLineGroup.exit().remove();

@@ -121,21 +121,24 @@ function onChartTypeSelected(chart_index, chart_type, element){
     </div>
     <div class="clearfix"></div>
 </div>
-<div id="media-type-volume-area-chart" class="chart-container area-chart">
-        <svg class="line-graph"></svg>
-        <div class="tooltips"> <div class="tooltip"></div></div>
+
+<div id="media-type-volume-area-chart" class="area-chart" style="height: 300px;">
+    <svg class="line-graph"></svg>
+    <div class="tooltips"> <div class="tooltip"></div></div>
 </div>
 
 <script type="text/javascript" src="./demo/js/area-chart.js"></script>
 <script>
+
     ajaxCall('./data/mediatypes.json', 'GET', '', function (response) {
         setAreaChartSettings({
             container: '#media-type-volume-area-chart',
-            element: '#media-type-volume-area-chart svg',
+            element: '#media-type-volume-area-chart .line-graph',
             tooltipElement: 'tooltip',
             data: response.data,
-            showTitle: true,
-            title: 'Media Type'
+            showTitle: false,
+            title: 'Media Type',
+            labelTitles: false
         });
     });
 </script>

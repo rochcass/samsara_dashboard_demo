@@ -45,7 +45,7 @@ function generateDonutChart(parameters){
         })
         .on('mousemove', function (d,i) {
             tooltip
-                .html('<strong class="tooltip-title">'+data[i].name+'</strong>' + d.value)
+                .html('<strong class="tooltip-title">'+data[i].name+': </strong>' + d.value)
                 .style("left", Math.max(0, d3.event.pageX + 15) + "px")
                 .style("top", (d3.event.pageY - 15) + "px");
         })

@@ -39,14 +39,12 @@
     <link href="./css/actions-toolbar.css" rel="stylesheet">
     <script type="text/javascript" src="./js/script.js"></script>
     <script type="text/javascript" src="./js/charts.js"></script>
-    <script type="text/javascript" src="./charts/bar-chart.js"></script>
+    <script type="text/javascript" src="./demo/js/bar-v4.js"></script>
+    <script type="text/javascript" src="./demo/js/donut-v4.js"></script>
+    <script src="./demo/js/area-chart.js"></script>
 
     <!-- chartjs.org -->
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.6.0/Chart.min.js"></script>
-    <script type="text/javascript" src="./js/chartjs-plugin-zoom.min.js"></script>
-
-    <script type="text/javascript" src="http://d3js.org/d3.v3.min.js"></script>
-    <script src="http://labratrevenge.com/d3-tip/javascripts/d3.tip.v0.6.3.js"></script>
+    <script src="//d3js.org/d3.v4.min.js" charset="utf-8"></script>
 
     <!-- Layout Grids -->
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.4/lodash.min.js"></script>
@@ -293,14 +291,16 @@
                                 <div class="widget np" id="media-type-compare"> 0 </div>
                             </div>
                         </div>-->
-                        <div class="grid-stack-item grid-stack-title" data-title="Volume over Time" data-gs-x="0" data-gs-y="0" data-gs-width="12" data-gs-height="7">
+                        <div class="grid-stack-item grid-stack-title" data-title="Volume over Time" data-gs-x="0" data-gs-y="0" data-gs-width="12" data-gs-height="6">
                             <div class="grid-stack-item-content">
                                 <div class="widget widget-title np" id="media-type-over-time" data-title="MEdia Type Volume over Time" > 1 </div>
                             </div>
                         </div>
                         <div class="grid-stack-item grid-stack-title" data-title="Media Type Sentiment" data-gs-x="6" data-gs-y="8" data-gs-width="6" data-gs-height="4">
                             <div class="grid-stack-item-content">
-                                <div class="widget widget-title" id="media-type-sentiment" data-title="Media Type Sentiment"> 2 </div>
+                                <div class="widget widget-title" id="media-type-sentiment" data-title="Media Type Sentiment">
+                                    <iframe src="templates/media-type-sentiment-stacked-bar.html" class="chart-iframe"></iframe>
+                                </div>
                             </div>
                         </div>
                         <div class="grid-stack-item grid-stack-title" data-gs-x="0" data-gs-y="8" data-gs-width="6" data-gs-height="4">
@@ -326,11 +326,6 @@
                         <div class="grid-stack-item grid-stack-title"  data-gs-x="9" data-gs-y="12" data-gs-width="3" data-gs-height="4">
                             <div class="grid-stack-item-content">
                                 <div class="widget widget-title" id="media-type-blog-top-outlets" data-title="Blog - Top Outlets"> 7 </div>
-                            </div>
-                        </div>
-                        <div class="grid-stack-item grid-stack-title"  data-gs-x="0" data-gs-y="16" data-gs-width="6" data-gs-height="4">
-                            <div class="grid-stack-item-content">
-                                <div class="widget widget-title" id="media-type-test" data-title="Test" style="height: 100%;"> <svg id="test"></svg> </div>
                             </div>
                         </div>
                     </div>

@@ -1,4 +1,5 @@
 function generateBarChart(parameters) {
+    console.log(parameters);
     var element = parameters.element,
         svg = d3.select(element),
         data = parameters.data,
@@ -14,7 +15,8 @@ function generateBarChart(parameters) {
         height = parameters.height,
         innerWidth = width - parameters.margin.left - parameters.margin.right,
         innerHeight = height - parameters.margin.top - parameters.margin.bottom,
-        barHeight = 0,
+        barHeight = parameters.barHeight !== undefined ? parameters.barHeight : 0,
+        labelTitles = parameters.labelTitles !== undefined ? parameters.labelTitles : false,
         tooltipElement = parameters.tooltipElement,
         updateLayout = parameters.updateLayout;
     
@@ -26,17 +28,12 @@ function generateBarChart(parameters) {
         //Add Size to Chart
         svg.attr('width', width)
             .attr('height', height);
-        
-        svg.selectAll('g').remove();
-        
-        chart = svg.append('g')
-            .attr('transform', 'translate(' + margin.left + ', ' + margin.top + ')');
-        
     }
-    else {
-        
-        chart = svg.select('g');
-    }
+    
+    svg.selectAll('g').remove();
+    
+    chart = svg.append('g')
+        .attr('transform', 'translate(' + margin.left + ', ' + margin.top + ')');
     
     updateBarLayout(data, updateLayout);
     
@@ -59,11 +56,12 @@ function generateBarChart(parameters) {
     
         y = horizontal ? labels : series;
     
-        chart.selectAll('.bar').remove();
+        chart.selectAll('.horizontal-bar').remove();
+        chart.selectAll('.vertical-bar').remove();
     
         xAxis = d3.axisBottom(x);
     
-        yAxis = d3.axisLeft(y);
+        yAxis = d3.axisLeft(y).ticks(5);
         
         drawBarChart(data);
     }
@@ -74,33 +72,38 @@ function generateBarChart(parameters) {
         chart.selectAll(".x.axis").remove();
     
         var xLabel = horizontal ? 'Count' : 'Names';
-        chart.append('g')
+        var xAxisLabels = chart.append('g')
             .attr('class', 'x axis')
             .attr('transform', 'translate(0,' + innerHeight + ')')
-            .call(xAxis)
-            .append('text')
-            .attr('x', (innerWidth / 2))
-            .attr('y', 25)
-            .attr('dy', '.71em')
-            .style('text-anchor', 'middle')
-            .text(xLabel);
+            .call(xAxis);
     
         var yLabel = horizontal ? 'Names' : 'Count';
-        chart.append('g')
+        var yAxisLabels = chart.append('g')
             .attr('class', 'y axis')
-            .call(yAxis)
-            .append("text")
-            .attr("transform", "rotate(-90)")
-            .attr("y", -45)
-            .attr("x", -(innerHeight / 2))
-            .attr("dy", ".71em")
-            .style("text-anchor", "middle")
-            .text(yLabel);
+            .call(yAxis);
+        
+        if(labelTitles) {
+            xAxisLabels.append('text')
+                .attr('x', (innerWidth / 2))
+                .attr('y', 25)
+                .attr('dy', '.71em')
+                .style('text-anchor', 'middle')
+                .text(xLabel);
+    
+            yAxisLabels.append("text")
+                .attr("transform", "rotate(-90)")
+                .attr("y", -45)
+                .attr("x", -(innerHeight / 2))
+                .attr("dy", ".71em")
+                .style("text-anchor", "middle")
+                .text(yLabel);
+        }
     
         var barSize = barHeight > 0 ? barHeight : (horizontal ? y.bandwidth() : x.bandwidth());
-        var bars = chart.selectAll('.bar')
+        var barTop = barHeight > 0 ? Math.ceil(((horizontal ? y.bandwidth() : x.bandwidth()) - barHeight) / 2) : 1;
+        var bars = chart.selectAll(horizontal ? '.horizontal-bar' : '.vertical-bar')
             .data(data);
-    
+        console.log(barTop);
         bars
             .enter().append('rect')
             .on('mouseover', function (d, i) {
@@ -116,13 +119,13 @@ function generateBarChart(parameters) {
                 tooltip.style('opacity', 0);
             })
             .attr('class', function (d, i) {
-                return 'bar ' + 'chart_' + i;
+                return (horizontal ? 'horizontal-bar ' : 'vertical-bar ') + 'chart_' + i;
             })
             .attr('x', function (d) {
                 return horizontal ? 1 : x(d.name);
             })
             .attr('y', function (d) {
-                return horizontal ? y(d.name) : innerHeight - 1;
+                return horizontal ? (y(d.name) + barTop) : innerHeight - 1 ;
             })
         
             .attr('width', function (d) {
@@ -137,18 +140,9 @@ function generateBarChart(parameters) {
                 return horizontal ? x(d.value) : innerHeight - y(d.value);
             })
             .attr('y', function (d) {
-                return horizontal ? y(d.name) : y(d.value) - 1;
+                return horizontal ? (y(d.name) + barTop)  : y(d.value) - 1;
             });
     
-        bars
-            .transition()
-            .duration(750)
-            .attr(horizontal ? 'width' : 'height', function (d) {
-                return horizontal ? x(d.value) : innerHeight - y(d.value);
-            })
-            .attr('y', function (d) {
-                return horizontal ? y(d.name) : y(d.value) - 1;
-            });
         
     }
     
