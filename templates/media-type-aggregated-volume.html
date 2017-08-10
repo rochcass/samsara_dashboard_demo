@@ -7,7 +7,6 @@
         line-height: 1.7;
         color: #807874;
         fill: #807874;
-        text-anchor: end;
     }
 
     .chart .axis path, .chart .axis line { fill: none; stroke: #e7e7e8; shape-rendering: crispEdges; }
@@ -168,7 +167,7 @@
             width: $('#chart_0').parent().parent().width(),
             height: $('#chart_0').parent().parent().height(),
             updateLayout: currentChartType === 'horizontal_bar' ? true : false,
-            barHeight: 0
+            barHeight: 50
         };
 
         generateBarChart(Object.assign(globalParameters, parameters));

@@ -100,10 +100,10 @@ function generateBarChart(parameters) {
         }
     
         var barSize = barHeight > 0 ? barHeight : (horizontal ? y.bandwidth() : x.bandwidth());
-        var barTop = barHeight > 0 ? Math.ceil(((horizontal ? y.bandwidth() : x.bandwidth()) - barHeight) / 2) : 1;
+        var barPadding = barHeight > 0 ? Math.ceil(((horizontal ? y.bandwidth() : x.bandwidth()) - barHeight) / 2) : 1;
         var bars = chart.selectAll(horizontal ? '.horizontal-bar' : '.vertical-bar')
             .data(data);
-        console.log(barTop);
+        
         bars
             .enter().append('rect')
             .on('mouseover', function (d, i) {
@@ -122,10 +122,10 @@ function generateBarChart(parameters) {
                 return (horizontal ? 'horizontal-bar ' : 'vertical-bar ') + 'chart_' + i;
             })
             .attr('x', function (d) {
-                return horizontal ? 1 : x(d.name);
+                return horizontal ? 1 : x(d.name) + barPadding;
             })
             .attr('y', function (d) {
-                return horizontal ? (y(d.name) + barTop) : innerHeight - 1 ;
+                return horizontal ? (y(d.name) + barPadding) : innerHeight - 1 ;
             })
         
             .attr('width', function (d) {
@@ -137,10 +137,10 @@ function generateBarChart(parameters) {
             .transition()
             .duration(750)
             .attr(horizontal ? 'width' : 'height', function (d) {
-                return horizontal ? x(d.value) : innerHeight - y(d.value);
+                return horizontal ? x(d.value) + barPadding : innerHeight - y(d.value);
             })
             .attr('y', function (d) {
-                return horizontal ? (y(d.name) + barTop)  : y(d.value) - 1;
+                return horizontal ? (y(d.name) + barPadding)  : y(d.value) - 1;
             });
     
         
