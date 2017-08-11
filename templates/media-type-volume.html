@@ -1,8 +1,11 @@
 <script>
+    var chart;
     var chart_i = $('#chart_i').val();
     var chart_ii = $('#chart_ii').val();
     var chart_i_type = 'line';
     var chart_ii_type = 'line';
+    var chart_i_data;
+    var chart_ii_data;
 
     $(function() {
 
@@ -15,7 +18,6 @@
       //  getChart($(this).val(), chart_ii, true);
     })
 
-
     $("#media-type-volume-area-chart").css('height', $("#media-type-volume-area-chart").parent().height() -
             $("#media-type-volume-area-chart").prev().height() + 'px');
 
@@ -23,10 +25,10 @@
 
         var new_chart_ii = $(this).val() === 'none' ? false : $(this).val();
 
-        if(!new_chart_ii || chart_ii === 'none' )
+      /*  if(!new_chart_ii || chart_ii === 'none' )
             getChart(chart_i, new_chart_ii, chart_i_type, chart_ii_type);
         else
-            updateChart_ii(chart_i, new_chart_ii, 1);
+            updateChart_ii(chart_i, new_chart_ii, 1);*/
 
         if(new_chart_ii)
             $('#chart_ii_type').removeClass('disabled');
@@ -37,21 +39,21 @@
         chart_ii = $(this).val();
     })
 
-
 });
 
 
-    function jsUcfirst(string) {
-        return string.charAt(0).toUpperCase() + string.slice(1);
-    }
-
+function jsUcfirst(string) {
+    return string.charAt(0).toUpperCase() + string.slice(1);
+}
 function onChartTypeSelected(chart_index, chart_type, element){
+    console.log('clicked');
     if(chart_index === 0)
         chart_i_type = chart_type;
     else
         chart_ii_type = chart_type;
 
-    getChart(chart_i, chart_ii !== 'none' ? chart_ii : null, chart_i_type, chart_ii_type);
+    console.log('clicked', chart_type, chart_i_data);
+    loadVolumeChart(chart_i_data, chart_type === 'line' ? true: false);
 
     var chart = chart_index === 0 ? 'i' : 'ii';
     if(chart_type === 'line' && $('#chart_'+chart+'_icon').hasClass('fa-bar-chart-o'))
@@ -94,6 +96,20 @@ function onChartTypeSelected(chart_index, chart_type, element){
             <option value="Impressions">Impressions</option>
             <option value="AVE">AVE</option>
         </select>
+        <div class="chart-type-picker inline nmr">
+            <div id="chart_i_type" class="dropdown btn btn-default btn-icon nmr">
+                <div><span class="toggle" onclick="$(this).next().toggle();"><span class="label"><span id="chart_i_icon" class="fa fa-area-chart"></span></span></span>
+                    <ul class="menu">
+                        <li>
+                            <a onclick="test(0,'bar', this)"><span class="fa fa-bar-chart-o"></span><span>Bar Chart</span></a>
+                        </li>
+                        <li>
+                            <a onclick="test(0,'line', this)"><span class="fa fa-area-chart"></span><span>Line Chart</span></a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
         <span class="small pl10 pr10">VS</span>
         <select id="chart_ii" class="selectpicker">
             <option value="none" selected>None</option>
@@ -124,21 +140,37 @@ function onChartTypeSelected(chart_index, chart_type, element){
 
 <div id="media-type-volume-area-chart" class="area-chart" style="height: 300px;">
     <svg class="line-graph multi-chart"></svg>
-    <div class="tooltips"> <div class="tooltip"></div></div>
+    <div class="tooltips"> <div id="volume-series-chart" class="tooltip"></div></div>
 </div>
 
 <script type="text/javascript" src="./js/charts/area-chart.js"></script>
 <script>
 
     ajaxCall('./data/mediatypes.json', 'GET', '', function (response) {
-        setAreaChartSettings({
-            container: '#media-type-volume-area-chart',
-            element: '#media-type-volume-area-chart .line-graph',
-            tooltipElement: 'tooltip',
-            data: response.data,
-            showTitle: false,
-            title: 'Media Type',
-            labelTitles: false
-        });
+        chart_i_data = response.data;
+        initVolumeChart(false);
     });
+
+    function test(chart_index, chart_type, element){
+        console.log('inn', chart_type === 'bar' ? true: false);
+        initVolumeChart(chart_type === 'bar' ? true: false);
+
+
+
+        }
+
+
+    function initVolumeChart(barGraph){
+        var areaChart = initChart()
+            .container('#media-type-volume-area-chart')
+            .svg('#media-type-volume-area-chart .line-graph')
+            .tooltip('#volume-series-chart')
+            .chartBarType(barGraph)
+            .data(chart_i_data)
+            .showTitle(false)
+            .title('Media Type')
+            .labelTitles(false);
+
+        areaChart('#media-type-volume-area-chart .line-graph');
+    }
 </script>

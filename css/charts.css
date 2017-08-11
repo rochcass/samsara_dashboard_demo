@@ -319,6 +319,7 @@
 }
 .tooltips * {
   font-size: 13px;
+  line-height: 1.42857143;
   font-size: .8rem!important;
 }
 .area-chart path,

@@ -38,18 +38,21 @@
     <link href="./css/charts.css" rel="stylesheet">
     <link href="./css/actions-toolbar.css" rel="stylesheet">
     <script type="text/javascript" src="./js/script.js"></script>
-
-    <!-- Charts -->
-    <script src="https://d3js.org/d3.v4.min.js"></script>
-    <script type="text/javascript" src="js/charts/area-chart.js"></script>
+    <script type="text/javascript" src="./js/charts.js"></script>
     <script type="text/javascript" src="js/charts/bar-v4.js"></script>
     <script type="text/javascript" src="js/charts/donut-v4.js"></script>
+    <script src="js/charts/volume-series-chart.js"></script>
+
+    <!-- chartjs.org -->
+    <script src="//d3js.org/d3.v4.min.js" charset="utf-8"></script>
 
     <!-- Layout Grids -->
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.4/lodash.min.js"></script>
     <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/gridstack.js/0.2.6/gridstack.min.css" />
     <script type="text/javascript" src='./js/gridstack.js'></script>
     <script type="text/javascript" src='./js/gridstack.all.js'></script>
+    <!--<script type="text/javascript" src='//cdnjs.cloudflare.com/ajax/libs/gridstack.js/0.2.6/gridstack.min.js'></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/gridstack.js/0.3.0/gridstack.all.js"></script>-->
 
     <script type="text/javascript">
         $(function () {
@@ -65,25 +68,21 @@
                     var widget = [this.x, this.y, this.width, this.height];
                     serializedWidgetMap.push(widget);
                     console.log(widget);
+
+
                 })
             });
 
+            $('.grid-stack').on('resizestop', function (event, ui) {
+                console.debug(ui.element[0].attributes.getNamedItem("data-gs-width"));
+                console.debug(ui.element[0].attributes.getNamedItem("data-gs-width").value);
 
-            $('#media-type-over-time').load('./templates/media-type-volume.html');
-            $('#media-type-aggregated-volume').load('./templates/media-type-aggregated-volume.html');
-
-
-            $('#media-type-website-top-outlets').html(getTopOutlets('chart_0'));
-            $('#media-type-magazine-top-outlets').html(getTopOutlets('chart_1'));
-            $('#media-type-newspaper-top-outlets').html(getTopOutlets('chart_2'));
-            $('#media-type-blog-top-outlets').html(getTopOutlets('chart_3'));
+            });
         });
 
-        function getTopOutlets(cssClass) {
-            var html = '<div class="list-view"><div class="list-item-container"><a class="list-item with-bar" href="/projects/9d591e68-289b-4e45-87a6-ff6cfc64a7f5/articles?dateType=month&amp;outlet=msn+peru"><span class="item-index"><!-- react-text: 1278 -->1<!-- /react-text --><!-- react-text: 1279 -->.<!-- /react-text --></span><div class="item-content"><strong class="item-title">msn peru</strong></div><div class="item-value">124</div></a><div class="item-bar"><div class="bar '+cssClass+'" style="width: 100%;"></div></div></div><div class="list-item-container"><a class="list-item with-bar" href="/projects/9d591e68-289b-4e45-87a6-ff6cfc64a7f5/articles?dateType=month&amp;outlet=nasdaq.com"><span class="item-index"><!-- react-text: 1288 -->2<!-- /react-text --><!-- react-text: 1289 -->.<!-- /react-text --></span><div class="item-content"><strong class="item-title">nasdaq.com</strong></div><div class="item-value">64</div></a><div class="item-bar"><div class="bar '+cssClass+'" style="width: 51.6129%;"></div></div></div><div class="list-item-container"><a class="list-item with-bar" href="/projects/9d591e68-289b-4e45-87a6-ff6cfc64a7f5/articles?dateType=month&amp;outlet=4-traders"><span class="item-index"><!-- react-text: 1298 -->3<!-- /react-text --><!-- react-text: 1299 -->.<!-- /react-text --></span><div class="item-content"><strong class="item-title">4-traders</strong></div><div class="item-value">60</div></a><div class="item-bar"><div class="bar '+cssClass+'" style="width: 48.3871%;"></div></div></div><div class="list-item-container"><a class="list-item with-bar" href="/projects/9d591e68-289b-4e45-87a6-ff6cfc64a7f5/articles?dateType=month&amp;outlet=finance.yahoo.com"><span class="item-index"><!-- react-text: 1308 -->4<!-- /react-text --><!-- react-text: 1309 -->.<!-- /react-text --></span><div class="item-content"><strong class="item-title">finance.yahoo.com</strong></div><div class="item-value">55</div></a><div class="item-bar"><div class="bar '+cssClass+'" style="width: 44.3548%;"></div></div></div><div class="list-item-container"><a class="list-item with-bar" href="/projects/9d591e68-289b-4e45-87a6-ff6cfc64a7f5/articles?dateType=month&amp;outlet=NewsDog"><span class="item-index"><!-- react-text: 1318 -->5<!-- /react-text --><!-- react-text: 1319 -->.<!-- /react-text --></span><div class="item-content"><strong class="item-title">NewsDog</strong></div><div class="item-value">51</div></a><div class="item-bar"><div class="bar '+cssClass+'" style="width: 41.129%;"></div></div></div></div>';
-            return html;
-        }
+        function expandDashboardSidebar() {
 
+        }
     </script>
 </head>
 <body>
@@ -286,50 +285,50 @@
                         <div class="clearfix"></div>
                     </div>
                     <div class="dashboard">
-                        <div class="grid-stack" data-gs-width="12" data-gs-animate="yes">
-                            <!--<div class="grid-stack-item" data-gs-x="0" data-gs-y="0" data-gs-width="12" data-gs-height="2">
-                                <div class="grid-stack-item-content">
-                                    <div class="widget np" id="media-type-compare"> 0 </div>
-                                </div>
-                            </div>-->
-                            <div class="grid-stack-item grid-stack-title" data-title="Volume over Time" data-gs-x="0" data-gs-y="0" data-gs-width="12" data-gs-height="7">
-                                <div class="grid-stack-item-content">
-                                    <div class="widget widget-title np" id="media-type-over-time" data-title="Media Type Volume over Time" >
-
-                                    </div>
-                                </div>
+                    <div class="grid-stack" data-gs-width="12" data-gs-animate="yes">
+                        <!--<div class="grid-stack-item" data-gs-x="0" data-gs-y="0" data-gs-width="12" data-gs-height="2">
+                            <div class="grid-stack-item-content">
+                                <div class="widget np" id="media-type-compare"> 0 </div>
                             </div>
-                            <div class="grid-stack-item grid-stack-title" data-title="Media Type Sentiment" data-gs-x="6" data-gs-y="8" data-gs-width="6" data-gs-height="4">
-                                <div class="grid-stack-item-content">
-                                    <div class="widget widget-title" id="media-type-sentiment" data-title="Media Type Sentiment"> 2 </div>
-                                </div>
+                        </div>-->
+                        <div class="grid-stack-item grid-stack-title" data-title="Volume over Time" data-gs-x="0" data-gs-y="0" data-gs-width="12" data-gs-height="6">
+                            <div class="grid-stack-item-content">
+                                <div class="widget widget-title np" id="media-type-over-time" data-title="Media Type Volume over Time" > 1 </div>
                             </div>
-                            <div class="grid-stack-item grid-stack-title" data-gs-x="0" data-gs-y="8" data-gs-width="6" data-gs-height="4">
-                                <div class="grid-stack-item-content">
-                                    <div class="widget widget-title" id="media-type-aggregated-volume" data-title="Aggregated Volume" > 3 </div>
-                                </div>
-                            </div>
-                            <div class="grid-stack-item grid-stack-title" data-gs-x="0" data-gs-y="12" data-gs-width="3" data-gs-height="4">
-                                <div class="grid-stack-item-content" >
-                                    <div class="widget widget-title" id="media-type-website-top-outlets" data-title="Website - Top Outlets" > 4 </div>
-                                </div>
-                            </div>
-                            <div class="grid-stack-item grid-stack-title" data-gs-x="3" data-gs-y="12" data-gs-width="3" data-gs-height="4">
-                                <div class="grid-stack-item-content">
-                                    <div class="widget widget-title" id="media-type-magazine-top-outlets" data-title="Magazine - Top Outlets"> 5 </div>
-                                </div>
-                            </div>
-                            <div class="grid-stack-item grid-stack-title"  data-gs-x="6" data-gs-y="12" data-gs-width="3" data-gs-height="4">
-                                <div class="grid-stack-item-content">
-                                    <div class="widget widget-title" id="media-type-newspaper-top-outlets" data-title="Newspaper - Top Outlets"> 6 </div>
-                                </div>
-                            </div>
-                            <div class="grid-stack-item grid-stack-title"  data-gs-x="9" data-gs-y="12" data-gs-width="3" data-gs-height="4">
-                                <div class="grid-stack-item-content">
-                                    <div class="widget widget-title" id="media-type-blog-top-outlets" data-title="Blog - Top Outlets"> 7 </div>
+                        </div>
+                        <div class="grid-stack-item grid-stack-title" data-title="Media Type Sentiment" data-gs-x="6" data-gs-y="8" data-gs-width="6" data-gs-height="4">
+                            <div class="grid-stack-item-content">
+                                <div class="widget widget-title" id="media-type-sentiment" data-title="Media Type Sentiment">
+                                    <iframe src="templates/media-type-sentiment-stacked-bar.html" class="chart-iframe"></iframe>
                                 </div>
                             </div>
                         </div>
+                        <div class="grid-stack-item grid-stack-title" data-gs-x="0" data-gs-y="8" data-gs-width="6" data-gs-height="4">
+                            <div class="grid-stack-item-content">
+                                <div class="widget widget-title" id="media-type-aggregated-volume" data-title="Aggregated Volume" > 3 </div>
+                            </div>
+                        </div>
+                        <div class="grid-stack-item grid-stack-title" data-gs-x="0" data-gs-y="12" data-gs-width="3" data-gs-height="4">
+                            <div class="grid-stack-item-content" >
+                                <div class="widget widget-title" id="media-type-website-top-outlets" data-title="Website - Top Outlets" > 4 </div>
+                            </div>
+                        </div>
+                        <div class="grid-stack-item grid-stack-title" data-gs-x="3" data-gs-y="12" data-gs-width="3" data-gs-height="4">
+                            <div class="grid-stack-item-content">
+                                <div class="widget widget-title" id="media-type-magazine-top-outlets" data-title="Magazine - Top Outlets"> 5 </div>
+                            </div>
+                        </div>
+                        <div class="grid-stack-item grid-stack-title"  data-gs-x="6" data-gs-y="12" data-gs-width="3" data-gs-height="4">
+                            <div class="grid-stack-item-content">
+                                <div class="widget widget-title" id="media-type-newspaper-top-outlets" data-title="Newspaper - Top Outlets"> 6 </div>
+                            </div>
+                        </div>
+                        <div class="grid-stack-item grid-stack-title"  data-gs-x="9" data-gs-y="12" data-gs-width="3" data-gs-height="4">
+                            <div class="grid-stack-item-content">
+                                <div class="widget widget-title" id="media-type-blog-top-outlets" data-title="Blog - Top Outlets"> 7 </div>
+                            </div>
+                        </div>
+                    </div>
                     </div>
                 </div>
             </div>
@@ -340,7 +339,5 @@
         <div class="notification-list"></div>
     </div>
 </div>
-
-
 </body>
 </html>
