@@ -386,7 +386,10 @@ function initChart(){
     
     function getScaleRanges() {
     
-        x0.rangeRound([0, innerWidth])
+        if(chartBarType)
+            x0.range([0, innerWidth]);
+        else
+            x0.range([0, innerWidth]).paddingInner(1);
         
         x1.rangeRound([0, x0.bandwidth()])
             .padding(0.05);
