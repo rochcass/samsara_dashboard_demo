@@ -147,7 +147,7 @@ function onChartTypeSelected(chart_index, chart_type, element){
 <script>
 
     ajaxCall('./data/mediatypes.json', 'GET', '', function (response) {
-        chart_i_data = response.data;
+        chart_i_data = response.data.reverse();
         initVolumeChart(false);
     });
 

@@ -39,7 +39,7 @@ function initChart(){
     
         //Set Values
         var formatTime = d3.timeFormat("%b %d");
-        for(var i=data.length - 1; i >= 0; i--){
+        for(var i=0; i <= data.length - 1; i++){
         
             var dt = formatTime(new Date(data[i].date));
             labels.push(dt);
